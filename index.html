@@ -1,0 +1,2129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Resume Builder</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap');
+    :root {
+      --bg: #d9d9d9;
+      --panel: #ffffff;
+      --text: #333333;
+      --line: #6d6d6d;
+      --soft-line: #cccccc;
+      --control-bg: #faf7f3;
+      --accent: #f04e23;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: #fff;
+      border-bottom: 1px solid var(--soft-line);
+    }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand h1 { margin: 0; font-size: 17px; }
+    .brand-text {
+      display: grid;
+      gap: 2px;
+    }
+    .brand-sub {
+      font-size: 12px;
+      color: #666;
+    }
+    .actions { display: flex; gap: 8px; }
+    .export-wrap {
+      position: relative;
+    }
+    .export-menu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 6px);
+      width: 190px;
+      background: #fff;
+      border: 1px solid #d8d8d8;
+      border-radius: 8px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.14);
+      padding: 6px;
+      display: none;
+      z-index: 30;
+    }
+    .export-menu.open {
+      display: grid;
+      gap: 4px;
+    }
+    .export-item {
+      width: 100%;
+      text-align: left;
+      border-radius: 6px;
+      padding: 7px 9px;
+      border: 1px solid transparent;
+      background: #fff;
+      color: #333;
+    }
+    .export-item:hover {
+      background: #fff5ef;
+      border-color: #ffd9ca;
+    }
+    .settings-btn {
+      width: 38px;
+      height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+    .settings-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: #444;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .settings-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.25);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 160ms ease;
+      z-index: 20;
+    }
+    .settings-drawer {
+      position: fixed;
+      top: 66px;
+      right: 16px;
+      width: min(420px, calc(100vw - 32px));
+      max-height: calc(100vh - 90px);
+      overflow: auto;
+      background: #fff;
+      border: 1px solid #cfcfcf;
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+      z-index: 21;
+      transform: translateY(8px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 160ms ease, transform 160ms ease;
+    }
+    .settings-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .settings-drawer.open {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .help-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 160ms ease;
+      z-index: 24;
+    }
+    .help-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .help-modal {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -46%);
+      width: min(620px, calc(100vw - 28px));
+      max-height: calc(100vh - 60px);
+      overflow: auto;
+      background: #fff;
+      border: 1px solid #d9d9d9;
+      border-radius: 10px;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
+      padding: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 160ms ease, transform 160ms ease;
+      z-index: 25;
+    }
+    .help-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, -50%);
+    }
+    .help-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #5b2a16;
+    }
+    .help-list {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: #404040;
+    }
+    .help-list li { margin-bottom: 7px; }
+    .settings-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #5b2a16;
+    }
+    .topbar-credit {
+      margin-left: 14px;
+      font-size: 12px;
+      color: #6a6a6a;
+      white-space: nowrap;
+    }
+    .page-credit a {
+      color: #8d3d1f;
+      text-decoration: underline;
+    }
+    button, input, textarea, select { font: inherit; }
+    button {
+      border: 1px solid var(--soft-line);
+      background: #fff;
+      color: var(--text);
+      padding: 7px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button.primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 430px 1fr;
+      gap: 16px;
+      padding: 16px;
+    }
+    .page-credit {
+      text-align: center;
+      font-size: 12px;
+      color: #666;
+      padding: 10px 16px 14px;
+      border-top: 1px solid #d9d9d9;
+      background: #fff;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid #cfcfcf;
+      border-radius: 10px;
+    }
+    .left {
+      max-height: calc(100vh - 90px);
+      overflow: auto;
+      padding: 12px;
+    }
+    .right { padding: 10px; }
+    .resume {
+      height: calc(100vh - 110px);
+      overflow: auto;
+      background: #fff;
+      border: 1px solid #bbbbbb;
+      border-radius: 8px;
+      padding: 18px 18px 26px;
+      font-family: 'Times New Roman', serif;
+      font-size: 14px;
+      line-height: 1.35;
+      color: #3f3f3f;
+    }
+    .section {
+      border: 1px solid var(--soft-line);
+      border-radius: 8px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    .section h3 {
+      margin: 0;
+      padding: 9px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      color: #6d2b16;
+      background: var(--control-bg);
+      border-bottom: 1px solid var(--soft-line);
+    }
+    .section-body {
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+    }
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .full-row {
+      grid-column: 1 / -1;
+    }
+    .logo-actions {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+    .logo-actions button {
+      width: fit-content;
+      min-width: 0;
+      padding: 5px 10px;
+      font-size: 12px;
+      border-radius: 6px;
+      line-height: 1.2;
+    }
+    .logo-actions .tiny {
+      margin: 0;
+    }
+    .logo-size-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: end;
+    }
+    .logo-size-row .tiny {
+      min-width: 56px;
+      text-align: right;
+      margin-bottom: 7px;
+    }
+    .section-toggle-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 20px;
+    }
+    .tiny {
+      font-size: 12px;
+      color: #777;
+    }
+    .preset-guide {
+      border: 1px dashed #d4cec5;
+      border-radius: 8px;
+      background: #fffdfa;
+      padding: 8px;
+      display: grid;
+      gap: 6px;
+    }
+    .preset-guide-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #5d2e1a;
+    }
+    .preset-guide-text {
+      font-size: 12px;
+      color: #5a5a5a;
+      line-height: 1.4;
+    }
+    .order-list {
+      display: grid;
+      gap: 6px;
+    }
+    .order-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+      border: 1px solid #ddd6cc;
+      border-radius: 8px;
+      padding: 6px 8px;
+      background: #fff;
+    }
+    .order-item-name {
+      font-size: 12px;
+      color: #4a4a4a;
+    }
+    .order-item-actions {
+      display: flex;
+      gap: 6px;
+    }
+    .order-item-actions button {
+      padding: 3px 8px;
+      font-size: 11px;
+      border-radius: 6px;
+      min-width: 34px;
+    }
+    .diagnostics {
+      border: 1px solid var(--soft-line);
+      border-radius: 8px;
+      padding: 8px;
+      background: #fff;
+      font-size: 12px;
+      color: #474747;
+      display: grid;
+      gap: 6px;
+    }
+    .diag-warn {
+      color: #8a3b00;
+      font-weight: 600;
+    }
+    .diag-ok {
+      color: #1e6b32;
+      font-weight: 600;
+    }
+    .score-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px 10px;
+    }
+    .link-full-print,
+    .link-short-screen {
+      display: none;
+    }
+    .resume a .link-full-screen {
+      display: inline;
+    }
+    .card-mini {
+      border: 1px dashed var(--soft-line);
+      border-radius: 8px;
+      padding: 8px;
+    }
+    .card-mini .tiny button {
+      margin-left: 8px;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+    }
+    label {
+      display: grid;
+      gap: 4px;
+      font-size: 12px;
+      color: #656565;
+    }
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid var(--soft-line);
+      border-radius: 7px;
+      padding: 7px;
+      background: #fff;
+    }
+    .invalid-field {
+      border-color: #b4322a !important;
+      background: #fff7f6 !important;
+    }
+    .privacy-note {
+      border: 1px dashed #d6d0c6;
+      border-radius: 8px;
+      padding: 8px;
+      font-size: 12px;
+      color: #626262;
+      background: #fffdfa;
+    }
+    .legal-inline {
+      display: grid;
+      gap: 8px;
+      border-style: solid;
+      border-color: #ecd8c6;
+      background: #fff8f1;
+    }
+    .tiny-action {
+      width: fit-content;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+    }
+    .recovery-toast {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 50;
+      max-width: 340px;
+      background: #2f3e2f;
+      color: #fff;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+      opacity: 0;
+      transform: translateY(6px);
+      pointer-events: none;
+      transition: opacity 180ms ease, transform 180ms ease;
+    }
+    .recovery-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .control-check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #4a4a4a;
+      line-height: 1.2;
+    }
+    .control-check input[type="checkbox"] {
+      width: auto;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      accent-color: #5a7ca8;
+    }
+    textarea {
+      min-height: 70px;
+      resize: vertical;
+    }
+    .cv-header {
+      display: grid;
+      grid-template-columns: 88px 1fr auto;
+      gap: 10px;
+      align-items: start;
+    }
+    .cv-logo {
+      width: 58px;
+      height: 58px;
+      object-fit: contain;
+    }
+    .name {
+      margin: 0;
+      color: #3f3f3f;
+      font-size: 26px;
+      line-height: 1.05;
+      font-weight: 600;
+    }
+    .identity div {
+      font-size: 14px;
+    }
+    .roll-label {
+      text-decoration: underline;
+      font-weight: 600;
+    }
+    .contact {
+      text-align: right;
+      font-size: 13px;
+      line-height: 1.2;
+      padding-top: 4px;
+      color: #4e4e4e;
+    }
+    .cv-section-title {
+      margin-top: 11px;
+      border-top: 2px solid var(--line);
+      padding-top: 7px;
+      margin-bottom: 5px;
+      font-size: 20px;
+      line-height: 1;
+      color: #3d3d3d;
+      font-weight: 600;
+    }
+    .edu-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+    .edu-table th,
+    .edu-table td {
+      border: 1px solid #8d8d8d;
+      padding: 4px 6px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .edu-table th {
+      font-weight: 700;
+    }
+    .entry-list {
+      margin: 2px 0 0 26px;
+      padding: 0;
+      font-size: 13px;
+    }
+    .entry-list > li {
+      margin-bottom: 6px;
+    }
+    .entry-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+    }
+    .entry-head strong {
+      font-size: 14px;
+    }
+    .right-meta {
+      text-align: right;
+      font-style: italic;
+      color: #555;
+      min-width: 180px;
+      white-space: nowrap;
+    }
+    .resume a {
+      color: #3f3f3f;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    body.ats-safe .resume {
+      font-family: 'Times New Roman', serif !important;
+      letter-spacing: 0;
+    }
+    body.ats-safe .cv-section-title {
+      border-top-width: 1px;
+      font-weight: 700;
+    }
+    body.ats-safe .edu-table th,
+    body.ats-safe .edu-table td {
+      border-color: #6f6f6f;
+    }
+    .entry-note {
+      font-style: italic;
+      color: #555;
+      margin-left: 10px;
+    }
+    .sub-list {
+      margin: 0 0 0 20px;
+      padding: 0;
+    }
+    .skills-list,
+    .simple-list {
+      margin: 0 0 0 26px;
+      padding: 0;
+      font-size: 13px;
+    }
+    .skills-list li,
+    .simple-list li {
+      margin-bottom: 4px;
+    }
+    .courses-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media print {
+      body { background: #fff; }
+      .topbar, .left { display: none !important; }
+      .page-credit { display: none !important; }
+      .layout { display: block; padding: 0; }
+      .panel.right { border: none; border-radius: 0; padding: 0; }
+      .resume {
+        height: auto;
+        overflow: visible;
+        border: none;
+        border-radius: 0;
+      }
+      .resume a .link-full-screen,
+      .resume a .link-short-screen {
+        display: none !important;
+      }
+      .resume a .link-full-print {
+        display: inline !important;
+      }
+      body.print-calibrated .resume {
+        font-size: 12.5px;
+        line-height: 1.3;
+        padding: 12mm;
+      }
+      body.print-calibrated .cv-section-title {
+        margin-top: 8px;
+        padding-top: 5px;
+      }
+    }
+    @media (max-width: 1180px) {
+      .layout { grid-template-columns: 1fr; }
+      .left, .resume { max-height: none; height: auto; }
+      .name { font-size: 22px; }
+      .identity div, .contact { font-size: 13px; }
+      .cv-section-title { font-size: 18px; }
+      .edu-table, .entry-list, .skills-list, .simple-list { font-size: 14px; }
+      .entry-head strong { font-size: 15px; }
+      .section-toggle-grid { grid-template-columns: 1fr; }
+      .settings-drawer {
+        top: 56px;
+        right: 8px;
+        width: calc(100vw - 16px);
+      }
+      .logo-actions,
+      .logo-size-row {
+        grid-template-columns: 1fr;
+      }
+      .logo-size-row .tiny {
+        text-align: left;
+        margin-bottom: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-text">
+        <h1>Student Resume Builder</h1>
+        <div class="brand-sub">Unofficial assistant for compliant resumes</div>
+      </div>
+      <span class="topbar-credit">Independent project by Vikramaditya Shah Bundela</span>
+    </div>
+    <div class="actions">
+      <button id="howToUseBtn">How To Use</button>
+      <button id="copyLatexBtn">Copy LaTeX</button>
+      <div class="export-wrap">
+        <button class="primary" id="exportBtn">Download / Print PDF</button>
+        <div id="exportMenu" class="export-menu" aria-hidden="true">
+          <button type="button" class="export-item" id="exportPdfBtn">Export PDF</button>
+          <button type="button" class="export-item" id="printBtn">Print</button>
+          <button type="button" class="export-item" id="exportDocBtn">Export DOC</button>
+        </div>
+      </div>
+      <button id="settingsBtn" class="settings-btn" title="Settings" aria-label="Open Settings">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.01a1.65 1.65 0 0 0 .99-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.01a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.01a1.65 1.65 0 0 0 1.51.99H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="helpBackdrop" class="help-backdrop"></div>
+  <div id="helpModal" class="help-modal" aria-hidden="true">
+    <div class="help-head">
+      <span>How To Use</span>
+      <button id="closeHelpBtn" type="button">Close</button>
+    </div>
+    <ol class="help-list">
+      <li>
+        <strong>Start and understand autosave</strong>: begin typing in any field in the left editor.
+        Your changes are saved automatically in browser local storage.
+        If you close or refresh the page, your draft should recover on next open.
+      </li>
+      <li>
+        <strong>Complete Basic Info first</strong>: fill name, roll number, degree, department, institute,
+        phone, email, LinkedIn, and GitHub.
+        Use a clear date and contact format because validation highlights invalid fields.
+      </li>
+      <li>
+        <strong>Optional custom logo</strong>: in Controls, use <em>Custom Logo</em> to upload an image.
+        Use PNG/JPG for best reliability.
+        Use <em>Reset To Default Logo</em> any time to restore the neutral default logo.
+        Upload institutional logos only if you have permission to use them.
+      </li>
+      <li>
+        <strong>Fill section content in order</strong>: Education, Experience, Projects, Skills,
+        Achievements, Positions of Responsibility, Key Courses, and Extracurriculars.
+        Use <em>+ Add</em> to create entries and <em>Remove</em> to delete entries.
+      </li>
+      <li>
+        <strong>Write strong bullets</strong>: use one bullet per line in bullet textareas.
+        Prefer action + scope + outcome + metric (for example: improved throughput by 35%).
+        The diagnostics panel warns about weak or metric-free bullets.
+      </li>
+      <li>
+        <strong>Open advanced controls</strong>: click the <em>Settings</em> icon (top-right) to configure:
+        section visibility, section density, role preset, ATS mode, target pages,
+        strict print calibration, variant snapshots, and data management.
+      </li>
+      <li>
+        <strong>Use role presets intelligently</strong>: Software/Core/Research/Design presets reorder sections.
+        Choose the preset closest to your application target before exporting.
+      </li>
+      <li>
+        <strong>Manage resume length</strong>: check diagnostics for page-budget warnings.
+        If over budget, reduce bullets or change dense sections to Compact/Tight from Settings.
+      </li>
+      <li>
+        <strong>Use Variant Snapshots</strong>: save different versions (for example: Internship, Full-time,
+        Research-heavy). Load or delete variants from Settings at any time.
+      </li>
+      <li>
+        <strong>Export correctly</strong>: click <em>Download / Print PDF</em> and choose:
+        <em>Export PDF</em>, <em>Print</em>, or <em>Export DOC</em>.
+        For final submissions, review PDF margins and page breaks before sending.
+      </li>
+      <li>
+        <strong>Use LaTeX workflow</strong>: click <em>Copy LaTeX</em> to copy generated LaTeX for Overleaf/local use.
+        This is useful when you need further manual formatting edits outside this tool.
+      </li>
+      <li>
+        <strong>Backup and restore across devices</strong>: in Settings, use <em>Backup JSON</em> to download your data,
+        and <em>Restore JSON</em> on another browser/device.
+        Use <em>Clear Local Data</em> only when you intentionally want to wipe browser-stored drafts.
+      </li>
+      <li>
+        <strong>Keyboard shortcuts</strong>: Ctrl/Cmd + S saves to local cache, Ctrl/Cmd + Shift + S downloads backup JSON,
+        Ctrl/Cmd + P opens print, Esc closes open panels.
+      </li>
+      <li>
+        <strong>Troubleshooting quick checks</strong>: if something looks off, refresh once,
+        confirm section toggles in Settings, verify invalid field highlights, and re-export.
+      </li>
+    </ol>
+  </div>
+
+  <div id="settingsBackdrop" class="settings-backdrop"></div>
+  <aside id="settingsDrawer" class="settings-drawer" aria-hidden="true"></aside>
+
+  <div class="layout">
+    <div class="panel left" id="formPanel"></div>
+    <div class="panel right">
+      <div id="resumePreview" class="resume"></div>
+    </div>
+  </div>
+  <div id="recoveryToast" class="recovery-toast" aria-live="polite"></div>
+  <div class="page-credit">&copy; 2026 Vikramaditya Shah Bundela. <a href="terms.html" target="_blank" rel="noopener">Terms and Conditions</a> | <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js';"></script>
+  <script>
+    const state = {
+      name: "",
+      roll: "",
+      degree: "",
+      department: "",
+      institute: "",
+      phone: "",
+      email: "",
+      linkedin: "",
+      github: "",
+      customLogo: "",
+      education: [{ year: "", degree: "", institute: "", cgpa: "" }],
+      experience: [{ company: "", role: "", dates: "", link: "", bullets: "" }],
+      publications: "",
+      projects: [{ title: "", mentor: "", dates: "", link: "", tech: "", bullets: "" }],
+      skills: [{ category: "", items: "" }],
+      por: "",
+      achievements: "",
+      keyCourses: "",
+      extracurriculars: "",
+      lineHeight: "1.35",
+      fontFamily: "'Times New Roman', serif",
+      logoSize: "58",
+      rolePreset: "software",
+      strictLinks: true,
+      atsMode: false,
+      printCalibrated: true,
+      targetPages: "1",
+      sections: {
+        education: true,
+        experience: true,
+        publications: true,
+        projects: true,
+        skills: true,
+        por: true,
+        achievements: true,
+        keyCourses: true,
+        extracurriculars: true,
+      },
+      sectionDensity: {
+        education: "normal",
+        experience: "normal",
+        publications: "normal",
+        projects: "normal",
+        skills: "normal",
+        por: "normal",
+        achievements: "normal",
+        keyCourses: "normal",
+        extracurriculars: "normal",
+      },
+      sectionOrder: ["education", "experience", "projects", "skills", "achievements", "por", "publications", "keyCourses", "extracurriculars"],
+    };
+
+    const STORAGE_KEY = "iith_resume_data_v2";
+    const META_KEY = "iith_resume_meta_v2";
+    const LEGACY_KEY = "iith_resume_data";
+    const VARIANTS_KEY = "iith_resume_variants";
+    const LEGAL_NOTICE_SESSION_KEY = "resume_legal_notice_ack_v1";
+    const DEFAULT_LOGO_DATA_URI = `data:image/svg+xml;utf8,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><rect width="120" height="120" rx="18" fill="#f6ede6"/><path d="M20 35h80" stroke="#cc6a3f" stroke-width="6"/><path d="M20 85h80" stroke="#cc6a3f" stroke-width="6"/><text x="60" y="71" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#6b3a23">CV</text></svg>')}`;
+    let lastSavedAt = "";
+    let recoveredFromCache = false;
+
+    function formatSavedTime(iso) {
+      if (!iso) return "";
+      const d = new Date(iso);
+      if (Number.isNaN(d.getTime())) return "";
+      return d.toLocaleString();
+    }
+
+    function updateAutosaveStatus() {
+      const node = document.getElementById("autosaveStatus");
+      if (!node) return;
+      const stamp = formatSavedTime(lastSavedAt);
+      if (stamp) {
+        node.textContent = `${recoveredFromCache ? "Recovered from local cache. " : ""}Autosave is enabled. Last saved: ${stamp}.`;
+      } else {
+        node.textContent = "Autosave is enabled. Changes are stored in your browser local cache.";
+      }
+    }
+
+    function showRecoveryToast(message) {
+      const toast = document.getElementById("recoveryToast");
+      if (!toast) return;
+      toast.textContent = message;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 3200);
+    }
+
+    function normalizeLogoSize(value) {
+      const n = Number(value);
+      if (!Number.isFinite(n)) return 58;
+      return Math.min(140, Math.max(28, Math.round(n)));
+    }
+
+    function isLegalNoticeAcknowledged() {
+      try {
+        return sessionStorage.getItem(LEGAL_NOTICE_SESSION_KEY) === "1";
+      } catch (_) {
+        return false;
+      }
+    }
+
+    function acknowledgeLegalNotice() {
+      try {
+        sessionStorage.setItem(LEGAL_NOTICE_SESSION_KEY, "1");
+      } catch (_) {}
+    }
+
+    function isValidNormalizedUrl(normalized) {
+      try {
+        if (!normalized) return false;
+        if (normalized.startsWith("mailto:")) {
+          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalized.slice(7));
+        }
+        const u = new URL(normalized);
+        if (!(u.protocol === "http:" || u.protocol === "https:")) return false;
+        return Boolean(u.hostname && u.hostname.includes("."));
+      } catch (_) {
+        return false;
+      }
+    }
+
+    function openSettings() {
+      const backdrop = document.getElementById("settingsBackdrop");
+      const drawer = document.getElementById("settingsDrawer");
+      if (!backdrop || !drawer) return;
+      backdrop.classList.add("open");
+      drawer.classList.add("open");
+      drawer.setAttribute("aria-hidden", "false");
+    }
+
+    function closeSettings() {
+      const backdrop = document.getElementById("settingsBackdrop");
+      const drawer = document.getElementById("settingsDrawer");
+      if (!backdrop || !drawer) return;
+      backdrop.classList.remove("open");
+      drawer.classList.remove("open");
+      drawer.setAttribute("aria-hidden", "true");
+    }
+
+    function toggleSettings() {
+      const drawer = document.getElementById("settingsDrawer");
+      if (!drawer) return;
+      if (drawer.classList.contains("open")) {
+        closeSettings();
+      } else {
+        openSettings();
+      }
+    }
+
+    function openHelp() {
+      const backdrop = document.getElementById("helpBackdrop");
+      const modal = document.getElementById("helpModal");
+      if (!backdrop || !modal) return;
+      backdrop.classList.add("open");
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeHelp() {
+      const backdrop = document.getElementById("helpBackdrop");
+      const modal = document.getElementById("helpModal");
+      if (!backdrop || !modal) return;
+      backdrop.classList.remove("open");
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+    }
+
+    function save() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        lastSavedAt = new Date().toISOString();
+        localStorage.setItem(META_KEY, JSON.stringify({ savedAt: lastSavedAt, version: 2 }));
+      } catch (_) {
+        // Ignore storage quota/privacy mode failures.
+      }
+      updateAutosaveStatus();
+    }
+
+    function load() {
+      const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_KEY);
+      if (!raw) return;
+      try {
+        Object.assign(state, JSON.parse(raw));
+        recoveredFromCache = true;
+        if (!localStorage.getItem(STORAGE_KEY)) {
+          localStorage.setItem(STORAGE_KEY, raw);
+        }
+        const metaRaw = localStorage.getItem(META_KEY);
+        if (metaRaw) {
+          const meta = JSON.parse(metaRaw);
+          if (meta && typeof meta.savedAt === "string") {
+            lastSavedAt = meta.savedAt;
+          }
+        }
+        if (!state.sections || typeof state.sections !== "object") {
+          state.sections = {
+            education: true,
+            experience: true,
+            publications: state.showPublications !== false,
+            projects: true,
+            skills: true,
+            por: state.showPOR !== false,
+            achievements: true,
+            keyCourses: state.showKeyCourses !== false,
+            extracurriculars: state.showExtracurriculars !== false,
+          };
+        }
+        state.rolePreset = state.rolePreset || "software";
+        state.strictLinks = state.strictLinks !== false;
+        state.sectionOrder = sanitizeSectionOrder(state.sectionOrder || defaultSectionOrderForPreset(state.rolePreset));
+        state.logoSize = String(normalizeLogoSize(state.logoSize || "58"));
+        state.atsMode = Boolean(state.atsMode);
+        state.printCalibrated = state.printCalibrated !== false;
+        state.targetPages = state.targetPages || "1";
+        if (!state.sectionDensity || typeof state.sectionDensity !== "object") {
+          state.sectionDensity = {
+            education: "normal",
+            experience: "normal",
+            publications: "normal",
+            projects: "normal",
+            skills: "normal",
+            por: "normal",
+            achievements: "normal",
+            keyCourses: "normal",
+            extracurriculars: "normal",
+          };
+        }
+      } catch (_) {}
+    }
+
+    function sectionEnabled(key) {
+      return state.sections[key] !== false;
+    }
+
+    function setFieldValidity(el, message) {
+      if (!el) return;
+      if (message) {
+        el.classList.add("invalid-field");
+        el.title = message;
+      } else {
+        el.classList.remove("invalid-field");
+        el.title = "";
+      }
+    }
+
+    function validateField(field, value) {
+      const v = (value || "").trim();
+      if (!v) return "";
+      if (field === "email") {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "" : "Invalid email format";
+      }
+      if (field === "linkedin" || field === "github" || field === "link") {
+        if (/\s/.test(v)) return "Link should not contain spaces";
+        if (!state.strictLinks) return "";
+        const normalized = normalizeUrl(v);
+        return isValidNormalizedUrl(normalized) ? "" : "Enter a valid URL (for example: https://example.com)";
+      }
+      if (field === "dates") {
+        const ok = /^(?:[A-Za-z]{3,9}\s+\d{4}|\d{4}|Present)(?:\s*-\s*(?:[A-Za-z]{3,9}\s+\d{4}|\d{4}|Present))?$/i.test(v);
+        return ok ? "" : "Use date format like Jan 2024 - Mar 2025";
+      }
+      if (field === "year") {
+        const ok = /^(?:\d{4}|\d{4}\s*-\s*(?:\d{4}|Present))$/i.test(v);
+        return ok ? "" : "Use year format like 2021 or 2021 - Present";
+      }
+      if (field === "phone") {
+        return /^[+()\d\s-]{7,}$/.test(v) ? "" : "Invalid phone format";
+      }
+      return "";
+    }
+
+    function validateRenderedInputs() {
+      document.querySelectorAll("[data-key]").forEach(el => {
+        const msg = validateField(el.dataset.key, el.value);
+        setFieldValidity(el, msg);
+      });
+      document.querySelectorAll("[data-array]").forEach(el => {
+        const msg = validateField(el.dataset.field, el.value);
+        setFieldValidity(el, msg);
+      });
+    }
+
+    function exportBackupJson() {
+      const payload = {
+        exportedAt: new Date().toISOString(),
+        version: 2,
+        state,
+        meta: { savedAt: lastSavedAt || new Date().toISOString() },
+        variants: variantsLoad(),
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `resume-builder-backup-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function importBackupJson(file) {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const parsed = JSON.parse(String(reader.result || "{}"));
+          const importedState = parsed.state || parsed;
+          Object.assign(state, importedState);
+          if (parsed.variants && typeof parsed.variants === "object") {
+            variantsSave(parsed.variants);
+          }
+          if (parsed.meta?.savedAt) {
+            lastSavedAt = parsed.meta.savedAt;
+          }
+          save();
+          renderForm();
+          wireArrayEvents();
+          renderDiagnostics();
+          renderPreview();
+          showRecoveryToast("Backup imported successfully.");
+        } catch (_) {
+          showRecoveryToast("Could not import backup file.");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function clearLocalData() {
+      const ok = confirm("This will permanently delete all local CV data and saved variants on this browser. Continue?");
+      if (!ok) return;
+      const typed = prompt("Type DELETE to confirm permanent local wipe:");
+      if (typed !== "DELETE") {
+        showRecoveryToast("Data wipe cancelled.");
+        return;
+      }
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(META_KEY);
+      localStorage.removeItem(LEGACY_KEY);
+      localStorage.removeItem(VARIANTS_KEY);
+      showRecoveryToast("Local data cleared. Refreshing...");
+      setTimeout(() => location.reload(), 350);
+    }
+
+    async function exportPdf() {
+      const preview = document.getElementById("resumePreview");
+      if (!preview) return;
+      if (typeof window.html2pdf !== "function") {
+        showRecoveryToast("PDF library unavailable. Falling back to print dialog.");
+        window.print();
+        return;
+      }
+      const filenameBase = (state.name || "resume").trim().replace(/\s+/g, "_") || "resume";
+      const opts = {
+        margin: 8,
+        filename: `${filenameBase}.pdf`,
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+        pagebreak: { mode: ["css", "legacy"] },
+      };
+      await window.html2pdf().set(opts).from(preview).save();
+    }
+
+    function exportDoc() {
+      const preview = document.getElementById("resumePreview");
+      if (!preview) return;
+      const styles = Array.from(document.querySelectorAll("style")).map(s => s.textContent).join("\n");
+      const html = `<!doctype html><html><head><meta charset="utf-8"><title>Resume</title><style>${styles}</style></head><body><div class="resume">${preview.innerHTML}</div></body></html>`;
+      const blob = new Blob([html], { type: "application/msword;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const filenameBase = (state.name || "resume").trim().replace(/\s+/g, "_") || "resume";
+      a.href = url;
+      a.download = `${filenameBase}.doc`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function toggleExportMenu(force) {
+      const menu = document.getElementById("exportMenu");
+      if (!menu) return;
+      const next = typeof force === "boolean" ? force : !menu.classList.contains("open");
+      menu.classList.toggle("open", next);
+      menu.setAttribute("aria-hidden", next ? "false" : "true");
+    }
+
+    function escapeHtml(v) {
+      return (v || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
+    }
+
+    function getResumeLogoSrc() {
+      return state.customLogo || DEFAULT_LOGO_DATA_URI;
+    }
+
+    function resizeLogoFile(file) {
+      return new Promise((resolve, reject) => {
+        if (!file) {
+          resolve("");
+          return;
+        }
+        if (!file.type || !file.type.startsWith("image/")) {
+          reject(new Error("Not an image file"));
+          return;
+        }
+        const reader = new FileReader();
+        reader.onerror = () => reject(new Error("Could not read file"));
+        reader.onload = () => {
+          const rawDataUrl = String(reader.result || "");
+          const img = new Image();
+          img.onload = () => {
+            const maxSide = 240;
+            const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+            const w = Math.max(1, Math.round(img.width * scale));
+            const h = Math.max(1, Math.round(img.height * scale));
+            const canvas = document.createElement("canvas");
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext("2d");
+            if (!ctx) {
+              resolve(rawDataUrl);
+              return;
+            }
+            ctx.drawImage(img, 0, 0, w, h);
+            try {
+              resolve(canvas.toDataURL("image/png"));
+            } catch (_) {
+              resolve(rawDataUrl);
+            }
+          };
+          img.onerror = () => resolve(rawDataUrl);
+          img.src = rawDataUrl;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function input(key, label) {
+      return `<label>${label}<input data-key="${key}" value="${escapeHtml(state[key] || "")}"></label>`;
+    }
+
+    function fieldLabel(field) {
+      const custom = {
+        cgpa: "CGPA/Percentage",
+        tech: "Technology/Tools",
+        por: "Positions of Responsibility",
+      };
+      if (custom[field]) return custom[field];
+      return field
+        .replace(/([a-z])([A-Z])/g, "$1 $2")
+        .replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    function linesToArray(value) {
+      return (value || "")
+        .split("\n")
+        .map(v => v.trim())
+        .filter(Boolean);
+    }
+
+    function normalizeUrl(value) {
+      const raw = (value || "").trim();
+      if (!raw) return "";
+      if (/^https?:\/\//i.test(raw)) return raw;
+      if (/^mailto:/i.test(raw)) return raw;
+      if (raw.includes("@") && !raw.includes(" ")) return `mailto:${raw}`;
+      return `https://${raw}`;
+    }
+
+    function hrefHtml(value, className = "") {
+      const raw = (value || "").trim();
+      if (!raw) return "";
+      const href = escapeHtml(normalizeUrl(raw));
+      const text = escapeHtml(raw);
+      const short = escapeHtml(shortLinkText(raw));
+      const cls = className ? ` class="${className}"` : "";
+      return `<a${cls} href="${href}" target="_blank" rel="noopener noreferrer"><span class="link-full-screen">${text}</span><span class="link-full-print">${text}</span><span class="link-short-screen">${short}</span></a>`;
+    }
+
+    function shortLinkText(raw) {
+      const trimmed = (raw || "").replace(/^https?:\/\//i, "").replace(/^mailto:/i, "");
+      if (trimmed.length <= 26) return trimmed;
+      return `${trimmed.slice(0, 24)}...`;
+    }
+
+    function normalizeDateRange(value) {
+      const raw = (value || "").trim();
+      if (!raw) return "";
+      const parts = raw.split("-").map(v => v.trim()).filter(Boolean);
+      if (!parts.length) return raw;
+      const fix = (chunk) => chunk
+        .replace(/\bsept\b/ig, "Sep")
+        .replace(/\bjan(uary)?\b/ig, "Jan")
+        .replace(/\bfeb(ruary)?\b/ig, "Feb")
+        .replace(/\bmar(ch)?\b/ig, "Mar")
+        .replace(/\bapr(il)?\b/ig, "Apr")
+        .replace(/\bjun(e)?\b/ig, "Jun")
+        .replace(/\bjul(y)?\b/ig, "Jul")
+        .replace(/\baug(ust)?\b/ig, "Aug")
+        .replace(/\boct(ober)?\b/ig, "Oct")
+        .replace(/\bnov(ember)?\b/ig, "Nov")
+        .replace(/\bdec(ember)?\b/ig, "Dec")
+        .replace(/\bpresent\b/ig, "Present");
+      return parts.map(fix).join(" - ");
+    }
+
+    function getSectionOrder() {
+      return sanitizeSectionOrder(state.sectionOrder || defaultSectionOrderForPreset(state.rolePreset));
+    }
+
+    function densityMultiplier(sectionKey) {
+      const d = state.sectionDensity?.[sectionKey] || "normal";
+      if (d === "tight") return 0.82;
+      if (d === "compact") return 0.92;
+      return 1;
+    }
+
+    function estimateLines() {
+      const blocks = [
+        { k: "education", c: state.education.length * 2 + 4 },
+        { k: "experience", c: 4 + state.experience.reduce((n, e) => n + 2 + linesToArray(e.bullets).length, 0) },
+        { k: "projects", c: 4 + state.projects.reduce((n, p) => n + 3 + linesToArray(p.bullets).length, 0) },
+        { k: "skills", c: 3 + state.skills.length },
+        { k: "achievements", c: 3 + linesToArray(state.achievements).length },
+        { k: "por", c: 3 + linesToArray(state.por).length },
+        { k: "publications", c: 3 + linesToArray(state.publications).length },
+        { k: "keyCourses", c: 3 + Math.ceil(linesToArray(state.keyCourses).length / 2) },
+        { k: "extracurriculars", c: 3 + linesToArray(state.extracurriculars).length },
+      ];
+      const active = blocks.filter(b => sectionEnabled(b.k));
+      const total = active.reduce((sum, b) => sum + Math.ceil(b.c * densityMultiplier(b.k)), 22);
+      return total;
+    }
+
+    function pageBudgetMessage() {
+      const lines = estimateLines();
+      const perPage = state.atsMode ? 58 : 52;
+      const pages = Math.max(1, Math.ceil(lines / perPage));
+      const target = Number(state.targetPages || "1");
+      if (pages > target) {
+        return { className: "diag-warn", text: `Page budget risk: estimated ${pages} page(s) for target ${target}. Trim bullets or switch sections to Compact/Tight.` };
+      }
+      return { className: "diag-ok", text: `Page budget looks good: estimated ${pages} page(s) for target ${target}.` };
+    }
+
+    function bulletLintIssues() {
+      const weakStarts = [/^worked on\b/i, /^responsible for\b/i, /^helped\b/i, /^involved in\b/i, /^did\b/i];
+      const points = [
+        ...state.experience.flatMap(e => linesToArray(e.bullets)),
+        ...state.projects.flatMap(p => linesToArray(p.bullets)),
+        ...linesToArray(state.achievements),
+      ];
+      let weak = 0;
+      let metricFree = 0;
+      points.forEach(p => {
+        if (weakStarts.some(r => r.test(p))) weak += 1;
+        if (!/\d|%|x|ms|s\b|k\b|million|thousand/i.test(p)) metricFree += 1;
+      });
+      return { total: points.length, weak, metricFree };
+    }
+
+    function sectionScores() {
+      const score = (items, withMetric = false) => {
+        if (!items.length) return 0;
+        const base = Math.min(5, Math.ceil(items.length / 2));
+        if (!withMetric) return base;
+        const metricCount = items.filter(v => /\d|%|x|ms|s\b|k\b|million|thousand/i.test(v)).length;
+        return Math.max(1, Math.min(5, Math.round((base + (metricCount / items.length) * 2) * 10) / 10));
+      };
+      return {
+        Experience: score(state.experience.flatMap(e => linesToArray(e.bullets)), true),
+        Projects: score(state.projects.flatMap(p => linesToArray(p.bullets)), true),
+        Skills: score(state.skills.map(s => s.items).filter(Boolean)),
+        Achievements: score(linesToArray(state.achievements), true),
+      };
+    }
+
+    function variantsLoad() {
+      try {
+        return JSON.parse(localStorage.getItem(VARIANTS_KEY) || "{}");
+      } catch (_) {
+        return {};
+      }
+    }
+
+    function variantsSave(allVariants) {
+      localStorage.setItem(VARIANTS_KEY, JSON.stringify(allVariants));
+    }
+
+    function rolePresetGuideCard(preset) {
+      const map = {
+        software: {
+          title: "Software Preset",
+          text: "Order focus: Education -> Experience -> Projects -> Skills. Best for SDE/SWE roles where impact bullets, tech stack, and shipped work should appear early.",
+        },
+        core: {
+          title: "Core Engineering Preset",
+          text: "Order focus: Education -> Experience -> Projects -> Skills -> POR. Best for core domain roles where engineering depth, internships, and applied project rigor matter most.",
+        },
+        research: {
+          title: "Research Preset",
+          text: "Order focus: Education -> Publications -> Experience -> Projects. Best for RA, higher studies, and research internships where publications and research output should come first.",
+        },
+        design: {
+          title: "Design Preset",
+          text: "Order focus: Education -> Projects -> Experience -> Skills. Best for product/UX/design profiles where project storytelling and portfolio-style outcomes lead the resume.",
+        },
+      };
+      const meta = map[preset] || map.software;
+      return `<div class="preset-guide"><div class="preset-guide-title">${meta.title}</div><div class="preset-guide-text">${meta.text}</div><div class="preset-guide-text">Tip: choose Target Pages based on role expectations, then use Section Density for fine tuning without rewriting content.</div></div>`;
+    }
+
+    function defaultSectionOrderForPreset(preset) {
+      const orders = {
+        software: ["education", "experience", "projects", "skills", "achievements", "por", "publications", "keyCourses", "extracurriculars"],
+        core: ["education", "experience", "projects", "skills", "por", "achievements", "keyCourses", "publications", "extracurriculars"],
+        research: ["education", "publications", "experience", "projects", "skills", "achievements", "por", "keyCourses", "extracurriculars"],
+        design: ["education", "projects", "experience", "skills", "achievements", "por", "publications", "keyCourses", "extracurriculars"],
+      };
+      return [...(orders[preset] || orders.software)];
+    }
+
+    function sanitizeSectionOrder(order) {
+      const allKeys = ["education", "experience", "publications", "projects", "skills", "por", "achievements", "keyCourses", "extracurriculars"];
+      const seen = new Set();
+      const clean = [];
+      (Array.isArray(order) ? order : []).forEach(k => {
+        if (allKeys.includes(k) && !seen.has(k)) {
+          clean.push(k);
+          seen.add(k);
+        }
+      });
+      allKeys.forEach(k => {
+        if (!seen.has(k)) clean.push(k);
+      });
+      return clean;
+    }
+
+    function moveSectionInOrder(sectionKey, direction) {
+      const list = sanitizeSectionOrder(state.sectionOrder);
+      const i = list.indexOf(sectionKey);
+      if (i < 0) return;
+      const j = direction === "up" ? i - 1 : i + 1;
+      if (j < 0 || j >= list.length) return;
+      const tmp = list[i];
+      list[i] = list[j];
+      list[j] = tmp;
+      state.sectionOrder = list;
+      save();
+      renderSettingsDrawer();
+      renderPreview();
+    }
+
+    function linesToList(value, className = "simple-list") {
+      return `<ul class="${className}">${linesToArray(value).map(v => `<li>${escapeHtml(v)}</li>`).join("")}</ul>`;
+    }
+
+    function renderArray(key, fields, multilineFields = []) {
+      return state[key].map((item, idx) => `
+        <div class="card-mini">
+          <div class="tiny">Entry ${idx + 1} <button type="button" data-remove="${key}" data-index="${idx}">Remove</button></div>
+          ${fields.map(f => {
+            const value = escapeHtml(item[f] || "");
+            const label = fieldLabel(f);
+            if (multilineFields.includes(f)) {
+              return `<label>${label}<textarea data-array="${key}" data-index="${idx}" data-field="${f}" placeholder="One item per line">${value}</textarea></label>`;
+            }
+            return `<label>${label}<input data-array="${key}" data-index="${idx}" data-field="${f}" value="${value}"></label>`;
+          }).join("")}
+        </div>
+      `).join("");
+    }
+
+    function renderSettingsDrawer() {
+      const drawer = document.getElementById("settingsDrawer");
+      if (!drawer) return;
+      drawer.innerHTML = `
+        <div class="settings-head">
+          <span>Settings</span>
+          <button id="closeSettingsBtn" type="button">Close</button>
+        </div>
+
+        <div class="section">
+          <h3>Legal Acknowledgement</h3>
+          <div class="section-body">
+            ${isLegalNoticeAcknowledged()
+              ? `<div class="tiny">Acknowledged for this browser session.</div>`
+              : `<div class="tiny">Unofficial tool. You are responsible for claim accuracy and authorized trademark/logo usage.</div><button type="button" id="legalNoticeAckBtn" class="tiny-action">I Understand</button>`}
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Advanced Controls</h3>
+          <div class="section-body controls-grid">
+            <label>Role Preset
+              <select id="rolePreset">
+                <option value="software">Software</option>
+                <option value="core">Core Engineering</option>
+                <option value="research">Research</option>
+                <option value="design">Design</option>
+              </select>
+            </label>
+            <label>Target Pages
+              <select id="targetPages">
+                <option value="1">1 page</option>
+                <option value="2">2 pages</option>
+                <option value="3">3 pages</option>
+                <option value="4">4 pages</option>
+              </select>
+            </label>
+            <label class="control-check"><input type="checkbox" id="atsMode" ${state.atsMode ? "checked" : ""}> ATS Safe Mode</label>
+            <label class="control-check"><input type="checkbox" id="printCalibrated" ${state.printCalibrated ? "checked" : ""}> Strict Print Calibration</label>
+            <label class="control-check"><input type="checkbox" id="strictLinks" ${state.strictLinks ? "checked" : ""}> Strict Link Validation</label>
+            <div class="full-row" id="presetGuideBox">${rolePresetGuideCard(state.rolePreset)}</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Add / Remove Sections</h3>
+          <div class="section-body section-toggle-grid">
+            <label class="control-check"><input type="checkbox" data-section-toggle="education" ${sectionEnabled("education") ? "checked" : ""}> Education</label>
+            <label class="control-check"><input type="checkbox" data-section-toggle="experience" ${sectionEnabled("experience") ? "checked" : ""}> Experience</label>
+            <label class="control-check"><input type="checkbox" data-section-toggle="publications" ${sectionEnabled("publications") ? "checked" : ""}> Publications</label>
+            <label class="control-check"><input type="checkbox" data-section-toggle="projects" ${sectionEnabled("projects") ? "checked" : ""}> Projects</label>
+            <label class="control-check"><input type="checkbox" data-section-toggle="skills" ${sectionEnabled("skills") ? "checked" : ""}> Technical Skills</label>
+            <label class="control-check"><input type="checkbox" data-section-toggle="por" ${sectionEnabled("por") ? "checked" : ""}> Positions of Responsibility</label>
+            <label class="control-check"><input type="checkbox" data-section-toggle="achievements" ${sectionEnabled("achievements") ? "checked" : ""}> Achievements</label>
+            <label class="control-check"><input type="checkbox" data-section-toggle="keyCourses" ${sectionEnabled("keyCourses") ? "checked" : ""}> Key Courses</label>
+            <label class="control-check"><input type="checkbox" data-section-toggle="extracurriculars" ${sectionEnabled("extracurriculars") ? "checked" : ""}> Extracurriculars</label>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Section Density</h3>
+          <div class="section-body section-toggle-grid">
+            ${Object.keys(state.sections).map(k => `<label>${fieldLabel(k)}<select data-density="${k}"><option value="normal" ${(state.sectionDensity[k] || "normal") === "normal" ? "selected" : ""}>Normal</option><option value="compact" ${(state.sectionDensity[k] || "normal") === "compact" ? "selected" : ""}>Compact</option><option value="tight" ${(state.sectionDensity[k] || "normal") === "tight" ? "selected" : ""}>Tight</option></select></label>`).join("")}
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Custom Section Order</h3>
+          <div class="section-body">
+            <div class="tiny">Move sections up/down. Preview order updates instantly.</div>
+            <div class="order-list">
+              ${sanitizeSectionOrder(state.sectionOrder).map((k, idx, arr) => `
+                <div class="order-item">
+                  <div class="order-item-name">${fieldLabel(k)}</div>
+                  <div class="order-item-actions">
+                    <button type="button" data-move-section="${k}" data-dir="up" ${idx === 0 ? "disabled" : ""}>Up</button>
+                    <button type="button" data-move-section="${k}" data-dir="down" ${idx === arr.length - 1 ? "disabled" : ""}>Down</button>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Variant Snapshots</h3>
+          <div class="section-body controls-grid">
+            <label>Variant Name<input id="variantName" placeholder="e.g. SDE-Backend"></label>
+            <label>Saved Variants<select id="variantSelect"><option value="">Select variant</option>${Object.keys(variantsLoad()).map(v => `<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join("")}</select></label>
+            <button type="button" id="saveVariantBtn">Save Variant</button>
+            <button type="button" id="loadVariantBtn">Load Variant</button>
+            <button type="button" id="deleteVariantBtn">Delete Variant</button>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Data Management</h3>
+          <div class="section-body controls-grid">
+            <button type="button" id="exportBackupBtn">Backup JSON</button>
+            <button type="button" id="importBackupBtn">Restore JSON</button>
+            <button type="button" id="clearDataBtn">Clear Local Data</button>
+            <input id="importBackupFile" type="file" accept="application/json" style="display:none">
+          </div>
+        </div>
+      `;
+
+      document.getElementById("closeSettingsBtn").addEventListener("click", closeSettings);
+
+      const legalAckBtn = document.getElementById("legalNoticeAckBtn");
+      if (legalAckBtn) {
+        legalAckBtn.addEventListener("click", () => {
+          acknowledgeLegalNotice();
+          renderSettingsDrawer();
+        });
+      }
+
+      document.getElementById("rolePreset").value = state.rolePreset;
+      document.getElementById("targetPages").value = state.targetPages;
+
+      ["rolePreset", "targetPages", "atsMode", "printCalibrated", "strictLinks"].forEach(id => {
+        document.getElementById(id).addEventListener("input", (e) => {
+          state[id] = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+          if (id === "rolePreset") {
+            state.sectionOrder = defaultSectionOrderForPreset(state.rolePreset);
+            const guide = document.getElementById("presetGuideBox");
+            if (guide) guide.innerHTML = rolePresetGuideCard(state.rolePreset);
+            renderSettingsDrawer();
+          }
+          if (id === "printCalibrated") {
+            document.body.classList.toggle("print-calibrated", state.printCalibrated);
+          }
+          if (id === "atsMode") {
+            document.body.classList.toggle("ats-safe", state.atsMode);
+          }
+          save();
+          renderDiagnostics();
+          renderPreview();
+        });
+      });
+
+      drawer.querySelectorAll("[data-section-toggle]").forEach(el => {
+        el.addEventListener("input", (e) => {
+          const key = e.target.dataset.sectionToggle;
+          state.sections[key] = e.target.checked;
+          save();
+          renderForm();
+          wireArrayEvents();
+          renderDiagnostics();
+          renderPreview();
+        });
+      });
+
+      drawer.querySelectorAll("[data-density]").forEach(el => {
+        el.addEventListener("input", (e) => {
+          const key = e.target.dataset.density;
+          state.sectionDensity[key] = e.target.value;
+          save();
+          renderDiagnostics();
+          renderPreview();
+        });
+      });
+
+      drawer.querySelectorAll("[data-move-section]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          moveSectionInOrder(btn.dataset.moveSection, btn.dataset.dir);
+        });
+      });
+
+      document.getElementById("saveVariantBtn").addEventListener("click", () => {
+        const name = (document.getElementById("variantName").value || "").trim();
+        if (!name) return;
+        const variants = variantsLoad();
+        variants[name] = JSON.parse(JSON.stringify(state));
+        variantsSave(variants);
+        renderSettingsDrawer();
+        showRecoveryToast("Variant saved.");
+      });
+
+      document.getElementById("loadVariantBtn").addEventListener("click", () => {
+        const name = document.getElementById("variantSelect").value;
+        const variants = variantsLoad();
+        if (!name || !variants[name]) return;
+        Object.assign(state, JSON.parse(JSON.stringify(variants[name])));
+        save();
+        renderForm();
+        wireArrayEvents();
+        renderDiagnostics();
+        renderPreview();
+        showRecoveryToast("Variant loaded.");
+      });
+
+      document.getElementById("deleteVariantBtn").addEventListener("click", () => {
+        const name = document.getElementById("variantSelect").value;
+        if (!name) return;
+        const variants = variantsLoad();
+        delete variants[name];
+        variantsSave(variants);
+        renderSettingsDrawer();
+        showRecoveryToast("Variant deleted.");
+      });
+
+      document.getElementById("exportBackupBtn").addEventListener("click", exportBackupJson);
+      document.getElementById("importBackupBtn").addEventListener("click", () => {
+        document.getElementById("importBackupFile").click();
+      });
+      document.getElementById("importBackupFile").addEventListener("change", (e) => {
+        importBackupJson(e.target.files?.[0]);
+        e.target.value = "";
+      });
+      document.getElementById("clearDataBtn").addEventListener("click", clearLocalData);
+    }
+
+    function renderForm() {
+      const panel = document.getElementById("formPanel");
+      panel.innerHTML = `
+        <div class="section">
+          <h3>Controls</h3>
+          <div class="section-body controls-grid">
+            <label class="full-row">Custom Logo (optional)
+              <input id="logoUpload" type="file" accept="image/*">
+            </label>
+            <div class="tiny full-row">Upload only logos/trademarks you are legally authorized to use.</div>
+            <div class="logo-actions full-row">
+              <button type="button" id="resetLogoBtn">Reset To Default Logo</button>
+              <div class="tiny">Current logo: ${state.customLogo ? "Custom uploaded logo" : "Default neutral logo"}</div>
+            </div>
+            <div class="logo-size-row full-row">
+              <label>Logo Size (px)
+                <input type="range" min="28" max="140" step="1" id="logoSize" value="${normalizeLogoSize(state.logoSize)}">
+              </label>
+              <div class="tiny" id="logoSizeValue">${normalizeLogoSize(state.logoSize)} px</div>
+            </div>
+            <label>Line Spacing<input type="number" step="0.05" min="1" max="2" id="lineHeight" value="${state.lineHeight}"></label>
+            <label>Font<select id="fontFamily"><option value="'Times New Roman', serif">Serif</option><option value="'Georgia', serif">Georgia</option><option value="'Segoe UI', sans-serif">Sans</option><option value="'Poppins', sans-serif">Poppins</option><option value="'Montserrat', sans-serif">Montserrat</option></select></label>
+          </div>
+        </div>
+
+        <div class="section"><h3>Basic Info</h3><div class="section-body">
+          ${input("name", "Student Name")}
+          ${input("roll", "Roll Number")}
+          ${input("degree", "Degree")}
+          ${input("department", "Department")}
+          ${input("institute", "Institute")}
+          ${input("phone", "Phone")}
+          ${input("email", "Email")}
+          ${input("linkedin", "LinkedIn")}
+          ${input("github", "GitHub")}
+        </div></div>
+
+        ${sectionEnabled("education") ? `<div class="section"><h3>Education <button type="button" data-add="education">+ Add</button></h3><div class="section-body">${renderArray("education", ["year", "degree", "institute", "cgpa"])}</div></div>` : ""}
+        ${sectionEnabled("experience") ? `<div class="section"><h3>Experience <button type="button" data-add="experience">+ Add</button></h3><div class="section-body">${renderArray("experience", ["company", "role", "dates", "link", "bullets"], ["bullets"])}</div></div>` : ""}
+        ${sectionEnabled("publications") ? `<div class="section"><h3>Publications</h3><div class="section-body"><label>One item per line<textarea data-key="publications">${escapeHtml(state.publications)}</textarea></label></div></div>` : ""}
+        ${sectionEnabled("projects") ? `<div class="section"><h3>Projects <button type="button" data-add="projects">+ Add</button></h3><div class="section-body">${renderArray("projects", ["title", "mentor", "dates", "link", "tech", "bullets"], ["bullets"])}</div></div>` : ""}
+        ${sectionEnabled("skills") ? `<div class="section"><h3>Technical Skills <button type="button" data-add="skills">+ Add</button></h3><div class="section-body">${renderArray("skills", ["category", "items"])}</div></div>` : ""}
+        ${sectionEnabled("por") ? `<div class="section"><h3>Positions of Responsibility</h3><div class="section-body"><label>One item per line<textarea data-key="por">${escapeHtml(state.por)}</textarea></label></div></div>` : ""}
+        ${sectionEnabled("achievements") ? `<div class="section"><h3>Achievements</h3><div class="section-body"><label>One item per line<textarea data-key="achievements">${escapeHtml(state.achievements)}</textarea></label></div></div>` : ""}
+        ${sectionEnabled("keyCourses") ? `<div class="section"><h3>Key Courses Taken</h3><div class="section-body"><label>One item per line<textarea data-key="keyCourses">${escapeHtml(state.keyCourses)}</textarea></label></div></div>` : ""}
+        ${sectionEnabled("extracurriculars") ? `<div class="section"><h3>Extracurriculars</h3><div class="section-body"><label>One item per line<textarea data-key="extracurriculars">${escapeHtml(state.extracurriculars)}</textarea></label></div></div>` : ""}
+
+        <div class="diagnostics" id="diagnosticsBox"></div>
+        <div class="tiny" id="autosaveStatus"></div>
+      `;
+
+      document.getElementById("fontFamily").value = state.fontFamily;
+      document.getElementById("logoSize").value = String(normalizeLogoSize(state.logoSize));
+      document.getElementById("logoSizeValue").textContent = `${normalizeLogoSize(state.logoSize)} px`;
+      document.body.classList.toggle("print-calibrated", state.printCalibrated);
+      document.body.classList.toggle("ats-safe", state.atsMode);
+      updateAutosaveStatus();
+
+      panel.querySelectorAll("[data-key]").forEach(el => {
+        el.addEventListener("input", (e) => {
+          const key = e.target.dataset.key;
+          state[key] = e.target.value;
+          setFieldValidity(e.target, validateField(key, e.target.value));
+          save();
+          renderDiagnostics();
+          renderPreview();
+        });
+      });
+
+      document.getElementById("logoUpload").addEventListener("change", async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        try {
+          state.customLogo = await resizeLogoFile(file);
+          save();
+          renderForm();
+          wireArrayEvents();
+          renderDiagnostics();
+          renderPreview();
+          showRecoveryToast("Custom logo applied.");
+        } catch (_) {
+          showRecoveryToast("Could not process logo image. Try PNG or JPG.");
+        }
+      });
+
+      document.getElementById("resetLogoBtn").addEventListener("click", () => {
+        state.customLogo = "";
+        save();
+        renderForm();
+        wireArrayEvents();
+        renderDiagnostics();
+        renderPreview();
+        showRecoveryToast("Logo reset to neutral default.");
+      });
+
+      panel.querySelectorAll("[data-add]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const key = btn.dataset.add;
+          if (key === "education") state.education.push({ year: "", degree: "", institute: "", cgpa: "" });
+          if (key === "experience") state.experience.push({ company: "", role: "", dates: "", link: "", bullets: "" });
+          if (key === "projects") state.projects.push({ title: "", mentor: "", dates: "", link: "", tech: "", bullets: "" });
+          if (key === "skills") state.skills.push({ category: "", items: "" });
+          save();
+          renderForm();
+          wireArrayEvents();
+          renderDiagnostics();
+          renderPreview();
+        });
+      });
+
+      ["lineHeight", "fontFamily", "logoSize"].forEach(id => {
+        document.getElementById(id).addEventListener("input", (e) => {
+          if (id === "logoSize") {
+            state.logoSize = String(normalizeLogoSize(e.target.value));
+            const label = document.getElementById("logoSizeValue");
+            if (label) label.textContent = `${state.logoSize} px`;
+          } else {
+            state[id] = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+          }
+          save();
+          renderDiagnostics();
+          renderPreview();
+        });
+      });
+
+      renderSettingsDrawer();
+      renderDiagnostics();
+      validateRenderedInputs();
+      if (recoveredFromCache) {
+        showRecoveryToast(`Recovered your previous draft${lastSavedAt ? ` (${formatSavedTime(lastSavedAt)})` : ""}.`);
+        recoveredFromCache = false;
+      }
+    }
+
+    function wireArrayEvents() {
+      document.querySelectorAll("[data-array]").forEach(el => {
+        el.addEventListener("input", (e) => {
+          const key = e.target.dataset.array;
+          const idx = Number(e.target.dataset.index);
+          const field = e.target.dataset.field;
+          state[key][idx][field] = e.target.value;
+          setFieldValidity(e.target, validateField(field, e.target.value));
+          save();
+          renderDiagnostics();
+          renderPreview();
+        });
+      });
+
+      document.querySelectorAll("[data-remove]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const key = btn.dataset.remove;
+          const idx = Number(btn.dataset.index);
+          state[key].splice(idx, 1);
+          if (!state[key].length) {
+            if (key === "education") state.education.push({ year: "", degree: "", institute: "", cgpa: "" });
+            if (key === "experience") state.experience.push({ company: "", role: "", dates: "", link: "", bullets: "" });
+            if (key === "projects") state.projects.push({ title: "", mentor: "", dates: "", link: "", tech: "", bullets: "" });
+            if (key === "skills") state.skills.push({ category: "", items: "" });
+          }
+          save();
+          renderForm();
+          wireArrayEvents();
+          renderDiagnostics();
+          renderPreview();
+        });
+      });
+    }
+
+    function renderDiagnostics() {
+      const box = document.getElementById("diagnosticsBox");
+      if (!box) return;
+      const budget = pageBudgetMessage();
+      const lint = bulletLintIssues();
+      const scores = sectionScores();
+      box.innerHTML = `
+        <div class="${budget.className}">${budget.text}</div>
+        <div>Bullet quality: ${lint.total ? `${lint.weak} weak starts, ${lint.metricFree} metric-free bullets out of ${lint.total}` : "No bullets yet"}.</div>
+        <div class="score-grid">
+          ${Object.entries(scores).map(([k, v]) => `<div>${k}</div><div>${v}/5</div>`).join("")}
+        </div>
+      `;
+    }
+
+    function section(title, html, key) {
+      const m = densityMultiplier(key || "education");
+      const spacing = Math.max(6, Math.round(11 * m));
+      return `<div class="cv-section-title" style="margin-top:${spacing}px;">${title}</div>${html}`;
+    }
+
+    function projectBlock(p) {
+      const bullets = linesToArray(p.bullets).map(v => `<li>${escapeHtml(v)}</li>`).join("");
+      const mentor = p.mentor ? `<div class="entry-note">${escapeHtml(p.mentor)}</div>` : "";
+      const linkAnchor = hrefHtml(p.link, "right-meta");
+      const link = linkAnchor ? `<div>${linkAnchor}</div>` : "";
+      const tech = p.tech ? `<div class="entry-note">Technology/Tools: ${escapeHtml(p.tech)}</div>` : "";
+      return `
+        <li>
+          <div class="entry-head">
+            <strong>${escapeHtml(p.title)}</strong>
+            <span class="right-meta">${escapeHtml(normalizeDateRange(p.dates))}</span>
+          </div>
+          ${mentor}
+          ${link}
+          ${tech}
+          <ul class="sub-list">${bullets}</ul>
+        </li>
+      `;
+    }
+
+    function renderPreview() {
+      const preview = document.getElementById("resumePreview");
+      preview.style.lineHeight = state.lineHeight;
+      preview.style.fontFamily = state.fontFamily;
+      const logoSize = normalizeLogoSize(state.logoSize);
+      const logoColumn = Math.max(88, logoSize + 24);
+
+      const educationRows = state.education
+        .map(e => `<tr><td>${escapeHtml(e.year)}</td><td>${escapeHtml(e.degree)}</td><td>${escapeHtml(e.institute)}</td><td>${escapeHtml(e.cgpa)}</td></tr>`)
+        .join("");
+
+      const experienceRows = state.experience
+        .map(e => {
+          const bullets = linesToArray(e.bullets).map(v => `<li>${escapeHtml(v)}</li>`).join("");
+          const experienceLink = hrefHtml(e.link, "right-meta");
+          return `
+            <li>
+              <div class="entry-head">
+                <strong>${escapeHtml(e.role)} at '${escapeHtml(e.company)}'</strong>
+                <span class="right-meta">${escapeHtml(normalizeDateRange(e.dates))}</span>
+              </div>
+              <ul class="sub-list">${bullets}</ul>
+              ${experienceLink ? `<div>${experienceLink}</div>` : ""}
+            </li>
+          `;
+        })
+        .join("");
+
+      const publications = sectionEnabled("publications") ? section("Publications", linesToList(state.publications), "publications") : "";
+      const por = sectionEnabled("por") ? section("Positions of Responsibility", linesToList(state.por), "por") : "";
+
+      const skills = sectionEnabled("skills") ? section(
+        "Technical Skills",
+        `<ul class="skills-list">${state.skills.map(s => `<li><strong>${escapeHtml(s.category)}</strong> : ${escapeHtml(s.items)}</li>`).join("")}</ul>`,
+        "skills"
+      ) : "";
+
+      const courses = sectionEnabled("keyCourses")
+        ? section(
+            "Key Courses Taken",
+              `<div class="courses-grid">${linesToList(linesToArray(state.keyCourses).filter((_, i) => i % 2 === 0).join("\n"))}${linesToList(linesToArray(state.keyCourses).filter((_, i) => i % 2 === 1).join("\n"))}</div>`,
+              "keyCourses"
+          )
+        : "";
+
+        const extracurriculars = sectionEnabled("extracurriculars") ? section("Extracurriculars", linesToList(state.extracurriculars), "extracurriculars") : "";
+
+      preview.innerHTML = `
+        <div class="cv-header" style="grid-template-columns: ${logoColumn}px 1fr auto;">
+          <img class="cv-logo" src="${escapeHtml(getResumeLogoSrc())}" alt="Resume logo" style="width:${logoSize}px;height:${logoSize}px;">
+          <div class="identity">
+            <h2 class="name">${escapeHtml(state.name || "Student Name")}</h2>
+            <div><span class="roll-label">Roll Number :</span> ${escapeHtml(state.roll)}</div>
+            <div>${escapeHtml(state.degree)} - ${escapeHtml(state.department)}</div>
+            <div>${escapeHtml(state.institute)}</div>
+          </div>
+          <div class="contact">
+            <div>${escapeHtml(state.phone)}</div>
+            <div>${hrefHtml(state.linkedin) || ""}</div>
+            <div>${hrefHtml(state.email) || escapeHtml(state.email)}</div>
+            <div>${hrefHtml(state.github) || ""}</div>
+          </div>
+        </div>
+
+        ${(() => {
+          const blocks = {
+            education: sectionEnabled("education") ? section("Education", `<table class="edu-table"><tr><th>Year</th><th>Degree / Certificate</th><th>Institute / Board</th><th>CGPA/Percentage</th></tr>${educationRows}</table>`, "education") : "",
+            experience: sectionEnabled("experience") ? section("Experience", `<ul class="entry-list">${experienceRows}</ul>`, "experience") : "",
+            publications,
+            projects: sectionEnabled("projects") ? section("Projects", `<ul class="entry-list">${state.projects.map(projectBlock).join("")}</ul>`, "projects") : "",
+            skills,
+            por,
+            achievements: sectionEnabled("achievements") ? section("Achievements", linesToList(state.achievements), "achievements") : "",
+            keyCourses: courses,
+            extracurriculars,
+          };
+          return getSectionOrder().map(k => blocks[k] || "").join("");
+        })()}
+      `;
+    }
+
+    function escapeLatex(v) {
+      return (v || "")
+        .replace(/\\/g, "\\\\textbackslash{}")
+        .replace(/&/g, "\\\\&")
+        .replace(/%/g, "\\\\%")
+        .replace(/\$/g, "\\\\$")
+        .replace(/#/g, "\\\\#")
+        .replace(/_/g, "\\\\_")
+        .replace(/\{/g, "\\\\{")
+        .replace(/\}/g, "\\\\}");
+    }
+
+    function latexHref(value) {
+      const raw = (value || "").trim();
+      if (!raw) return "";
+      return `\\href{${escapeLatex(normalizeUrl(raw))}}{${escapeLatex(raw)}}`;
+    }
+
+    function latexList(value) {
+      return linesToArray(value).map(v => `\\item ${escapeLatex(v)}`).join("\n");
+    }
+
+    function generateLatex() {
+      const edu = state.education
+        .map(e => `${escapeLatex(e.year)} & ${escapeLatex(e.degree)} & ${escapeLatex(e.institute)} & ${escapeLatex(e.cgpa)} \\\\`)
+        .join("\n");
+
+      const exp = state.experience
+        .map(e => [
+          `\\textbf{${escapeLatex(e.role)} at '${escapeLatex(e.company)}'} \\hfill ${escapeLatex(normalizeDateRange(e.dates))}`,
+          "\\begin{itemize}",
+          latexList(e.bullets),
+          "\\end{itemize}",
+          e.link ? `\\textit{${latexHref(e.link) || escapeLatex(e.link)}}` : ""
+        ].filter(Boolean).join("\n"))
+        .join("\n\n");
+
+      const projects = state.projects
+        .map(p => [
+          `\\textbf{${escapeLatex(p.title)}} \\hfill ${escapeLatex(normalizeDateRange(p.dates))}`,
+          p.mentor ? `\\textit{${escapeLatex(p.mentor)}}` : "",
+          p.link ? `\\textit{${latexHref(p.link) || escapeLatex(p.link)}}` : "",
+          p.tech ? `Technology/Tools: ${escapeLatex(p.tech)}` : "",
+          "\\begin{itemize}",
+          latexList(p.bullets),
+          "\\end{itemize}",
+        ].filter(Boolean).join("\n"))
+        .join("\n\n");
+
+      const latexSections = {
+        education: [
+          "\\section*{Education}",
+          "\\begin{tabular}{|p{0.13\\textwidth}|p{0.24\\textwidth}|p{0.40\\textwidth}|p{0.20\\textwidth}|}",
+          "\\hline",
+          "Year & Degree / Certificate & Institute / Board & CGPA/Percentage \\\\ ",
+          "\\hline",
+          edu,
+          "\\hline",
+          "\\end{tabular}",
+        ].join("\n"),
+        experience: "\\section*{Experience}\n" + exp,
+        publications: "\\section*{Publications}\n\\begin{itemize}\n" + latexList(state.publications) + "\n\\end{itemize}",
+        projects: "\\section*{Projects}\n" + projects,
+        skills: "\\section*{Technical Skills}\n\\begin{itemize}\n" + state.skills.map(s => `\\item \\textbf{${escapeLatex(s.category)}}: ${escapeLatex(s.items)}`).join("\n") + "\n\\end{itemize}",
+        por: "\\section*{Positions of Responsibility}\n\\begin{itemize}\n" + latexList(state.por) + "\n\\end{itemize}",
+        achievements: "\\section*{Achievements}\n\\begin{itemize}\n" + latexList(state.achievements) + "\n\\end{itemize}",
+        keyCourses: "\\section*{Key Courses Taken}\n\\begin{itemize}\n" + latexList(state.keyCourses) + "\n\\end{itemize}",
+        extracurriculars: "\\section*{Extracurriculars}\n\\begin{itemize}\n" + latexList(state.extracurriculars) + "\n\\end{itemize}",
+      };
+
+      const orderedLatex = getSectionOrder()
+        .filter(k => sectionEnabled(k))
+        .map(k => latexSections[k])
+        .filter(Boolean)
+        .join("\n");
+
+      return [
+        "\\documentclass[a4paper,10pt]{article}",
+        "\\usepackage[margin=0.5in]{geometry}",
+        "\\usepackage[hidelinks]{hyperref}",
+        "\\begin{document}",
+        "\\begin{center}",
+        `{\\LARGE \\textbf{${escapeLatex(state.name)}}}\\\\`,
+        `\\underline{Roll Number:} ${escapeLatex(state.roll)}\\\\`,
+        `${escapeLatex(state.degree)} - ${escapeLatex(state.department)}\\\\`,
+        `${escapeLatex(state.institute)}\\\\`,
+        `${escapeLatex(state.phone)} | ${latexHref(state.linkedin) || escapeLatex(state.linkedin)} | ${latexHref(state.email) || escapeLatex(state.email)} | ${latexHref(state.github) || escapeLatex(state.github)}`,
+        "\\end{center}",
+        orderedLatex,
+        "\\end{document}"
+      ].filter(Boolean).join("\n");
+    }
+
+    document.getElementById("exportBtn").addEventListener("click", () => toggleExportMenu());
+    document.getElementById("printBtn").addEventListener("click", () => {
+      toggleExportMenu(false);
+      window.print();
+    });
+    document.getElementById("exportPdfBtn").addEventListener("click", async () => {
+      toggleExportMenu(false);
+      try {
+        await exportPdf();
+      } catch (_) {
+        showRecoveryToast("PDF export failed. Try Print instead.");
+      }
+    });
+    document.getElementById("exportDocBtn").addEventListener("click", () => {
+      toggleExportMenu(false);
+      exportDoc();
+    });
+
+    document.getElementById("copyLatexBtn").addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(generateLatex());
+        alert("LaTeX copied to clipboard.");
+      } catch (_) {
+        alert("Clipboard blocked. Copy manually by running from a trusted page context.");
+      }
+    });
+
+    document.getElementById("settingsBtn").addEventListener("click", toggleSettings);
+    document.getElementById("settingsBackdrop").addEventListener("click", closeSettings);
+    document.getElementById("howToUseBtn").addEventListener("click", openHelp);
+    document.getElementById("closeHelpBtn").addEventListener("click", closeHelp);
+    document.getElementById("helpBackdrop").addEventListener("click", closeHelp);
+    document.addEventListener("click", (e) => {
+      const wrap = document.querySelector(".export-wrap");
+      if (!wrap || wrap.contains(e.target)) return;
+      toggleExportMenu(false);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeSettings();
+        closeHelp();
+        toggleExportMenu(false);
+      }
+
+      const mod = e.ctrlKey || e.metaKey;
+      if (!mod) return;
+
+      const key = (e.key || "").toLowerCase();
+      if (key === "s" && !e.shiftKey) {
+        e.preventDefault();
+        save();
+        showRecoveryToast("Saved to local cache.");
+      }
+      if (key === "s" && e.shiftKey) {
+        e.preventDefault();
+        exportBackupJson();
+        showRecoveryToast("Backup JSON downloaded.");
+      }
+      if (key === "p") {
+        e.preventDefault();
+        window.print();
+      }
+    });
+
+    window.addEventListener("beforeunload", () => save());
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "hidden") save();
+    });
+
+    load();
+    renderForm();
+    wireArrayEvents();
+    renderDiagnostics();
+    renderPreview();
+  </script>
+</body>
+</html>

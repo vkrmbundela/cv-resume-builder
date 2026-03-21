@@ -3,9 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Resume Builder</title>
+  <title>IITH Student Resume Builder — Free CV Generator for IIT Hyderabad</title>
+  <meta name="description" content="Free, open-source resume builder for IIT Hyderabad students. Create professional CVs in the official IITH format with live preview, PDF export, and LaTeX generation. No sign-up required.">
+  <meta name="keywords" content="IIT Hyderabad, resume builder, CV generator, IITH, student resume, LaTeX resume, PDF resume, campus placement">
+  <meta name="author" content="Vikramaditya Shah Bundela">
+  <meta property="og:title" content="IITH Student Resume Builder">
+  <meta property="og:description" content="Create professional resumes in the official IIT Hyderabad format. Free, open-source, no sign-up.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="IITH Student Resume Builder">
+  <meta name="twitter:description" content="Create professional resumes in the official IIT Hyderabad format. Free, open-source, no sign-up.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📄</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap');
     :root {
       --bg: #d9d9d9;
       --panel: #ffffff;
@@ -526,6 +538,8 @@
       line-height: 1;
       color: #3d3d3d;
       font-weight: 600;
+      break-after: avoid;
+      page-break-after: avoid;
     }
     .edu-table {
       width: 100%;
@@ -550,12 +564,16 @@
     }
     .entry-list > li {
       margin-bottom: 6px;
+      break-inside: avoid;
+      page-break-inside: avoid;
     }
     .entry-head {
       display: flex;
       justify-content: space-between;
       gap: 12px;
       align-items: baseline;
+      break-after: avoid;
+      page-break-after: avoid;
     }
     .entry-head strong {
       font-size: 14px;
@@ -571,6 +589,8 @@
       color: #3f3f3f;
       text-decoration: underline;
       text-underline-offset: 2px;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
     body.ats-safe .resume {
       font-family: 'Times New Roman', serif !important;
@@ -602,6 +622,8 @@
     .skills-list li,
     .simple-list li {
       margin-bottom: 4px;
+      break-inside: avoid;
+      page-break-inside: avoid;
     }
     .courses-grid {
       display: grid;
@@ -609,6 +631,10 @@
       gap: 14px;
     }
     @media print {
+      @page {
+        size: A4 portrait;
+        margin: 10mm;
+      }
       body { background: #fff; }
       .topbar, .left { display: none !important; }
       .page-credit { display: none !important; }
@@ -619,6 +645,15 @@
         overflow: visible;
         border: none;
         border-radius: 0;
+      }
+      .cv-header,
+      .edu-table,
+      .entry-list > li {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      .right-meta {
+        white-space: normal;
       }
       .resume a .link-full-screen,
       .resume a .link-short-screen {
@@ -636,6 +671,27 @@
         margin-top: 8px;
         padding-top: 5px;
       }
+    }
+    .export-staging {
+      position: fixed;
+      left: -200vw;
+      top: 0;
+      width: 210mm;
+      padding: 10mm;
+      background: #fff;
+      pointer-events: none;
+      z-index: -1;
+    }
+    .resume-export {
+      width: 190mm !important;
+      min-height: 0;
+      height: auto !important;
+      max-height: none !important;
+      overflow: visible !important;
+      border: none !important;
+      border-radius: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
     }
     @media (max-width: 1180px) {
       .layout { grid-template-columns: 1fr; }
@@ -675,11 +731,11 @@
       <button id="howToUseBtn">How To Use</button>
       <button id="copyLatexBtn">Copy LaTeX</button>
       <div class="export-wrap">
-        <button class="primary" id="exportBtn">Download / Print PDF</button>
-        <div id="exportMenu" class="export-menu" aria-hidden="true">
-          <button type="button" class="export-item" id="exportPdfBtn">Export PDF</button>
-          <button type="button" class="export-item" id="printBtn">Print</button>
-          <button type="button" class="export-item" id="exportDocBtn">Export DOC</button>
+        <button class="primary" id="exportBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="exportMenu">Download / Print PDF</button>
+        <div id="exportMenu" class="export-menu" role="menu" aria-hidden="true">
+          <button type="button" class="export-item" role="menuitem" id="exportPdfBtn">Export PDF</button>
+          <button type="button" class="export-item" role="menuitem" id="printBtn">Print</button>
+          <button type="button" class="export-item" role="menuitem" id="exportDocBtn">Export DOC</button>
         </div>
       </div>
       <button id="settingsBtn" class="settings-btn" title="Settings" aria-label="Open Settings">
@@ -692,7 +748,7 @@
   </div>
 
   <div id="helpBackdrop" class="help-backdrop"></div>
-  <div id="helpModal" class="help-modal" aria-hidden="true">
+  <div id="helpModal" class="help-modal" role="dialog" aria-modal="true" aria-label="How To Use" aria-hidden="true">
     <div class="help-head">
       <span>How To Use</span>
       <button id="closeHelpBtn" type="button">Close</button>
@@ -757,7 +813,7 @@
       </li>
       <li>
         <strong>Keyboard shortcuts</strong>: Ctrl/Cmd + S saves to local cache, Ctrl/Cmd + Shift + S downloads backup JSON,
-        Ctrl/Cmd + P opens print, Esc closes open panels.
+        Ctrl/Cmd + P opens print, Ctrl/Cmd + Shift + P runs Export PDF, Esc closes open panels.
       </li>
       <li>
         <strong>Troubleshooting quick checks</strong>: if something looks off, refresh once,
@@ -767,7 +823,7 @@
   </div>
 
   <div id="settingsBackdrop" class="settings-backdrop"></div>
-  <aside id="settingsDrawer" class="settings-drawer" aria-hidden="true"></aside>
+  <div id="settingsDrawer" class="settings-drawer" role="dialog" aria-modal="true" aria-label="Settings" aria-hidden="true"></div>
 
   <div class="layout">
     <div class="panel left" id="formPanel"></div>
@@ -777,7 +833,7 @@
   </div>
   <div id="recoveryToast" class="recovery-toast" aria-live="polite"></div>
   <div class="page-credit">&copy; 2026 Vikramaditya Shah Bundela. <a href="terms.html" target="_blank" rel="noopener">Terms and Conditions</a> | <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a></div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js';"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
   <script>
     const state = {
       name: "",
@@ -803,6 +859,10 @@
       fontFamily: "'Times New Roman', serif",
       logoSize: "58",
       rolePreset: "software",
+      templatePack: "standard",
+      exportPreset: "balanced",
+      jobDescription: "",
+      privacyMode: false,
       strictLinks: true,
       atsMode: false,
       printCalibrated: true,
@@ -836,10 +896,38 @@
     const META_KEY = "iith_resume_meta_v2";
     const LEGACY_KEY = "iith_resume_data";
     const VARIANTS_KEY = "iith_resume_variants";
+    const HISTORY_KEY = "iith_resume_history_v1";
     const LEGAL_NOTICE_SESSION_KEY = "resume_legal_notice_ack_v1";
     const DEFAULT_LOGO_DATA_URI = `data:image/svg+xml;utf8,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><rect width="120" height="120" rx="18" fill="#f6ede6"/><path d="M20 35h80" stroke="#cc6a3f" stroke-width="6"/><path d="M20 85h80" stroke="#cc6a3f" stroke-width="6"/><text x="60" y="71" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#6b3a23">CV</text></svg>')}`;
     let lastSavedAt = "";
     let recoveredFromCache = false;
+    let lastHistorySnapshotMs = 0;
+
+    function debounce(fn, ms) {
+      let timer;
+      return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn(...args), ms);
+      };
+    }
+
+    const debouncedRenderPreview = debounce(() => {
+      renderDiagnostics();
+      renderPreview();
+    }, 150);
+
+    const STATE_ALLOWED_KEYS = new Set(Object.keys(state));
+
+    function sanitizeImportedState(raw) {
+      if (!raw || typeof raw !== "object" || Array.isArray(raw)) return {};
+      const clean = {};
+      for (const key of Object.keys(raw)) {
+        if (STATE_ALLOWED_KEYS.has(key)) {
+          clean[key] = raw[key];
+        }
+      }
+      return clean;
+    }
 
     function formatSavedTime(iso) {
       if (!iso) return "";
@@ -901,13 +989,45 @@
       }
     }
 
+    let _lastFocusedElement = null;
+
+    function trapFocus(container) {
+      const focusable = container.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      first.focus();
+      container._trapHandler = (e) => {
+        if (e.key !== "Tab") return;
+        if (e.shiftKey) {
+          if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+        } else {
+          if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+      };
+      container.addEventListener("keydown", container._trapHandler);
+    }
+
+    function releaseFocus(container) {
+      if (container._trapHandler) {
+        container.removeEventListener("keydown", container._trapHandler);
+        container._trapHandler = null;
+      }
+      if (_lastFocusedElement && _lastFocusedElement.focus) {
+        _lastFocusedElement.focus();
+        _lastFocusedElement = null;
+      }
+    }
+
     function openSettings() {
       const backdrop = document.getElementById("settingsBackdrop");
       const drawer = document.getElementById("settingsDrawer");
       if (!backdrop || !drawer) return;
+      _lastFocusedElement = document.activeElement;
       backdrop.classList.add("open");
       drawer.classList.add("open");
       drawer.setAttribute("aria-hidden", "false");
+      trapFocus(drawer);
     }
 
     function closeSettings() {
@@ -917,6 +1037,7 @@
       backdrop.classList.remove("open");
       drawer.classList.remove("open");
       drawer.setAttribute("aria-hidden", "true");
+      releaseFocus(drawer);
     }
 
     function toggleSettings() {
@@ -933,9 +1054,11 @@
       const backdrop = document.getElementById("helpBackdrop");
       const modal = document.getElementById("helpModal");
       if (!backdrop || !modal) return;
+      _lastFocusedElement = document.activeElement;
       backdrop.classList.add("open");
       modal.classList.add("open");
       modal.setAttribute("aria-hidden", "false");
+      trapFocus(modal);
     }
 
     function closeHelp() {
@@ -945,6 +1068,7 @@
       backdrop.classList.remove("open");
       modal.classList.remove("open");
       modal.setAttribute("aria-hidden", "true");
+      releaseFocus(modal);
     }
 
     function save() {
@@ -952,6 +1076,7 @@
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
         lastSavedAt = new Date().toISOString();
         localStorage.setItem(META_KEY, JSON.stringify({ savedAt: lastSavedAt, version: 2 }));
+        maybeAutoRestorePoint();
       } catch (_) {
         // Ignore storage quota/privacy mode failures.
       }
@@ -962,7 +1087,7 @@
       const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_KEY);
       if (!raw) return;
       try {
-        Object.assign(state, JSON.parse(raw));
+        Object.assign(state, sanitizeImportedState(JSON.parse(raw)));
         recoveredFromCache = true;
         if (!localStorage.getItem(STORAGE_KEY)) {
           localStorage.setItem(STORAGE_KEY, raw);
@@ -988,6 +1113,10 @@
           };
         }
         state.rolePreset = state.rolePreset || "software";
+        state.templatePack = state.templatePack || "standard";
+        state.exportPreset = state.exportPreset || "balanced";
+        state.jobDescription = typeof state.jobDescription === "string" ? state.jobDescription : "";
+        state.privacyMode = Boolean(state.privacyMode);
         state.strictLinks = state.strictLinks !== false;
         state.sectionOrder = sanitizeSectionOrder(state.sectionOrder || defaultSectionOrderForPreset(state.rolePreset));
         state.logoSize = String(normalizeLogoSize(state.logoSize || "58"));
@@ -1007,6 +1136,11 @@
             extracurriculars: "normal",
           };
         }
+        const existingHistory = loadHistory();
+        if (existingHistory.length && existingHistory[0].savedAt) {
+          const t = Date.parse(existingHistory[0].savedAt);
+          if (Number.isFinite(t)) lastHistorySnapshotMs = t;
+        }
       } catch (_) {}
     }
 
@@ -1025,6 +1159,32 @@
       }
     }
 
+    function isFlexibleDateToken(value) {
+      const token = (value || "").trim();
+      if (!token) return false;
+      if (/^present$/i.test(token)) return true;
+      if (/^\d{4}$/i.test(token)) return true;
+      if (/^(?:[A-Za-z]{3,9})\s+\d{4}$/i.test(token)) return true;
+
+      const m = token.match(/^(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{4})$/);
+      if (!m) return false;
+      const day = Number(m[1]);
+      const month = Number(m[2]);
+      const year = Number(m[3]);
+      if (year < 1900 || year > 2100) return false;
+      if (month < 1 || month > 12) return false;
+      if (day < 1 || day > 31) return false;
+      return true;
+    }
+
+    function isFlexibleDateRange(value) {
+      const raw = (value || "").trim();
+      if (!raw) return false;
+      const parts = raw.split(/\s*[-–]\s+|\s+[-–]\s*/).filter(Boolean);
+      if (parts.length !== 2) return false;
+      return isFlexibleDateToken(parts[0]) && isFlexibleDateToken(parts[1]);
+    }
+
     function validateField(field, value) {
       const v = (value || "").trim();
       if (!v) return "";
@@ -1038,8 +1198,8 @@
         return isValidNormalizedUrl(normalized) ? "" : "Enter a valid URL (for example: https://example.com)";
       }
       if (field === "dates") {
-        const ok = /^(?:[A-Za-z]{3,9}\s+\d{4}|\d{4}|Present)(?:\s*-\s*(?:[A-Za-z]{3,9}\s+\d{4}|\d{4}|Present))?$/i.test(v);
-        return ok ? "" : "Use date format like Jan 2024 - Mar 2025";
+        const ok = isFlexibleDateRange(v);
+        return ok ? "" : "Use Start - End format, e.g. Jan 2024 - Mar 2025 or 06/10/2025 - 21/01/2026";
       }
       if (field === "year") {
         const ok = /^(?:\d{4}|\d{4}\s*-\s*(?:\d{4}|Present))$/i.test(v);
@@ -1086,7 +1246,7 @@
         try {
           const parsed = JSON.parse(String(reader.result || "{}"));
           const importedState = parsed.state || parsed;
-          Object.assign(state, importedState);
+          Object.assign(state, sanitizeImportedState(importedState));
           if (parsed.variants && typeof parsed.variants === "object") {
             variantsSave(parsed.variants);
           }
@@ -1122,54 +1282,290 @@
       setTimeout(() => location.reload(), 350);
     }
 
-    async function exportPdf() {
-      const preview = document.getElementById("resumePreview");
-      if (!preview) return;
-      if (typeof window.html2pdf !== "function") {
-        showRecoveryToast("PDF library unavailable. Falling back to print dialog.");
-        window.print();
-        return;
+    async function waitForFontsReady() {
+      if (document.fonts && document.fonts.ready) {
+        try {
+          await document.fonts.ready;
+        } catch (_) {}
       }
-      const filenameBase = (state.name || "resume").trim().replace(/\s+/g, "_") || "resume";
-      const opts = {
-        margin: 8,
-        filename: `${filenameBase}.pdf`,
-        image: { type: "jpeg", quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
-        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-        pagebreak: { mode: ["css", "legacy"] },
-      };
-      await window.html2pdf().set(opts).from(preview).save();
     }
 
-    function exportDoc() {
+    function withA4ExportClone() {
       const preview = document.getElementById("resumePreview");
-      if (!preview) return;
-      const styles = Array.from(document.querySelectorAll("style")).map(s => s.textContent).join("\n");
-      const html = `<!doctype html><html><head><meta charset="utf-8"><title>Resume</title><style>${styles}</style></head><body><div class="resume">${preview.innerHTML}</div></body></html>`;
-      const blob = new Blob([html], { type: "application/msword;charset=utf-8" });
+      if (!preview) return null;
+      const host = document.createElement("div");
+      host.className = "export-staging";
+      const clone = preview.cloneNode(true);
+      clone.removeAttribute("id");
+      clone.classList.add("resume-export");
+      host.appendChild(clone);
+      document.body.appendChild(host);
+      return {
+        node: clone,
+        cleanup: () => {
+          if (host.parentNode) host.parentNode.removeChild(host);
+        },
+      };
+    }
+
+    async function exportPdf() {
+      showExportGuidance("pdf");
+      await waitForFontsReady();
+      window.print();
+    }
+
+    function mmToTwip(mm) {
+      return Math.round(mm * 56.6929133858);
+    }
+
+    function bulletParagraphs(value) {
+      const { Paragraph } = window.docx;
+      return linesToArray(value).map(line => new Paragraph({
+        text: line,
+        bullet: { level: 0 },
+        keepLines: true,
+        spacing: { after: 80 },
+      }));
+    }
+
+    function docxHyperlink(label, value) {
+      const { ExternalHyperlink, TextRun } = window.docx;
+      const raw = (value || "").trim();
+      if (!raw) return null;
+      const normalized = normalizeUrl(raw);
+      if (!isValidNormalizedUrl(normalized)) {
+        return new TextRun({ text: label || raw });
+      }
+      return new ExternalHyperlink({
+        link: normalized,
+        children: [new TextRun({ text: label || raw, color: "1F4E79", underline: {} })],
+      });
+    }
+
+    function buildDocxChildren() {
+      const { Paragraph, TextRun, AlignmentType, HeadingLevel, Table, TableRow, TableCell, WidthType } = window.docx;
+      const children = [];
+      const generatedAt = new Date().toLocaleString();
+
+      children.push(new Paragraph({
+        alignment: AlignmentType.CENTER,
+        children: [new TextRun({ text: state.name || "Student Name", bold: true, size: 34 })],
+        keepNext: true,
+        spacing: { after: 120 },
+      }));
+      children.push(new Paragraph({ alignment: AlignmentType.CENTER, text: `Roll Number: ${state.roll || ""}` }));
+      children.push(new Paragraph({ alignment: AlignmentType.CENTER, text: `${state.degree || ""} - ${state.department || ""}` }));
+      children.push(new Paragraph({ alignment: AlignmentType.CENTER, text: state.institute || "" }));
+
+      const contactParts = [];
+      if (state.phone) contactParts.push(new TextRun({ text: state.phone }));
+      const linkedinLink = docxHyperlink("LinkedIn", state.linkedin);
+      const emailLink = docxHyperlink("Email", state.email);
+      const githubLink = docxHyperlink("GitHub", state.github);
+      if (linkedinLink) {
+        if (contactParts.length) contactParts.push(new TextRun({ text: " | " }));
+        contactParts.push(linkedinLink);
+      }
+      if (emailLink) {
+        if (contactParts.length) contactParts.push(new TextRun({ text: " | " }));
+        contactParts.push(emailLink);
+      }
+      if (githubLink) {
+        if (contactParts.length) contactParts.push(new TextRun({ text: " | " }));
+        contactParts.push(githubLink);
+      }
+      children.push(new Paragraph({
+        alignment: AlignmentType.CENTER,
+        children: contactParts.length ? contactParts : [new TextRun({ text: "" })],
+        spacing: { after: 220 },
+      }));
+
+      const heading = (text) => new Paragraph({
+        text,
+        heading: HeadingLevel.HEADING_2,
+        thematicBreak: true,
+        keepNext: true,
+        spacing: { before: 180, after: 80 },
+      });
+
+      const sectionChildren = {
+        education: (() => {
+          const rows = [];
+          rows.push(heading("Education"));
+          const tableRows = [
+            new TableRow({
+              tableHeader: true,
+              children: [
+                new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Year", bold: true })] })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Degree / Certificate", bold: true })] })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Institute / Board", bold: true })] })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "CGPA/Percentage", bold: true })] })] }),
+              ],
+            }),
+            ...state.education.map(e => new TableRow({
+              children: [
+                new TableCell({ children: [new Paragraph(e.year || "")] }),
+                new TableCell({ children: [new Paragraph(e.degree || "")] }),
+                new TableCell({ children: [new Paragraph(e.institute || "")] }),
+                new TableCell({ children: [new Paragraph(e.cgpa || "")] }),
+              ],
+            })),
+          ];
+          rows.push(new Table({
+            width: { size: 100, type: WidthType.PERCENTAGE },
+            rows: tableRows,
+          }));
+          return rows;
+        })(),
+        experience: (() => {
+          const rows = [];
+          rows.push(heading("Experience"));
+          state.experience.forEach(e => {
+            rows.push(new Paragraph({
+              children: [new TextRun({ text: `${e.role || ""} at '${e.company || ""}'`, bold: true })],
+              keepNext: true,
+              spacing: { after: 30 },
+            }));
+            rows.push(new Paragraph({ text: normalizeDateRange(e.dates), italics: true, spacing: { after: 40 } }));
+            rows.push(...bulletParagraphs(e.bullets));
+            const expLink = docxHyperlink("Project/Role Link", e.link);
+            if (expLink) rows.push(new Paragraph({ children: [expLink], italics: true, spacing: { after: 80 } }));
+          });
+          return rows;
+        })(),
+        publications: [heading("Publications"), ...bulletParagraphs(state.publications)],
+        projects: (() => {
+          const rows = [];
+          rows.push(heading("Projects"));
+          state.projects.forEach(p => {
+            rows.push(new Paragraph({
+              children: [new TextRun({ text: p.title || "", bold: true })],
+              keepNext: true,
+              spacing: { after: 30 },
+            }));
+            rows.push(new Paragraph({ text: normalizeDateRange(p.dates), italics: true, spacing: { after: 30 } }));
+            if (p.mentor) rows.push(new Paragraph({ text: p.mentor, italics: true, spacing: { after: 30 } }));
+            const projLink = docxHyperlink("Project Link", p.link);
+            if (projLink) rows.push(new Paragraph({ children: [projLink], italics: true, spacing: { after: 30 } }));
+            if (p.tech) rows.push(new Paragraph({ text: `Technology/Tools: ${p.tech}`, spacing: { after: 40 } }));
+            rows.push(...bulletParagraphs(p.bullets));
+          });
+          return rows;
+        })(),
+        skills: (() => {
+          const rows = [heading("Technical Skills")];
+          state.skills.forEach(s => {
+            rows.push(new Paragraph({
+              children: [new TextRun({ text: `${s.category || ""}: `, bold: true }), new TextRun({ text: s.items || "" })],
+              spacing: { after: 70 },
+            }));
+          });
+          return rows;
+        })(),
+        por: [heading("Positions of Responsibility"), ...bulletParagraphs(state.por)],
+        achievements: [heading("Achievements"), ...bulletParagraphs(state.achievements)],
+        keyCourses: [heading("Key Courses Taken"), ...bulletParagraphs(state.keyCourses)],
+        extracurriculars: [heading("Extracurriculars"), ...bulletParagraphs(state.extracurriculars)],
+      };
+
+      getSectionOrder().forEach((key) => {
+        if (!sectionEnabled(key)) return;
+        (sectionChildren[key] || []).forEach(p => children.push(p));
+      });
+
+      children.push(new Paragraph({
+        alignment: AlignmentType.RIGHT,
+        spacing: { before: 220 },
+        children: [new TextRun({ text: `Generated on ${generatedAt}`, italics: true, size: 18, color: "666666" })],
+      }));
+
+      return children;
+    }
+
+    async function exportDoc() {
+      showExportGuidance("docx");
+      await waitForFontsReady();
+      if (!window.docx || !window.docx.Document || !window.docx.Packer) {
+        const staged = withA4ExportClone();
+        if (!staged) return;
+        try {
+          const styles = Array.from(document.querySelectorAll("style")).map(s => s.textContent).join("\n");
+          const html = `<!doctype html><html><head><meta charset="utf-8"><title>Resume</title><style>@page{size:A4 portrait;margin:10mm;}${styles}</style></head><body><div class="resume">${staged.node.innerHTML}</div></body></html>`;
+          const blob = new Blob([html], { type: "application/msword;charset=utf-8" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          const filenameBase = sanitizeFilename(state.name || "resume");
+          a.href = url;
+          a.download = `${filenameBase}.doc`;
+          a.click();
+          URL.revokeObjectURL(url);
+          showRecoveryToast("DOCX library unavailable. Exported compatibility DOC file instead.");
+        } finally {
+          staged.cleanup();
+        }
+        return;
+      }
+
+      const { Document, Packer } = window.docx;
+      const file = new Document({
+        styles: {
+          default: {
+            document: {
+              run: {
+                font: "Times New Roman",
+                size: 24,
+              },
+            },
+          },
+        },
+        sections: [{
+          properties: {
+            page: {
+              size: {
+                width: mmToTwip(210),
+                height: mmToTwip(297),
+              },
+              margin: {
+                top: mmToTwip(10),
+                right: mmToTwip(10),
+                bottom: mmToTwip(10),
+                left: mmToTwip(10),
+              },
+            },
+          },
+          children: buildDocxChildren(),
+        }],
+      });
+
+      const blob = await Packer.toBlob(file);
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
-      const filenameBase = (state.name || "resume").trim().replace(/\s+/g, "_") || "resume";
+      const filenameBase = sanitizeFilename(state.name || "resume");
       a.href = url;
-      a.download = `${filenameBase}.doc`;
+      a.download = `${filenameBase}.docx`;
       a.click();
       URL.revokeObjectURL(url);
     }
 
     function toggleExportMenu(force) {
       const menu = document.getElementById("exportMenu");
+      const trigger = document.getElementById("exportBtn");
       if (!menu) return;
+      const wasOpen = menu.classList.contains("open");
       const next = typeof force === "boolean" ? force : !menu.classList.contains("open");
       menu.classList.toggle("open", next);
       menu.setAttribute("aria-hidden", next ? "false" : "true");
+      if (trigger) trigger.setAttribute("aria-expanded", next ? "true" : "false");
+      if (!next && wasOpen && trigger) trigger.focus();
     }
 
     function escapeHtml(v) {
       return (v || "")
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;");
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
     }
 
     function getResumeLogoSrc() {
@@ -1241,6 +1637,20 @@
         .filter(Boolean);
     }
 
+    function normalizeBulletValue(value) {
+      return (value || "")
+        .split("\n")
+        .map(v => v.replace(/^\s*(?:[-*•●▪◦]|\d+[.)])\s*/g, "").trim())
+        .filter(Boolean)
+        .join("\n");
+    }
+
+    function formatBulletsForTextarea(value) {
+      const items = linesToArray(value);
+      if (!items.length) return "";
+      return items.map(v => `• ${v}`).join("\n");
+    }
+
     function normalizeUrl(value) {
       const raw = (value || "").trim();
       if (!raw) return "";
@@ -1269,7 +1679,7 @@
     function normalizeDateRange(value) {
       const raw = (value || "").trim();
       if (!raw) return "";
-      const parts = raw.split("-").map(v => v.trim()).filter(Boolean);
+      const parts = raw.split(/\s*[-–]\s+|\s+[-–]\s*/).filter(Boolean);
       if (!parts.length) return raw;
       const fix = (chunk) => chunk
         .replace(/\bsept\b/ig, "Sep")
@@ -1277,6 +1687,7 @@
         .replace(/\bfeb(ruary)?\b/ig, "Feb")
         .replace(/\bmar(ch)?\b/ig, "Mar")
         .replace(/\bapr(il)?\b/ig, "Apr")
+        .replace(/\bmay\b/ig, "May")
         .replace(/\bjun(e)?\b/ig, "Jun")
         .replace(/\bjul(y)?\b/ig, "Jul")
         .replace(/\baug(ust)?\b/ig, "Aug")
@@ -1367,7 +1778,11 @@
     }
 
     function variantsSave(allVariants) {
-      localStorage.setItem(VARIANTS_KEY, JSON.stringify(allVariants));
+      try {
+        localStorage.setItem(VARIANTS_KEY, JSON.stringify(allVariants));
+      } catch (_) {
+        showRecoveryToast("Could not save variant — storage quota may be full.");
+      }
     }
 
     function rolePresetGuideCard(preset) {
@@ -1401,6 +1816,380 @@
         design: ["education", "projects", "experience", "skills", "achievements", "por", "publications", "keyCourses", "extracurriculars"],
       };
       return [...(orders[preset] || orders.software)];
+    }
+
+    function applyExportPreset(preset) {
+      if (preset === "compact") {
+        state.lineHeight = "1.28";
+        Object.keys(state.sectionDensity || {}).forEach(k => {
+          state.sectionDensity[k] = "compact";
+        });
+        return;
+      }
+      if (preset === "academic") {
+        state.lineHeight = "1.38";
+        Object.keys(state.sectionDensity || {}).forEach(k => {
+          state.sectionDensity[k] = "normal";
+        });
+        state.sectionDensity.publications = "compact";
+        state.sectionDensity.projects = "normal";
+        return;
+      }
+      state.lineHeight = "1.35";
+      Object.keys(state.sectionDensity || {}).forEach(k => {
+        state.sectionDensity[k] = "normal";
+      });
+    }
+
+    function exportPresetGuideCard(preset) {
+      const map = {
+        balanced: "Balanced: default spacing for readability and stable A4 pagination.",
+        compact: "Compact: tighter spacing for one-page placement targets.",
+        academic: "Academic: slightly roomier spacing with publication-friendly rhythm.",
+      };
+      return `<div class="preset-guide"><div class="preset-guide-title">Export Preset</div><div class="preset-guide-text">${map[preset] || map.balanced}</div></div>`;
+    }
+
+    function sanitizeFilename(base) {
+      return (base || "resume")
+        .trim()
+        .replace(/[\\/:*?"<>|]+/g, "-")
+        .replace(/\s+/g, "_")
+        .replace(/_+/g, "_")
+        .replace(/^_+|_+$/g, "") || "resume";
+    }
+
+    function validateLinkField(value) {
+      const raw = (value || "").trim();
+      if (!raw) return true;
+      return isValidNormalizedUrl(normalizeUrl(raw));
+    }
+
+    function showExportGuidance(kind) {
+      const audit = buildExportAudit();
+      const key = `export_help_seen_${kind}`;
+      let seen = false;
+      try {
+        seen = sessionStorage.getItem(key) === "1";
+      } catch (_) {}
+      if (!seen) {
+        showRecoveryToast(`${kind.toUpperCase()} tip: Save as PDF, A4, default margins, background graphics OFF.`);
+        try {
+          sessionStorage.setItem(key, "1");
+        } catch (_) {}
+      }
+      alert(`${exportDiagnosticsReport()}\n\nReminder only: You can still continue export.`);
+    }
+
+    function loadHistory() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (_) {
+        return [];
+      }
+    }
+
+    function saveHistory(list) {
+      try {
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(list.slice(0, 25)));
+      } catch (_) {
+        showRecoveryToast("Could not update restore points — storage may be full.");
+      }
+    }
+
+    function createRestorePoint(label = "Manual") {
+      const now = Date.now();
+      const entry = {
+        id: `snap_${now}`,
+        label,
+        savedAt: new Date(now).toISOString(),
+        state: JSON.parse(JSON.stringify(state)),
+      };
+      const list = loadHistory();
+      list.unshift(entry);
+      saveHistory(list);
+      lastHistorySnapshotMs = now;
+      return entry;
+    }
+
+    function maybeAutoRestorePoint() {
+      const now = Date.now();
+      if (now - lastHistorySnapshotMs < 5 * 60 * 1000) return;
+      createRestorePoint("Auto");
+    }
+
+    function resumeTextCorpus() {
+      return [
+        state.name,
+        state.degree,
+        state.department,
+        state.institute,
+        ...state.skills.map(s => `${s.category} ${s.items}`),
+        ...state.experience.flatMap(e => [e.company, e.role, e.bullets]),
+        ...state.projects.flatMap(p => [p.title, p.tech, p.bullets]),
+        state.achievements,
+        state.por,
+        state.publications,
+        state.keyCourses,
+        state.extracurriculars,
+      ].join(" ").toLowerCase();
+    }
+
+    function tokenizeKeywords(text) {
+      const stop = new Set(["the", "and", "for", "with", "from", "that", "this", "your", "you", "have", "are", "our", "will", "not", "but", "all", "can", "using", "use", "into", "over", "under", "job", "role", "work", "team", "years", "year", "experience", "required", "preferred", "good", "strong", "skills"]);
+      return (text || "")
+        .toLowerCase()
+        .replace(/[^a-z0-9+.#\s-]/g, " ")
+        .split(/\s+/)
+        .filter(t => t.length >= 3 && !stop.has(t));
+    }
+
+    function atsKeywordReport() {
+      const tokens = tokenizeKeywords(state.jobDescription);
+      const freq = new Map();
+      tokens.forEach(t => freq.set(t, (freq.get(t) || 0) + 1));
+      const top = [...freq.entries()]
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 25)
+        .map(([k]) => k);
+      if (!top.length) return { total: 0, matched: 0, missing: [], score: 0 };
+      const corpus = resumeTextCorpus();
+      const matched = top.filter(k => corpus.includes(k));
+      const missing = top.filter(k => !corpus.includes(k));
+      const score = Math.round((matched.length / top.length) * 100);
+      return { total: top.length, matched: matched.length, missing: missing.slice(0, 8), score };
+    }
+
+    function sectionBudgetStats() {
+      const stat = (text) => {
+        const lines = linesToArray(text);
+        return { lines: lines.length, chars: lines.join(" ").length };
+      };
+      return {
+        experience: stat(state.experience.map(e => e.bullets).join("\n")),
+        projects: stat(state.projects.map(p => p.bullets).join("\n")),
+        achievements: stat(state.achievements),
+        publications: stat(state.publications),
+        keyCourses: stat(state.keyCourses),
+      };
+    }
+
+    function normalizedLine(line) {
+      return (line || "").toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+    }
+
+    function redundancyReport() {
+      const allLines = [
+        ...state.experience.flatMap(e => linesToArray(e.bullets)),
+        ...state.projects.flatMap(p => linesToArray(p.bullets)),
+        ...linesToArray(state.achievements),
+      ];
+      const seen = new Map();
+      const dupes = [];
+      allLines.forEach(raw => {
+        const key = normalizedLine(raw);
+        if (!key) return;
+        const count = (seen.get(key) || 0) + 1;
+        seen.set(key, count);
+        if (count === 2) dupes.push(raw);
+      });
+      return { total: allLines.length, duplicateCount: dupes.length, examples: dupes.slice(0, 3) };
+    }
+
+    function consistencyReport() {
+      const bullets = [
+        ...state.experience.flatMap(e => linesToArray(e.bullets)),
+        ...state.projects.flatMap(p => linesToArray(p.bullets)),
+        ...linesToArray(state.achievements),
+      ];
+      const punctuation = bullets.filter(b => /[.!?]$/.test(b)).length;
+      const noPunctuation = bullets.length - punctuation;
+      const dateMix = [
+        ...state.experience.map(e => (e.dates || "").trim()),
+        ...state.projects.map(p => (p.dates || "").trim()),
+      ].filter(Boolean);
+      const formats = { monthYear: 0, yearOnly: 0, other: 0 };
+      dateMix.forEach(d => {
+        if (/^[A-Za-z]{3,9}\s+\d{4}(\s*-\s*[A-Za-z]{3,9}\s+\d{4}|\s*-\s*Present)?$/i.test(d)) formats.monthYear += 1;
+        else if (/^\d{4}(\s*-\s*(\d{4}|Present))?$/i.test(d)) formats.yearOnly += 1;
+        else formats.other += 1;
+      });
+      return {
+        mixedBulletPunctuation: punctuation > 0 && noPunctuation > 0,
+        irregularDateFormats: formats.other > 0,
+        mixedDateStyles: formats.monthYear > 0 && formats.yearOnly > 0,
+        dateIssues: formats,
+      };
+    }
+
+    function buildExportAudit() {
+      const budget = pageBudgetMessage();
+      const lint = bulletLintIssues();
+      const redundancy = redundancyReport();
+      const consistency = consistencyReport();
+      const ats = atsKeywordReport();
+      const completeness = completenessReport();
+
+      const checks = [];
+      checks.push({
+        level: budget.className === "diag-warn" ? "warn" : "pass",
+        label: "Page Budget",
+        detail: budget.text,
+      });
+
+      checks.push({
+        level: completeness.percent >= 80 ? "pass" : "warn",
+        label: "Profile Completeness",
+        detail: `${completeness.percent}% (${completeness.done}/${completeness.total})`,
+      });
+
+      if (lint.total === 0) {
+        checks.push({ level: "warn", label: "Bullet Quality", detail: "No bullets added yet." });
+      } else {
+        const weakRatio = (lint.weak + lint.metricFree) / Math.max(1, lint.total * 2);
+        checks.push({
+          level: weakRatio > 0.6 ? "warn" : "pass",
+          label: "Bullet Quality",
+          detail: `${lint.weak} weak starts, ${lint.metricFree} metric-free out of ${lint.total}`,
+        });
+      }
+
+      checks.push({
+        level: redundancy.duplicateCount > 0 ? "warn" : "pass",
+        label: "Redundancy",
+        detail: `${redundancy.duplicateCount} duplicate bullet(s)`,
+      });
+
+      checks.push({
+        level: consistency.irregularDateFormats ? "block" : (consistency.mixedDateStyles || consistency.mixedBulletPunctuation ? "warn" : "pass"),
+        label: "Consistency",
+        detail: `bullet punctuation mixed=${consistency.mixedBulletPunctuation ? "yes" : "no"}, mixed date styles=${consistency.mixedDateStyles ? "yes" : "no"}, invalid date formats=${consistency.irregularDateFormats ? "yes" : "no"}`,
+      });
+
+      if (ats.total === 0) {
+        checks.push({ level: "warn", label: "ATS Match", detail: "No job description provided." });
+      } else {
+        const atsLevel = ats.score < 35 ? "warn" : "pass";
+        checks.push({
+          level: atsLevel,
+          label: "ATS Match",
+          detail: `${ats.score}% (${ats.matched}/${ats.total})${ats.missing.length ? ` | missing: ${ats.missing.join(", ")}` : ""}`,
+        });
+      }
+
+      return { checks };
+    }
+
+    function completenessReport() {
+      const checks = [
+        Boolean((state.name || "").trim()),
+        Boolean((state.roll || "").trim()),
+        Boolean((state.degree || "").trim()),
+        Boolean((state.department || "").trim()),
+        Boolean((state.institute || "").trim()),
+        Boolean((state.phone || "").trim()),
+        Boolean((state.email || "").trim()),
+        state.experience.some(e => (e.role || "").trim() || linesToArray(e.bullets).length),
+        state.projects.some(p => (p.title || "").trim() || linesToArray(p.bullets).length),
+        state.skills.some(s => (s.items || "").trim()),
+      ];
+      const done = checks.filter(Boolean).length;
+      return { done, total: checks.length, percent: Math.round((done / checks.length) * 100) };
+    }
+
+    function rewriteAchievementLine(line) {
+      const trimmed = (line || "").trim();
+      if (!trimmed) return "";
+      const startsWithVerb = /^(led|built|designed|developed|optimized|implemented|created|increased|reduced|managed|delivered|won|secured|achieved)\b/i.test(trimmed);
+      let out = startsWithVerb ? trimmed : `Delivered ${trimmed.charAt(0).toLowerCase()}${trimmed.slice(1)}`;
+      if (!/\d|%|x|ms|s\b|k\b|million|thousand/i.test(out)) {
+        out += " with measurable impact";
+      }
+      return out.replace(/\s+/g, " ").trim();
+    }
+
+    function rewriteAchievements() {
+      const lines = linesToArray(state.achievements);
+      if (!lines.length) {
+        showRecoveryToast("Add achievements first, then run rewrite.");
+        return;
+      }
+      state.achievements = lines.map(rewriteAchievementLine).join("\n");
+      save();
+      renderForm();
+      wireArrayEvents();
+      renderDiagnostics();
+      renderPreview();
+      showRecoveryToast("Achievements rewritten to stronger impact style.");
+    }
+
+    function applyTemplatePack(name) {
+      const packs = {
+        standard: {
+          rolePreset: "software",
+          exportPreset: "balanced",
+          targetPages: "1",
+        },
+        sde: {
+          rolePreset: "software",
+          exportPreset: "compact",
+          targetPages: "1",
+        },
+        research: {
+          rolePreset: "research",
+          exportPreset: "academic",
+          targetPages: "2",
+        },
+        core: {
+          rolePreset: "core",
+          exportPreset: "balanced",
+          targetPages: "1",
+        },
+        product: {
+          rolePreset: "design",
+          exportPreset: "balanced",
+          targetPages: "1",
+        },
+      };
+      const p = packs[name] || packs.standard;
+      state.templatePack = name;
+      state.rolePreset = p.rolePreset;
+      state.exportPreset = p.exportPreset;
+      state.targetPages = p.targetPages;
+      state.sectionOrder = defaultSectionOrderForPreset(state.rolePreset);
+      applyExportPreset(state.exportPreset);
+      save();
+      renderForm();
+      wireArrayEvents();
+      renderSettingsDrawer();
+      renderDiagnostics();
+      renderPreview();
+      showRecoveryToast(`Applied ${name.toUpperCase()} template pack.`);
+    }
+
+    function privacyMask(value, kind) {
+      const raw = String(value || "");
+      if (!state.privacyMode) return raw;
+      if (kind === "roll") return raw ? "********" : "";
+      if (kind === "phone") return raw.replace(/\d(?=\d{2})/g, "*");
+      if (kind === "email") {
+        const [local, domain] = raw.split("@");
+        if (!domain) return raw;
+        return `${(local || "").slice(0, 1)}***@${domain}`;
+      }
+      if (kind === "link") return raw ? "hidden-link" : "";
+      return raw;
+    }
+
+    function exportDiagnosticsReport() {
+      const audit = buildExportAudit();
+      const lines = ["Export Readiness Audit"];
+      audit.checks.forEach((c) => {
+        const tag = c.level === "pass" ? "PASS" : (c.level === "warn" ? "WARN" : "BLOCK");
+        lines.push(`- [${tag}] ${c.label}: ${c.detail}`);
+      });
+      return lines.join("\n");
     }
 
     function sanitizeSectionOrder(order) {
@@ -1446,7 +2235,9 @@
             const value = escapeHtml(item[f] || "");
             const label = fieldLabel(f);
             if (multilineFields.includes(f)) {
-              return `<label>${label}<textarea data-array="${key}" data-index="${idx}" data-field="${f}" placeholder="One item per line">${value}</textarea></label>`;
+              const textValue = f === "bullets" ? escapeHtml(formatBulletsForTextarea(item[f] || "")) : value;
+              const helper = f === "bullets" ? `<div class="tiny">Press Enter to add the next bullet.</div>` : "";
+              return `<label>${label}<textarea data-array="${key}" data-index="${idx}" data-field="${f}" placeholder="One item per line">${textValue}</textarea>${helper}</label>`;
             }
             return `<label>${label}<input data-array="${key}" data-index="${idx}" data-field="${f}" value="${value}"></label>`;
           }).join("")}
@@ -1475,12 +2266,28 @@
         <div class="section">
           <h3>Advanced Controls</h3>
           <div class="section-body controls-grid">
+            <label>Template Pack
+              <select id="templatePack">
+                <option value="standard">Standard</option>
+                <option value="sde">SDE Internship/Placement</option>
+                <option value="core">Core Engineering</option>
+                <option value="research">Research/Higher Studies</option>
+                <option value="product">Product/Design</option>
+              </select>
+            </label>
             <label>Role Preset
               <select id="rolePreset">
                 <option value="software">Software</option>
                 <option value="core">Core Engineering</option>
                 <option value="research">Research</option>
                 <option value="design">Design</option>
+              </select>
+            </label>
+            <label>Export Preset
+              <select id="exportPreset">
+                <option value="balanced">Balanced</option>
+                <option value="compact">Compact</option>
+                <option value="academic">Academic</option>
               </select>
             </label>
             <label>Target Pages
@@ -1495,6 +2302,7 @@
             <label class="control-check"><input type="checkbox" id="printCalibrated" ${state.printCalibrated ? "checked" : ""}> Strict Print Calibration</label>
             <label class="control-check"><input type="checkbox" id="strictLinks" ${state.strictLinks ? "checked" : ""}> Strict Link Validation</label>
             <div class="full-row" id="presetGuideBox">${rolePresetGuideCard(state.rolePreset)}</div>
+            <div class="full-row" id="exportPresetGuideBox">${exportPresetGuideCard(state.exportPreset)}</div>
           </div>
         </div>
 
@@ -1554,6 +2362,10 @@
           <div class="section-body controls-grid">
             <button type="button" id="exportBackupBtn">Backup JSON</button>
             <button type="button" id="importBackupBtn">Restore JSON</button>
+            <button type="button" id="exportReportBtn">Export Readiness Report</button>
+            <button type="button" id="saveRestorePointBtn">Save Restore Point</button>
+            <label>Restore Point<select id="restorePointSelect"><option value="">Select restore point</option>${loadHistory().map(h => `<option value="${escapeHtml(h.id)}">${escapeHtml((h.label || "Snapshot") + " - " + formatSavedTime(h.savedAt))}</option>`).join("")}</select></label>
+            <button type="button" id="restorePointLoadBtn">Load Restore Point</button>
             <button type="button" id="clearDataBtn">Clear Local Data</button>
             <input id="importBackupFile" type="file" accept="application/json" style="display:none">
           </div>
@@ -1570,17 +2382,30 @@
         });
       }
 
+      document.getElementById("templatePack").value = state.templatePack || "standard";
       document.getElementById("rolePreset").value = state.rolePreset;
+      document.getElementById("exportPreset").value = state.exportPreset;
       document.getElementById("targetPages").value = state.targetPages;
 
-      ["rolePreset", "targetPages", "atsMode", "printCalibrated", "strictLinks"].forEach(id => {
+      ["templatePack", "rolePreset", "exportPreset", "targetPages", "atsMode", "printCalibrated", "strictLinks"].forEach(id => {
         document.getElementById(id).addEventListener("input", (e) => {
           state[id] = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+          if (id === "templatePack") {
+            applyTemplatePack(state.templatePack);
+            return;
+          }
           if (id === "rolePreset") {
             state.sectionOrder = defaultSectionOrderForPreset(state.rolePreset);
             const guide = document.getElementById("presetGuideBox");
             if (guide) guide.innerHTML = rolePresetGuideCard(state.rolePreset);
             renderSettingsDrawer();
+          }
+          if (id === "exportPreset") {
+            applyExportPreset(state.exportPreset);
+            const guide = document.getElementById("exportPresetGuideBox");
+            if (guide) guide.innerHTML = exportPresetGuideCard(state.exportPreset);
+            renderForm();
+            wireArrayEvents();
           }
           if (id === "printCalibrated") {
             document.body.classList.toggle("print-calibrated", state.printCalibrated);
@@ -1636,7 +2461,7 @@
         const name = document.getElementById("variantSelect").value;
         const variants = variantsLoad();
         if (!name || !variants[name]) return;
-        Object.assign(state, JSON.parse(JSON.stringify(variants[name])));
+        Object.assign(state, sanitizeImportedState(JSON.parse(JSON.stringify(variants[name]))));
         save();
         renderForm();
         wireArrayEvents();
@@ -1658,6 +2483,27 @@
       document.getElementById("exportBackupBtn").addEventListener("click", exportBackupJson);
       document.getElementById("importBackupBtn").addEventListener("click", () => {
         document.getElementById("importBackupFile").click();
+      });
+      document.getElementById("exportReportBtn").addEventListener("click", () => {
+        alert(exportDiagnosticsReport());
+      });
+      document.getElementById("saveRestorePointBtn").addEventListener("click", () => {
+        createRestorePoint("Manual");
+        renderSettingsDrawer();
+        showRecoveryToast("Restore point saved.");
+      });
+      document.getElementById("restorePointLoadBtn").addEventListener("click", () => {
+        const id = document.getElementById("restorePointSelect").value;
+        if (!id) return;
+        const snap = loadHistory().find(h => h.id === id);
+        if (!snap || !snap.state) return;
+        Object.assign(state, sanitizeImportedState(JSON.parse(JSON.stringify(snap.state))));
+        save();
+        renderForm();
+        wireArrayEvents();
+        renderDiagnostics();
+        renderPreview();
+        showRecoveryToast("Restore point loaded.");
       });
       document.getElementById("importBackupFile").addEventListener("change", (e) => {
         importBackupJson(e.target.files?.[0]);
@@ -1688,6 +2534,10 @@
             </div>
             <label>Line Spacing<input type="number" step="0.05" min="1" max="2" id="lineHeight" value="${state.lineHeight}"></label>
             <label>Font<select id="fontFamily"><option value="'Times New Roman', serif">Serif</option><option value="'Georgia', serif">Georgia</option><option value="'Segoe UI', sans-serif">Sans</option><option value="'Poppins', sans-serif">Poppins</option><option value="'Montserrat', sans-serif">Montserrat</option></select></label>
+            <label class="control-check full-row"><input type="checkbox" id="privacyMode" ${state.privacyMode ? "checked" : ""}> Privacy Mode (mask personal info in preview/screenshots)</label>
+            <label class="full-row">Job Description (for ATS keyword matching)
+              <textarea id="jobDescription" placeholder="Paste target job description here...">${escapeHtml(state.jobDescription || "")}</textarea>
+            </label>
           </div>
         </div>
 
@@ -1709,17 +2559,17 @@
         ${sectionEnabled("projects") ? `<div class="section"><h3>Projects <button type="button" data-add="projects">+ Add</button></h3><div class="section-body">${renderArray("projects", ["title", "mentor", "dates", "link", "tech", "bullets"], ["bullets"])}</div></div>` : ""}
         ${sectionEnabled("skills") ? `<div class="section"><h3>Technical Skills <button type="button" data-add="skills">+ Add</button></h3><div class="section-body">${renderArray("skills", ["category", "items"])}</div></div>` : ""}
         ${sectionEnabled("por") ? `<div class="section"><h3>Positions of Responsibility</h3><div class="section-body"><label>One item per line<textarea data-key="por">${escapeHtml(state.por)}</textarea></label></div></div>` : ""}
-        ${sectionEnabled("achievements") ? `<div class="section"><h3>Achievements</h3><div class="section-body"><label>One item per line<textarea data-key="achievements">${escapeHtml(state.achievements)}</textarea></label></div></div>` : ""}
+        ${sectionEnabled("achievements") ? `<div class="section"><h3>Achievements <button type="button" id="rewriteAchievementsBtn">Rewrite Weak Bullets</button></h3><div class="section-body"><label>One item per line<textarea data-key="achievements">${escapeHtml(state.achievements)}</textarea></label></div></div>` : ""}
         ${sectionEnabled("keyCourses") ? `<div class="section"><h3>Key Courses Taken</h3><div class="section-body"><label>One item per line<textarea data-key="keyCourses">${escapeHtml(state.keyCourses)}</textarea></label></div></div>` : ""}
         ${sectionEnabled("extracurriculars") ? `<div class="section"><h3>Extracurriculars</h3><div class="section-body"><label>One item per line<textarea data-key="extracurriculars">${escapeHtml(state.extracurriculars)}</textarea></label></div></div>` : ""}
 
-        <div class="diagnostics" id="diagnosticsBox"></div>
         <div class="tiny" id="autosaveStatus"></div>
       `;
 
       document.getElementById("fontFamily").value = state.fontFamily;
       document.getElementById("logoSize").value = String(normalizeLogoSize(state.logoSize));
       document.getElementById("logoSizeValue").textContent = `${normalizeLogoSize(state.logoSize)} px`;
+      document.getElementById("privacyMode").checked = state.privacyMode;
       document.body.classList.toggle("print-calibrated", state.printCalibrated);
       document.body.classList.toggle("ats-safe", state.atsMode);
       updateAutosaveStatus();
@@ -1730,8 +2580,7 @@
           state[key] = e.target.value;
           setFieldValidity(e.target, validateField(key, e.target.value));
           save();
-          renderDiagnostics();
-          renderPreview();
+          debouncedRenderPreview();
         });
       });
 
@@ -1776,20 +2625,32 @@
         });
       });
 
-      ["lineHeight", "fontFamily", "logoSize"].forEach(id => {
+      ["lineHeight", "fontFamily", "logoSize", "privacyMode"].forEach(id => {
         document.getElementById(id).addEventListener("input", (e) => {
           if (id === "logoSize") {
             state.logoSize = String(normalizeLogoSize(e.target.value));
             const label = document.getElementById("logoSizeValue");
             if (label) label.textContent = `${state.logoSize} px`;
+          } else if (id === "privacyMode") {
+            state.privacyMode = e.target.checked;
           } else {
             state[id] = e.target.type === "checkbox" ? e.target.checked : e.target.value;
           }
           save();
-          renderDiagnostics();
-          renderPreview();
+          debouncedRenderPreview();
         });
       });
+
+      document.getElementById("jobDescription").addEventListener("input", (e) => {
+        state.jobDescription = e.target.value;
+        save();
+        debouncedRenderPreview();
+      });
+
+      const rewriteBtn = document.getElementById("rewriteAchievementsBtn");
+      if (rewriteBtn) {
+        rewriteBtn.addEventListener("click", rewriteAchievements);
+      }
 
       renderSettingsDrawer();
       renderDiagnostics();
@@ -1806,12 +2667,29 @@
           const key = e.target.dataset.array;
           const idx = Number(e.target.dataset.index);
           const field = e.target.dataset.field;
-          state[key][idx][field] = e.target.value;
-          setFieldValidity(e.target, validateField(field, e.target.value));
+          const normalizedValue = field === "bullets" ? normalizeBulletValue(e.target.value) : e.target.value;
+          state[key][idx][field] = normalizedValue;
+          setFieldValidity(e.target, validateField(field, normalizedValue));
           save();
-          renderDiagnostics();
-          renderPreview();
+          debouncedRenderPreview();
         });
+
+        if (el.tagName === "TEXTAREA" && el.dataset.field === "bullets") {
+          el.addEventListener("keydown", (e) => {
+            if (e.key !== "Enter") return;
+            e.preventDefault();
+            const start = el.selectionStart;
+            const end = el.selectionEnd;
+            const insert = start === 0 ? "• " : "\n• ";
+            el.setRangeText(insert, start, end, "end");
+            el.dispatchEvent(new Event("input", { bubbles: true }));
+          });
+          el.addEventListener("focus", () => {
+            if ((el.value || "").trim()) return;
+            el.value = "• ";
+            el.selectionStart = el.selectionEnd = el.value.length;
+          });
+        }
       });
 
       document.querySelectorAll("[data-remove]").forEach(btn => {
@@ -1840,9 +2718,25 @@
       const budget = pageBudgetMessage();
       const lint = bulletLintIssues();
       const scores = sectionScores();
+      const budgets = sectionBudgetStats();
+      const ats = atsKeywordReport();
+      const redundancy = redundancyReport();
+      const consistency = consistencyReport();
+      const completeness = completenessReport();
+      const atsText = ats.total
+        ? `${ats.score}% (${ats.matched}/${ats.total})${ats.missing.length ? ` | Missing: ${escapeHtml(ats.missing.join(", "))}` : ""}`
+        : "Not configured (paste a job description).";
+      const consistencyText = consistency.irregularDateFormats
+        ? "invalid date format detected"
+        : (consistency.mixedDateStyles ? "mixed date styles" : "date styles consistent");
       box.innerHTML = `
         <div class="${budget.className}">${budget.text}</div>
+        <div>Profile completeness: ${completeness.percent}% (${completeness.done}/${completeness.total}).</div>
+        <div>ATS keyword match: ${atsText}</div>
         <div>Bullet quality: ${lint.total ? `${lint.weak} weak starts, ${lint.metricFree} metric-free bullets out of ${lint.total}` : "No bullets yet"}.</div>
+        <div>Redundancy: ${redundancy.duplicateCount} potential duplicate bullets${redundancy.examples.length ? ` (e.g. ${escapeHtml(redundancy.examples[0])})` : ""}.</div>
+        <div>Consistency: bullet punctuation ${consistency.mixedBulletPunctuation ? "mixed" : "consistent"}; ${consistencyText}.</div>
+        <div class="tiny">Section budgets - Exp: ${budgets.experience.lines} lines/${budgets.experience.chars} chars, Proj: ${budgets.projects.lines}/${budgets.projects.chars}, Ach: ${budgets.achievements.lines}/${budgets.achievements.chars}, Pub: ${budgets.publications.lines}/${budgets.publications.chars}.</div>
         <div class="score-grid">
           ${Object.entries(scores).map(([k, v]) => `<div>${k}</div><div>${v}/5</div>`).join("")}
         </div>
@@ -1881,6 +2775,9 @@
       preview.style.fontFamily = state.fontFamily;
       const logoSize = normalizeLogoSize(state.logoSize);
       const logoColumn = Math.max(88, logoSize + 24);
+      const linkedinDisplay = state.privacyMode ? escapeHtml(privacyMask(state.linkedin, "link")) : (hrefHtml(state.linkedin) || "");
+      const emailDisplay = state.privacyMode ? escapeHtml(privacyMask(state.email, "email")) : (hrefHtml(state.email) || escapeHtml(state.email));
+      const githubDisplay = state.privacyMode ? escapeHtml(privacyMask(state.github, "link")) : (hrefHtml(state.github) || "");
 
       const educationRows = state.education
         .map(e => `<tr><td>${escapeHtml(e.year)}</td><td>${escapeHtml(e.degree)}</td><td>${escapeHtml(e.institute)}</td><td>${escapeHtml(e.cgpa)}</td></tr>`)
@@ -1924,18 +2821,18 @@
 
       preview.innerHTML = `
         <div class="cv-header" style="grid-template-columns: ${logoColumn}px 1fr auto;">
-          <img class="cv-logo" src="${escapeHtml(getResumeLogoSrc())}" alt="Resume logo" style="width:${logoSize}px;height:${logoSize}px;">
+          <img class="cv-logo" src="${getResumeLogoSrc()}" alt="Resume logo" style="width:${logoSize}px;height:${logoSize}px;">
           <div class="identity">
             <h2 class="name">${escapeHtml(state.name || "Student Name")}</h2>
-            <div><span class="roll-label">Roll Number :</span> ${escapeHtml(state.roll)}</div>
+            <div><span class="roll-label">Roll Number :</span> ${escapeHtml(privacyMask(state.roll, "roll"))}</div>
             <div>${escapeHtml(state.degree)} - ${escapeHtml(state.department)}</div>
             <div>${escapeHtml(state.institute)}</div>
           </div>
           <div class="contact">
-            <div>${escapeHtml(state.phone)}</div>
-            <div>${hrefHtml(state.linkedin) || ""}</div>
-            <div>${hrefHtml(state.email) || escapeHtml(state.email)}</div>
-            <div>${hrefHtml(state.github) || ""}</div>
+            <div>${escapeHtml(privacyMask(state.phone, "phone"))}</div>
+            <div>${linkedinDisplay}</div>
+            <div>${emailDisplay}</div>
+            <div>${githubDisplay}</div>
           </div>
         </div>
 
@@ -1958,14 +2855,16 @@
 
     function escapeLatex(v) {
       return (v || "")
-        .replace(/\\/g, "\\\\textbackslash{}")
-        .replace(/&/g, "\\\\&")
-        .replace(/%/g, "\\\\%")
-        .replace(/\$/g, "\\\\$")
-        .replace(/#/g, "\\\\#")
-        .replace(/_/g, "\\\\_")
-        .replace(/\{/g, "\\\\{")
-        .replace(/\}/g, "\\\\}");
+        .replace(/\\/g, "\\textbackslash{}")
+        .replace(/&/g, "\\&")
+        .replace(/%/g, "\\%")
+        .replace(/\$/g, "\\$")
+        .replace(/#/g, "\\#")
+        .replace(/_/g, "\\_")
+        .replace(/\{/g, "\\{")
+        .replace(/\}/g, "\\}")
+        .replace(/~/g, "\\textasciitilde{}")
+        .replace(/\^/g, "\\textasciicircum{}");
     }
 
     function latexHref(value) {
@@ -2050,8 +2949,9 @@
     }
 
     document.getElementById("exportBtn").addEventListener("click", () => toggleExportMenu());
-    document.getElementById("printBtn").addEventListener("click", () => {
+    document.getElementById("printBtn").addEventListener("click", async () => {
       toggleExportMenu(false);
+      await waitForFontsReady();
       window.print();
     });
     document.getElementById("exportPdfBtn").addEventListener("click", async () => {
@@ -2087,7 +2987,7 @@
       toggleExportMenu(false);
     });
 
-    document.addEventListener("keydown", (e) => {
+    document.addEventListener("keydown", async (e) => {
       if (e.key === "Escape") {
         closeSettings();
         closeHelp();
@@ -2108,8 +3008,12 @@
         exportBackupJson();
         showRecoveryToast("Backup JSON downloaded.");
       }
-      if (key === "p") {
+      if (key === "p" && e.shiftKey) {
         e.preventDefault();
+        await exportPdf();
+      } else if (key === "p") {
+        e.preventDefault();
+        await waitForFontsReady();
         window.print();
       }
     });

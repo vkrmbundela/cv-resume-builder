@@ -261,9 +261,39 @@
       border-radius: 8px;
       padding: 18px 18px 26px;
       font-family: 'Times New Roman', serif;
-      font-size: 14px;
+      font-size: calc(14px * var(--cv-font-scale, 1));
       line-height: 1.35;
       color: #3f3f3f;
+      position: relative;
+      --cv-font-scale: 1;
+      --cv-section-title-size: 20px;
+      --cv-entry-title-size: 14px;
+      --cv-meta-size: 13px;
+      --cv-list-size: 13px;
+      --cv-entry-gap: 6px;
+      --cv-bullet-gap: 4px;
+    }
+    .page-guide-line {
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      border-top: 1px dashed #d0d0d0;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .page-guide-label {
+      position: absolute;
+      right: 6px;
+      top: -10px;
+      padding: 1px 6px;
+      border: 1px solid #d9d9d9;
+      border-radius: 999px;
+      background: #f7f7f7;
+      color: #7a7a7a;
+      font-size: 10px;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      line-height: 1.2;
+      pointer-events: none;
     }
     .section {
       border: 1px solid var(--soft-line);
@@ -388,6 +418,69 @@
       display: grid;
       gap: 6px;
     }
+    .fit-meter {
+      display: grid;
+      gap: 4px;
+      padding: 6px 8px;
+      border: 1px solid #ded8cf;
+      border-radius: 8px;
+      background: #fffcf8;
+    }
+    .fit-meter-track {
+      position: relative;
+      height: 8px;
+      border-radius: 999px;
+      background: #ece7df;
+      overflow: hidden;
+    }
+    .fit-meter-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      background: #2f8f4e;
+    }
+    .fit-meter-fill.warn {
+      background: #cc6a3f;
+    }
+    .diag-list {
+      margin: 0;
+      padding-left: 16px;
+      display: grid;
+      gap: 3px;
+    }
+    .coach-list {
+      display: grid;
+      gap: 6px;
+    }
+    .coach-item {
+      border: 1px solid #e3ddd3;
+      border-radius: 8px;
+      background: #fffdfa;
+      padding: 6px 8px;
+      display: grid;
+      gap: 4px;
+    }
+    .coach-item-head {
+      font-size: 11px;
+      color: #7b6758;
+    }
+    .coach-item button {
+      width: fit-content;
+      padding: 3px 8px;
+      font-size: 11px;
+      border-radius: 6px;
+    }
+    .compare-box {
+      border: 1px dashed #d9d2c8;
+      border-radius: 8px;
+      background: #fffdfa;
+      padding: 8px;
+      font-size: 12px;
+      color: #4f4f4f;
+      display: grid;
+      gap: 4px;
+    }
     .diag-warn {
       color: #8a3b00;
       font-weight: 600;
@@ -408,6 +501,13 @@
     .resume a .link-full-screen {
       display: inline;
     }
+    .resume a .link-label-screen {
+      display: inline;
+    }
+    .resume a .link-label-print,
+    .resume a .link-url-print {
+      display: none;
+    }
     .card-mini {
       border: 1px dashed var(--soft-line);
       border-radius: 8px;
@@ -418,6 +518,19 @@
       padding: 2px 8px;
       border-radius: 6px;
       font-size: 11px;
+    }
+    .date-range-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .date-range-grid .full-row {
+      grid-column: 1 / -1;
+    }
+    .date-range-inline {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     label {
       display: grid;
@@ -529,12 +642,24 @@
       padding-top: 4px;
       color: #4e4e4e;
     }
+    .contact .contact-email {
+      opacity: 1;
+      font-size: inherit;
+      color: inherit;
+    }
+    .contact .contact-email a,
+    .contact a.contact-email-link {
+      color: inherit !important;
+      text-decoration: underline;
+      border-bottom: 0;
+      text-underline-offset: 2px;
+    }
     .cv-section-title {
       margin-top: 11px;
       border-top: 2px solid var(--line);
       padding-top: 7px;
       margin-bottom: 5px;
-      font-size: 20px;
+      font-size: var(--cv-section-title-size);
       line-height: 1;
       color: #3d3d3d;
       font-weight: 600;
@@ -560,10 +685,10 @@
     .entry-list {
       margin: 2px 0 0 26px;
       padding: 0;
-      font-size: 13px;
+      font-size: var(--cv-list-size);
     }
     .entry-list > li {
-      margin-bottom: 6px;
+      margin-bottom: var(--cv-entry-gap);
       break-inside: avoid;
       page-break-inside: avoid;
     }
@@ -576,7 +701,12 @@
       page-break-after: avoid;
     }
     .entry-head strong {
-      font-size: 14px;
+      font-size: var(--cv-entry-title-size);
+    }
+    .entry-head-link {
+      font-size: 12px;
+      margin-right: 6px;
+      white-space: nowrap;
     }
     .right-meta {
       text-align: right;
@@ -584,6 +714,7 @@
       color: #555;
       min-width: 180px;
       white-space: nowrap;
+      font-size: var(--cv-meta-size);
     }
     .resume a {
       color: #3f3f3f;
@@ -617,11 +748,11 @@
     .simple-list {
       margin: 0 0 0 26px;
       padding: 0;
-      font-size: 13px;
+      font-size: var(--cv-list-size);
     }
     .skills-list li,
     .simple-list li {
-      margin-bottom: 4px;
+      margin-bottom: var(--cv-bullet-gap);
       break-inside: avoid;
       page-break-inside: avoid;
     }
@@ -633,10 +764,11 @@
     @media print {
       @page {
         size: A4 portrait;
-        margin: 10mm;
+        margin: 8mm;
       }
       body { background: #fff; }
       .topbar, .left { display: none !important; }
+      .recovery-toast { display: none !important; }
       .page-credit { display: none !important; }
       .layout { display: block; padding: 0; }
       .panel.right { border: none; border-radius: 0; padding: 0; }
@@ -645,6 +777,10 @@
         overflow: visible;
         border: none;
         border-radius: 0;
+      }
+      .page-guide-line,
+      .page-guide-label {
+        display: none !important;
       }
       .cv-header,
       .edu-table,
@@ -662,10 +798,43 @@
       .resume a .link-full-print {
         display: inline !important;
       }
+      .resume a .link-label-screen {
+        display: none !important;
+      }
+      .resume a .link-label-print {
+        display: inline !important;
+      }
+      body.print-profile-ats-safe .resume a .link-label-print {
+        display: none !important;
+      }
+      body.print-profile-ats-safe .resume a .link-url-print {
+        display: inline !important;
+      }
+      body.print-profile-ats-safe .resume {
+        color: #151515;
+        font-size: 12.3px;
+      }
+      body.print-profile-visual .resume {
+        color: #3b3b3b;
+        font-size: 12.6px;
+      }
+      body.print-profile-publication .resume {
+        color: #1f1f1f;
+        font-size: 12.9px;
+      }
       body.print-calibrated .resume {
         font-size: 12.5px;
         line-height: 1.3;
         padding: 12mm;
+      }
+      body.print-profile-ats-safe.print-calibrated .resume {
+        padding: 9mm;
+      }
+      body.print-profile-visual.print-calibrated .resume {
+        padding: 11mm;
+      }
+      body.print-profile-publication.print-calibrated .resume {
+        padding: 13mm;
       }
       body.print-calibrated .cv-section-title {
         margin-top: 8px;
@@ -721,6 +890,12 @@
 <body>
   <div class="topbar">
     <div class="brand">
+      <svg class="brand-logo" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="6" y="4" width="20" height="24" rx="3" fill="#f04e23" fill-opacity="0.1" stroke="#f04e23" stroke-width="2"/>
+        <path d="M11 10H21" stroke="#f04e23" stroke-width="2" stroke-linecap="round"/>
+        <path d="M11 16H21" stroke="#f04e23" stroke-width="2" stroke-linecap="round"/>
+        <path d="M11 22H17" stroke="#f04e23" stroke-width="2" stroke-linecap="round"/>
+      </svg>
       <div class="brand-text">
         <h1>Student Resume Builder</h1>
         <div class="brand-sub">Unofficial assistant for compliant resumes</div>
@@ -729,6 +904,8 @@
     </div>
     <div class="actions">
       <button id="howToUseBtn">How To Use</button>
+      <button id="undoBtn" title="Undo (Ctrl/Cmd+Z)" aria-label="Undo">&#8630;</button>
+      <button id="redoBtn" title="Redo (Ctrl/Cmd+Y or Ctrl/Cmd+Shift+Z)" aria-label="Redo">&#8631;</button>
       <button id="copyLatexBtn">Copy LaTeX</button>
       <div class="export-wrap">
         <button class="primary" id="exportBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="exportMenu">Download / Print PDF</button>
@@ -760,7 +937,7 @@
         If you close or refresh the page, your draft should recover on next open.
       </li>
       <li>
-        <strong>Complete Basic Info first</strong>: fill name, roll number, degree, department, institute,
+        phone, email, LinkedIn, GitHub, and Google Drive portfolio link.
         phone, email, LinkedIn, and GitHub.
         Use a clear date and contact format because validation highlights invalid fields.
       </li>
@@ -813,7 +990,8 @@
       </li>
       <li>
         <strong>Keyboard shortcuts</strong>: Ctrl/Cmd + S saves to local cache, Ctrl/Cmd + Shift + S downloads backup JSON,
-        Ctrl/Cmd + P opens print, Ctrl/Cmd + Shift + P runs Export PDF, Esc closes open panels.
+        Ctrl/Cmd + Z undo, Ctrl/Cmd + Y (or Ctrl/Cmd + Shift + Z) redo, Ctrl/Cmd + P opens print,
+        Ctrl/Cmd + Shift + P runs Export PDF, Esc closes open panels.
       </li>
       <li>
         <strong>Troubleshooting quick checks</strong>: if something looks off, refresh once,
@@ -845,9 +1023,12 @@
       email: "",
       linkedin: "",
       github: "",
+      portfolio: "",
+      showGithubContact: true,
+      showPortfolioContact: true,
       customLogo: "",
       education: [{ year: "", degree: "", institute: "", cgpa: "" }],
-      experience: [{ company: "", role: "", dates: "", link: "", bullets: "" }],
+      experience: [{ company: "", role: "", workMode: "onsite", dates: "", link: "", bullets: "" }],
       publications: "",
       projects: [{ title: "", mentor: "", dates: "", link: "", tech: "", bullets: "" }],
       skills: [{ category: "", items: "" }],
@@ -858,11 +1039,18 @@
       lineHeight: "1.35",
       fontFamily: "'Times New Roman', serif",
       logoSize: "58",
+      imageWidth: "58",
+      imageHeight: "58",
+      imageFit: "contain",
+      photoShape: "square",
       rolePreset: "software",
       templatePack: "standard",
       exportPreset: "balanced",
+      densityPreset: "balanced",
+      printProfile: "visual",
       jobDescription: "",
       privacyMode: false,
+      contentCoachEnabled: false,
       strictLinks: true,
       atsMode: false,
       printCalibrated: true,
@@ -897,11 +1085,16 @@
     const LEGACY_KEY = "iith_resume_data";
     const VARIANTS_KEY = "iith_resume_variants";
     const HISTORY_KEY = "iith_resume_history_v1";
+    const UNDO_LIMIT = 50;
     const LEGAL_NOTICE_SESSION_KEY = "resume_legal_notice_ack_v1";
     const DEFAULT_LOGO_DATA_URI = `data:image/svg+xml;utf8,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><rect width="120" height="120" rx="18" fill="#f6ede6"/><path d="M20 35h80" stroke="#cc6a3f" stroke-width="6"/><path d="M20 85h80" stroke="#cc6a3f" stroke-width="6"/><text x="60" y="71" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#6b3a23">CV</text></svg>')}`;
     let lastSavedAt = "";
     let recoveredFromCache = false;
     let lastHistorySnapshotMs = 0;
+    let recoveryToastTimer = null;
+    let undoStack = [];
+    let redoStack = [];
+    let isApplyingHistoryState = false;
 
     function debounce(fn, ms) {
       let timer;
@@ -947,18 +1140,114 @@
       }
     }
 
+    function serializeStateSnapshot() {
+      try {
+        return JSON.stringify(state);
+      } catch (_) {
+        return "";
+      }
+    }
+
+    function updateUndoRedoControls() {
+      const undoBtn = document.getElementById("undoBtn");
+      const redoBtn = document.getElementById("redoBtn");
+      if (undoBtn) undoBtn.disabled = undoStack.length === 0;
+      if (redoBtn) redoBtn.disabled = redoStack.length === 0;
+    }
+
+    function captureUndoStep() {
+      if (isApplyingHistoryState) return;
+      const current = serializeStateSnapshot();
+      if (!current) return;
+      if (undoStack.length && undoStack[undoStack.length - 1] === current) return;
+      undoStack.push(current);
+      if (undoStack.length > UNDO_LIMIT) undoStack.shift();
+      redoStack = [];
+      updateUndoRedoControls();
+    }
+
+    function applySerializedState(serialized) {
+      if (!serialized) return false;
+      try {
+        const parsed = JSON.parse(serialized);
+        const clean = sanitizeImportedState(parsed);
+        isApplyingHistoryState = true;
+        for (const key of Object.keys(state)) {
+          delete state[key];
+        }
+        Object.assign(state, clean);
+        save();
+        renderForm();
+        wireArrayEvents();
+        renderDiagnostics();
+        renderPreview();
+        isApplyingHistoryState = false;
+        updateUndoRedoControls();
+        return true;
+      } catch (_) {
+        isApplyingHistoryState = false;
+        showRecoveryToast("Could not apply history snapshot.");
+        return false;
+      }
+    }
+
+    function undoChange() {
+      if (!undoStack.length) return;
+      const current = serializeStateSnapshot();
+      const previous = undoStack.pop();
+      if (current) {
+        redoStack.push(current);
+        if (redoStack.length > UNDO_LIMIT) redoStack.shift();
+      }
+      applySerializedState(previous);
+    }
+
+    function redoChange() {
+      if (!redoStack.length) return;
+      const current = serializeStateSnapshot();
+      const next = redoStack.pop();
+      if (current) {
+        undoStack.push(current);
+        if (undoStack.length > UNDO_LIMIT) undoStack.shift();
+      }
+      applySerializedState(next);
+    }
+
     function showRecoveryToast(message) {
       const toast = document.getElementById("recoveryToast");
       if (!toast) return;
       toast.textContent = message;
       toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 3200);
+      if (recoveryToastTimer) {
+        clearTimeout(recoveryToastTimer);
+        recoveryToastTimer = null;
+      }
+      recoveryToastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+        recoveryToastTimer = null;
+      }, 3200);
+    }
+
+    function hideRecoveryToast() {
+      const toast = document.getElementById("recoveryToast");
+      if (!toast) return;
+      toast.classList.remove("show");
+      if (recoveryToastTimer) {
+        clearTimeout(recoveryToastTimer);
+        recoveryToastTimer = null;
+      }
     }
 
     function normalizeLogoSize(value) {
       const n = Number(value);
       if (!Number.isFinite(n)) return 58;
       return Math.min(140, Math.max(28, Math.round(n)));
+    }
+
+    function normalizeImageDimension(value, min = 28, max = 220, fallback = 58) {
+      const n = Number(value);
+      if (!Number.isFinite(n)) return fallback;
+      return Math.min(max, Math.max(min, Math.round(n)));
     }
 
     function isLegalNoticeAcknowledged() {
@@ -1115,11 +1404,20 @@
         state.rolePreset = state.rolePreset || "software";
         state.templatePack = state.templatePack || "standard";
         state.exportPreset = state.exportPreset || "balanced";
+        state.densityPreset = ["compact", "balanced", "readable"].includes(state.densityPreset) ? state.densityPreset : "balanced";
+        state.printProfile = ["ats-safe", "visual", "publication"].includes(state.printProfile) ? state.printProfile : "visual";
         state.jobDescription = typeof state.jobDescription === "string" ? state.jobDescription : "";
         state.privacyMode = Boolean(state.privacyMode);
+        state.contentCoachEnabled = Boolean(state.contentCoachEnabled);
         state.strictLinks = state.strictLinks !== false;
+        state.showGithubContact = state.showGithubContact !== false;
+        state.showPortfolioContact = state.showPortfolioContact !== false;
         state.sectionOrder = sanitizeSectionOrder(state.sectionOrder || defaultSectionOrderForPreset(state.rolePreset));
         state.logoSize = String(normalizeLogoSize(state.logoSize || "58"));
+        state.imageWidth = String(normalizeImageDimension(state.imageWidth || state.logoSize || "58"));
+        state.imageHeight = String(normalizeImageDimension(state.imageHeight || state.logoSize || "58"));
+        state.imageFit = ["contain", "cover"].includes(state.imageFit) ? state.imageFit : "contain";
+        state.photoShape = ["square", "rectangle", "circle"].includes(state.photoShape) ? state.photoShape : "square";
         state.atsMode = Boolean(state.atsMode);
         state.printCalibrated = state.printCalibrated !== false;
         state.targetPages = state.targetPages || "1";
@@ -1191,7 +1489,7 @@
       if (field === "email") {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? "" : "Invalid email format";
       }
-      if (field === "linkedin" || field === "github" || field === "link") {
+      if (field === "linkedin" || field === "github" || field === "portfolio" || field === "link") {
         if (/\s/.test(v)) return "Link should not contain spaces";
         if (!state.strictLinks) return "";
         const normalized = normalizeUrl(v);
@@ -1200,6 +1498,9 @@
       if (field === "dates") {
         const ok = isFlexibleDateRange(v);
         return ok ? "" : "Use Start - End format, e.g. Jan 2024 - Mar 2025 or 06/10/2025 - 21/01/2026";
+      }
+      if (field === "workMode") {
+        return ["remote", "onsite", "hybrid"].includes(v.toLowerCase()) ? "" : "Choose Remote, Onsite, or Hybrid";
       }
       if (field === "year") {
         const ok = /^(?:\d{4}|\d{4}\s*-\s*(?:\d{4}|Present))$/i.test(v);
@@ -1218,6 +1519,10 @@
       });
       document.querySelectorAll("[data-array]").forEach(el => {
         const msg = validateField(el.dataset.field, el.value);
+        setFieldValidity(el, msg);
+      });
+      document.querySelectorAll("[data-line-key]").forEach(el => {
+        const msg = validateField(el.dataset.lineKey, el.value);
         setFieldValidity(el, msg);
       });
     }
@@ -1246,6 +1551,7 @@
         try {
           const parsed = JSON.parse(String(reader.result || "{}"));
           const importedState = parsed.state || parsed;
+          captureUndoStep();
           Object.assign(state, sanitizeImportedState(importedState));
           if (parsed.variants && typeof parsed.variants === "object") {
             variantsSave(parsed.variants);
@@ -1310,6 +1616,7 @@
 
     async function exportPdf() {
       showExportGuidance("pdf");
+      hideRecoveryToast();
       await waitForFontsReady();
       window.print();
     }
@@ -1360,19 +1667,24 @@
       const contactParts = [];
       if (state.phone) contactParts.push(new TextRun({ text: state.phone }));
       const linkedinLink = docxHyperlink("LinkedIn", state.linkedin);
-      const emailLink = docxHyperlink("Email", state.email);
+      const emailLink = docxHyperlink(state.email, state.email);
       const githubLink = docxHyperlink("GitHub", state.github);
-      if (linkedinLink) {
-        if (contactParts.length) contactParts.push(new TextRun({ text: " | " }));
-        contactParts.push(linkedinLink);
-      }
+      const portfolioLink = docxHyperlink("Portfolio", state.portfolio);
       if (emailLink) {
         if (contactParts.length) contactParts.push(new TextRun({ text: " | " }));
         contactParts.push(emailLink);
       }
-      if (githubLink) {
+      if (linkedinLink) {
+        if (contactParts.length) contactParts.push(new TextRun({ text: " | " }));
+        contactParts.push(linkedinLink);
+      }
+      if (state.showGithubContact && githubLink) {
         if (contactParts.length) contactParts.push(new TextRun({ text: " | " }));
         contactParts.push(githubLink);
+      }
+      if (state.showPortfolioContact && portfolioLink) {
+        if (contactParts.length) contactParts.push(new TextRun({ text: " | " }));
+        contactParts.push(portfolioLink);
       }
       children.push(new Paragraph({
         alignment: AlignmentType.CENTER,
@@ -1396,18 +1708,18 @@
             new TableRow({
               tableHeader: true,
               children: [
-                new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Year", bold: true })] })] }),
                 new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Degree / Certificate", bold: true })] })] }),
                 new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Institute / Board", bold: true })] })] }),
                 new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "CGPA/Percentage", bold: true })] })] }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: "Year", bold: true })] })] }),
               ],
             }),
             ...state.education.map(e => new TableRow({
               children: [
-                new TableCell({ children: [new Paragraph(e.year || "")] }),
                 new TableCell({ children: [new Paragraph(e.degree || "")] }),
                 new TableCell({ children: [new Paragraph(e.institute || "")] }),
                 new TableCell({ children: [new Paragraph(e.cgpa || "")] }),
+                new TableCell({ children: [new Paragraph(e.year || "")] }),
               ],
             })),
           ];
@@ -1421,15 +1733,23 @@
           const rows = [];
           rows.push(heading("Experience"));
           state.experience.forEach(e => {
+            const modeValue = String(e.workMode || "").toLowerCase();
+            const modeText = ["remote", "onsite", "hybrid"].includes(modeValue)
+              ? ` (${modeValue.charAt(0).toUpperCase()}${modeValue.slice(1)})`
+              : "";
+            const expLink = docxHyperlink("Link", e.link);
+            const headingChildren = [new TextRun({ text: `${e.role || ""} at '${e.company || ""}'${modeText}`, bold: true })];
+            if (expLink) {
+              headingChildren.push(new TextRun({ text: " | " }));
+              headingChildren.push(expLink);
+            }
             rows.push(new Paragraph({
-              children: [new TextRun({ text: `${e.role || ""} at '${e.company || ""}'`, bold: true })],
+              children: headingChildren,
               keepNext: true,
               spacing: { after: 30 },
             }));
             rows.push(new Paragraph({ text: normalizeDateRange(e.dates), italics: true, spacing: { after: 40 } }));
             rows.push(...bulletParagraphs(e.bullets));
-            const expLink = docxHyperlink("Project/Role Link", e.link);
-            if (expLink) rows.push(new Paragraph({ children: [expLink], italics: true, spacing: { after: 80 } }));
           });
           return rows;
         })(),
@@ -1438,15 +1758,19 @@
           const rows = [];
           rows.push(heading("Projects"));
           state.projects.forEach(p => {
+            const projLink = docxHyperlink("Link", p.link);
+            const headingChildren = [new TextRun({ text: p.title || "", bold: true })];
+            if (projLink) {
+              headingChildren.push(new TextRun({ text: " | " }));
+              headingChildren.push(projLink);
+            }
             rows.push(new Paragraph({
-              children: [new TextRun({ text: p.title || "", bold: true })],
+              children: headingChildren,
               keepNext: true,
               spacing: { after: 30 },
             }));
             rows.push(new Paragraph({ text: normalizeDateRange(p.dates), italics: true, spacing: { after: 30 } }));
             if (p.mentor) rows.push(new Paragraph({ text: p.mentor, italics: true, spacing: { after: 30 } }));
-            const projLink = docxHyperlink("Project Link", p.link);
-            if (projLink) rows.push(new Paragraph({ children: [projLink], italics: true, spacing: { after: 30 } }));
             if (p.tech) rows.push(new Paragraph({ text: `Technology/Tools: ${p.tech}`, spacing: { after: 40 } }));
             rows.push(...bulletParagraphs(p.bullets));
           });
@@ -1637,6 +1961,143 @@
         .filter(Boolean);
     }
 
+    function monthOptions() {
+      return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    }
+
+    function yearOptions() {
+      const now = new Date().getFullYear();
+      const out = [];
+      for (let y = now + 1; y >= 1980; y -= 1) out.push(String(y));
+      return out;
+    }
+
+    function normalizeMonthToken(token) {
+      const t = String(token || "").trim().toLowerCase();
+      if (!t) return "";
+      const map = {
+        january: "Jan", jan: "Jan",
+        february: "Feb", feb: "Feb",
+        march: "Mar", mar: "Mar",
+        april: "Apr", apr: "Apr",
+        may: "May",
+        june: "Jun", jun: "Jun",
+        july: "Jul", jul: "Jul",
+        august: "Aug", aug: "Aug",
+        september: "Sep", sept: "Sep", sep: "Sep",
+        october: "Oct", oct: "Oct",
+        november: "Nov", nov: "Nov",
+        december: "Dec", dec: "Dec",
+      };
+      return map[t] || "";
+    }
+
+    function parseMonthYearRange(value) {
+      const raw = String(value || "").trim();
+      const blank = { startMonth: "", startYear: "", endMonth: "", endYear: "", present: false };
+      if (!raw) return blank;
+      const parts = raw.split(/\s*[-–]\s*/).filter(Boolean);
+      if (parts.length !== 2) return blank;
+
+      const parseToken = (token) => {
+        const t = String(token || "").trim();
+        if (/^present$/i.test(t)) return { present: true, month: "", year: "" };
+        const m = t.match(/^([A-Za-z]{3,9})\s+(\d{4})$/);
+        if (!m) return null;
+        const month = normalizeMonthToken(m[1]);
+        if (!month) return null;
+        return { present: false, month, year: m[2] };
+      };
+
+      const start = parseToken(parts[0]);
+      const end = parseToken(parts[1]);
+      if (!start || !end || start.present) return blank;
+      if (end.present) {
+        return { startMonth: start.month, startYear: start.year, endMonth: "", endYear: "", present: true };
+      }
+      return {
+        startMonth: start.month,
+        startYear: start.year,
+        endMonth: end.month,
+        endYear: end.year,
+        present: false,
+      };
+    }
+
+    function composeMonthYearRange(startMonth, startYear, endMonth, endYear, present) {
+      const sm = normalizeMonthToken(startMonth);
+      const sy = String(startYear || "").trim();
+      const em = normalizeMonthToken(endMonth);
+      const ey = String(endYear || "").trim();
+      if (!sm || !/^\d{4}$/.test(sy)) return "";
+      if (present) return `${sm} ${sy} - Present`;
+      if (!em || !/^\d{4}$/.test(ey)) return "";
+      return `${sm} ${sy} - ${em} ${ey}`;
+    }
+
+    function syncStructuredDateRangeFromControls(key, idx, changedPart = "") {
+      if (!key || !Number.isFinite(idx) || !state[key] || !state[key][idx]) return;
+      const nodes = [...document.querySelectorAll(`[data-date-array="${key}"][data-date-index="${idx}"]`)];
+      const getNode = (part) => nodes.find(x => x.dataset.datePart === part);
+      const getValue = (part) => {
+        const n = getNode(part);
+        if (!n) return "";
+        if (n.type === "checkbox") return n.checked;
+        return n.value || "";
+      };
+      const setValue = (part, value) => {
+        const n = getNode(part);
+        if (!n) return;
+        if (n.type === "checkbox") {
+          n.checked = Boolean(value);
+        } else {
+          n.value = value || "";
+        }
+      };
+
+      let startMonth = getValue("startMonth");
+      let startYear = getValue("startYear");
+      let endMonth = getValue("endMonth");
+      let endYear = getValue("endYear");
+      const present = Boolean(getValue("present"));
+
+      const startReady = Boolean(startMonth && /^\d{4}$/.test(String(startYear || "")));
+      const endBlank = !endMonth && !endYear;
+
+      if (!present && startReady && endBlank && (changedPart === "startMonth" || changedPart === "startYear" || changedPart === "current-start")) {
+        endMonth = startMonth;
+        endYear = startYear;
+        setValue("endMonth", endMonth);
+        setValue("endYear", endYear);
+      }
+
+      if (!present && startReady && endMonth && /^\d{4}$/.test(String(endYear || ""))) {
+        const months = monthOptions();
+        const smIndex = months.indexOf(normalizeMonthToken(startMonth));
+        const emIndex = months.indexOf(normalizeMonthToken(endMonth));
+        const syNum = Number(startYear);
+        const eyNum = Number(endYear);
+        if (Number.isFinite(syNum) && Number.isFinite(eyNum) && (eyNum < syNum || (eyNum === syNum && emIndex < smIndex))) {
+          endMonth = startMonth;
+          endYear = startYear;
+          setValue("endMonth", endMonth);
+          setValue("endYear", endYear);
+        }
+      }
+
+      const endMonthNode = getNode("endMonth");
+      const endYearNode = getNode("endYear");
+      if (endMonthNode) endMonthNode.disabled = present;
+      if (endYearNode) endYearNode.disabled = present;
+
+      const composed = composeMonthYearRange(startMonth, startYear, endMonth, endYear, present);
+      state[key][idx].dates = composed;
+
+      const hasAny = [startMonth, startYear, endMonth, endYear].some(Boolean) || present;
+      const msg = hasAny ? validateField("dates", composed) : "";
+      nodes.forEach(n => setFieldValidity(n, msg));
+    }
+
     function normalizeBulletValue(value) {
       return (value || "")
         .split("\n")
@@ -1668,6 +2129,15 @@
       const short = escapeHtml(shortLinkText(raw));
       const cls = className ? ` class="${className}"` : "";
       return `<a${cls} href="${href}" target="_blank" rel="noopener noreferrer"><span class="link-full-screen">${text}</span><span class="link-full-print">${text}</span><span class="link-short-screen">${short}</span></a>`;
+    }
+
+    function hrefLabelHtml(label, value, className = "") {
+      const raw = (value || "").trim();
+      if (!raw) return "";
+      const href = escapeHtml(normalizeUrl(raw));
+      const text = escapeHtml(label || raw);
+      const cls = className ? ` class="${className}"` : "";
+      return `<a${cls} href="${href}" target="_blank" rel="noopener noreferrer" title="${escapeHtml(raw)}"><span class="link-label-screen">${text}</span><span class="link-label-print">${text}</span><span class="link-url-print">${escapeHtml(raw)}</span></a>`;
     }
 
     function shortLinkText(raw) {
@@ -1702,6 +2172,62 @@
       return sanitizeSectionOrder(state.sectionOrder || defaultSectionOrderForPreset(state.rolePreset));
     }
 
+    function syncBodyModes() {
+      document.body.classList.toggle("print-calibrated", state.printCalibrated);
+      document.body.classList.toggle("ats-safe", state.atsMode);
+      document.body.classList.remove("print-profile-ats-safe", "print-profile-visual", "print-profile-publication");
+      document.body.classList.add(`print-profile-${state.printProfile || "visual"}`);
+    }
+
+    function getDensityPresetConfig(preset) {
+      if (preset === "compact") {
+        return {
+          fontScale: 0.95,
+          sectionTitleSize: 18,
+          entryTitleSize: 13,
+          metaSize: 12,
+          listSize: 12,
+          entryGap: 4,
+          bulletGap: 2,
+          lineHeight: "1.28",
+          sectionDensityValue: "compact",
+        };
+      }
+      if (preset === "readable") {
+        return {
+          fontScale: 1.03,
+          sectionTitleSize: 21,
+          entryTitleSize: 14,
+          metaSize: 13,
+          listSize: 13,
+          entryGap: 8,
+          bulletGap: 5,
+          lineHeight: "1.42",
+          sectionDensityValue: "normal",
+        };
+      }
+      return {
+        fontScale: 1,
+        sectionTitleSize: 20,
+        entryTitleSize: 14,
+        metaSize: 13,
+        listSize: 13,
+        entryGap: 6,
+        bulletGap: 4,
+        lineHeight: "1.35",
+        sectionDensityValue: "normal",
+      };
+    }
+
+    function applyDensityPreset(preset) {
+      const p = getDensityPresetConfig(preset);
+      state.densityPreset = preset;
+      state.lineHeight = p.lineHeight;
+      Object.keys(state.sectionDensity || {}).forEach(k => {
+        state.sectionDensity[k] = p.sectionDensityValue;
+      });
+    }
+
     function densityMultiplier(sectionKey) {
       const d = state.sectionDensity?.[sectionKey] || "normal";
       if (d === "tight") return 0.82;
@@ -1709,32 +2235,259 @@
       return 1;
     }
 
-    function estimateLines() {
+    function sectionLineBudgetsForState(s) {
+      const dmult = (key) => {
+        const d = s.sectionDensity?.[key] || "normal";
+        if (d === "tight") return 0.82;
+        if (d === "compact") return 0.92;
+        return 1;
+      };
+      const enabled = (key) => s.sections?.[key] !== false;
       const blocks = [
-        { k: "education", c: state.education.length * 2 + 4 },
-        { k: "experience", c: 4 + state.experience.reduce((n, e) => n + 2 + linesToArray(e.bullets).length, 0) },
-        { k: "projects", c: 4 + state.projects.reduce((n, p) => n + 3 + linesToArray(p.bullets).length, 0) },
-        { k: "skills", c: 3 + state.skills.length },
-        { k: "achievements", c: 3 + linesToArray(state.achievements).length },
-        { k: "por", c: 3 + linesToArray(state.por).length },
-        { k: "publications", c: 3 + linesToArray(state.publications).length },
-        { k: "keyCourses", c: 3 + Math.ceil(linesToArray(state.keyCourses).length / 2) },
-        { k: "extracurriculars", c: 3 + linesToArray(state.extracurriculars).length },
+        { k: "education", c: s.education.length * 2 + 4 },
+        { k: "experience", c: 4 + s.experience.reduce((n, e) => n + 2 + linesToArray(e.bullets).length, 0) },
+        { k: "projects", c: 4 + s.projects.reduce((n, p) => n + 3 + linesToArray(p.bullets).length, 0) },
+        { k: "skills", c: 3 + s.skills.length },
+        { k: "achievements", c: 3 + linesToArray(s.achievements).length },
+        { k: "por", c: 3 + linesToArray(s.por).length },
+        { k: "publications", c: 3 + linesToArray(s.publications).length },
+        { k: "keyCourses", c: 3 + Math.ceil(linesToArray(s.keyCourses).length / 2) },
+        { k: "extracurriculars", c: 3 + linesToArray(s.extracurriculars).length },
       ];
-      const active = blocks.filter(b => sectionEnabled(b.k));
-      const total = active.reduce((sum, b) => sum + Math.ceil(b.c * densityMultiplier(b.k)), 22);
-      return total;
+      return blocks
+        .filter(b => enabled(b.k))
+        .map(b => ({ key: b.k, lines: Math.ceil(b.c * dmult(b.k)) }));
+    }
+
+    function estimateLinesForState(s) {
+      return sectionLineBudgetsForState(s).reduce((sum, b) => sum + b.lines, 22);
+    }
+
+    function estimatePagesForState(s) {
+      const density = getDensityPresetConfig(s.densityPreset || "balanced");
+      let perPage = s.atsMode ? 58 : 52;
+      if ((s.printProfile || "visual") === "ats-safe") perPage += 3;
+      if ((s.printProfile || "visual") === "publication") perPage -= 2;
+      if ((s.targetPages || "1") === "1" && density.fontScale <= 0.96) perPage += 1;
+      const lines = estimateLinesForState(s);
+      return {
+        lines,
+        perPage,
+        pages: Math.max(1, Math.ceil(lines / Math.max(1, perPage))),
+      };
+    }
+
+    function estimateLines() {
+      return estimateLinesForState(state);
+    }
+
+    function a4FitReport() {
+      const predicted = estimatePagesForState(state);
+      const target = Number(state.targetPages || "1");
+      const capacity = Math.max(1, target * predicted.perPage);
+      const usage = Math.min(1.5, predicted.lines / capacity);
+      const overBy = Math.max(0, predicted.lines - capacity);
+      const sections = sectionLineBudgetsForState(state)
+        .sort((a, b) => b.lines - a.lines)
+        .map(s => ({
+          key: s.key,
+          label: fieldLabel(s.key),
+          lines: s.lines,
+          heavy: s.lines > Math.max(12, Math.round(capacity * 0.22)),
+        }));
+      const warnings = [];
+      if (predicted.pages > target) {
+        warnings.push(`Estimated ${predicted.pages} pages for target ${target} (about ${overBy} lines over budget).`);
+      }
+      sections.filter(s => s.heavy).slice(0, 3).forEach(s => {
+        warnings.push(`${s.label} is heavy (${s.lines} lines). Consider trimming 1-2 bullets.`);
+      });
+      return {
+        predicted,
+        target,
+        usage,
+        warnings,
+        sections,
+      };
     }
 
     function pageBudgetMessage() {
-      const lines = estimateLines();
-      const perPage = state.atsMode ? 58 : 52;
-      const pages = Math.max(1, Math.ceil(lines / perPage));
+      const meter = a4FitReport();
+      const pages = meter.predicted.pages;
       const target = Number(state.targetPages || "1");
       if (pages > target) {
         return { className: "diag-warn", text: `Page budget risk: estimated ${pages} page(s) for target ${target}. Trim bullets or switch sections to Compact/Tight.` };
       }
       return { className: "diag-ok", text: `Page budget looks good: estimated ${pages} page(s) for target ${target}.` };
+    }
+
+    function coachTonePreservingRewrite(line, issueType) {
+      const raw = String(line || "").trim();
+      if (!raw) return raw;
+      if (issueType === "weak-start") {
+        return raw
+          .replace(/^worked on\b/i, "Built")
+          .replace(/^responsible for\b/i, "Led")
+          .replace(/^helped\b/i, "Supported")
+          .replace(/^involved in\b/i, "Contributed to")
+          .replace(/^did\b/i, "Executed");
+      }
+      if (issueType === "metric-free") {
+        if (/\d|%|x|ms|s\b|k\b|million|thousand/i.test(raw)) return raw;
+        return `${raw} (quantify outcome if possible)`;
+      }
+      if (issueType === "max-length") {
+        if (raw.length <= 150) return raw;
+        return `${raw.slice(0, 147).trim()}...`;
+      }
+      if (issueType === "punctuation-style") {
+        return raw.replace(/[.!?]+$/, "");
+      }
+      if (issueType === "tense-consistency") {
+        return raw
+          .replace(/^build\b/i, "Built")
+          .replace(/^lead\b/i, "Led")
+          .replace(/^design\b/i, "Designed")
+          .replace(/^develop\b/i, "Developed")
+          .replace(/^manage\b/i, "Managed")
+          .replace(/^create\b/i, "Created")
+          .replace(/^optimize\b/i, "Optimized")
+          .replace(/^implement\b/i, "Implemented")
+          .replace(/^deliver\b/i, "Delivered")
+          .replace(/^analyze\b/i, "Analyzed");
+      }
+      return raw;
+    }
+
+    function bulletEntries() {
+      const out = [];
+      state.experience.forEach((e, i) => {
+        linesToArray(e.bullets).forEach((line, j) => out.push({ ref: `experience|${i}|${j}`, section: "Experience", line }));
+      });
+      state.projects.forEach((p, i) => {
+        linesToArray(p.bullets).forEach((line, j) => out.push({ ref: `projects|${i}|${j}`, section: "Projects", line }));
+      });
+      linesToArray(state.achievements).forEach((line, j) => {
+        out.push({ ref: `achievements|0|${j}`, section: "Achievements", line });
+      });
+      return out;
+    }
+
+    function coachSuggestions(limit = 8) {
+      const entries = bulletEntries();
+      if (!entries.length) return [];
+      const punctuated = entries.filter(e => /[.!?]$/.test(e.line)).length;
+      const punctuationPolicy = punctuated >= Math.ceil(entries.length * 0.55) ? "with" : "without";
+      const out = [];
+      entries.forEach((e) => {
+        const line = e.line;
+        if (/^(worked on|responsible for|helped|involved in|did)\b/i.test(line)) {
+          out.push({ ...e, type: "weak-start", message: "Starts with a weak phrase." });
+        }
+        if (!/\d|%|x|ms|s\b|k\b|million|thousand/i.test(line)) {
+          out.push({ ...e, type: "metric-free", message: "No quantifiable outcome detected." });
+        }
+        if (line.length > 150) {
+          out.push({ ...e, type: "max-length", message: "Too long for quick recruiter scan." });
+        }
+        if ((punctuationPolicy === "without" && /[.!?]$/.test(line)) || (punctuationPolicy === "with" && !/[.!?]$/.test(line))) {
+          out.push({ ...e, type: "punctuation-style", message: "Inconsistent bullet ending punctuation." });
+        }
+        if (/^(build|lead|design|develop|manage|create|optimize|implement|deliver|analyze)\b/i.test(line)) {
+          out.push({ ...e, type: "tense-consistency", message: "Use consistent past tense for achievements." });
+        }
+      });
+      return out.slice(0, limit);
+    }
+
+    function applyCoachFix(ref, type) {
+      const [key, idxRaw, lineRaw] = String(ref || "").split("|");
+      const idx = Number(idxRaw);
+      const lineIndex = Number(lineRaw);
+      if (!Number.isFinite(idx) || !Number.isFinite(lineIndex)) return;
+      captureUndoStep();
+      if (key === "experience") {
+        const lines = linesToArray(state.experience[idx]?.bullets || "");
+        if (!lines[lineIndex]) return;
+        lines[lineIndex] = coachTonePreservingRewrite(lines[lineIndex], type);
+        state.experience[idx].bullets = lines.join("\n");
+      } else if (key === "projects") {
+        const lines = linesToArray(state.projects[idx]?.bullets || "");
+        if (!lines[lineIndex]) return;
+        lines[lineIndex] = coachTonePreservingRewrite(lines[lineIndex], type);
+        state.projects[idx].bullets = lines.join("\n");
+      } else if (key === "achievements") {
+        const lines = linesToArray(state.achievements || "");
+        if (!lines[lineIndex]) return;
+        lines[lineIndex] = coachTonePreservingRewrite(lines[lineIndex], type);
+        state.achievements = lines.join("\n");
+      }
+      save();
+      renderForm();
+      wireArrayEvents();
+      renderDiagnostics();
+      renderPreview();
+      showRecoveryToast("Suggestion applied.");
+    }
+
+    function compareStates(base, current) {
+      const before = estimatePagesForState(base || state);
+      const after = estimatePagesForState(current || state);
+      const sectionOrderChanged = JSON.stringify(sanitizeSectionOrder(base?.sectionOrder || [])) !== JSON.stringify(sanitizeSectionOrder(current?.sectionOrder || []));
+      const sectionCounts = {
+        experience: (current?.experience || []).length - (base?.experience || []).length,
+        projects: (current?.projects || []).length - (base?.projects || []).length,
+        skills: (current?.skills || []).length - (base?.skills || []).length,
+      };
+      return {
+        pageDelta: after.pages - before.pages,
+        lineDelta: after.lines - before.lines,
+        sectionOrderChanged,
+        sectionCounts,
+        before,
+        after,
+      };
+    }
+
+    function versionCompareSources() {
+      const variants = variantsLoad();
+      const fromVariants = Object.keys(variants).map(name => ({
+        id: `variant:${name}`,
+        label: `Variant: ${name}`,
+      }));
+      const fromHistory = loadHistory().map(h => ({
+        id: `history:${h.id}`,
+        label: `Restore Point: ${(h.label || "Snapshot")} (${formatSavedTime(h.savedAt) || "unknown"})`,
+      }));
+      return [...fromVariants, ...fromHistory].slice(0, 50);
+    }
+
+    function resolveVersionCompareSource(sourceId) {
+      if (!sourceId) return null;
+      if (sourceId.startsWith("variant:")) {
+        const name = sourceId.slice("variant:".length);
+        return variantsLoad()[name] || null;
+      }
+      if (sourceId.startsWith("history:")) {
+        const id = sourceId.slice("history:".length);
+        const snap = loadHistory().find(h => h.id === id);
+        return snap?.state || null;
+      }
+      return null;
+    }
+
+    function compareSummaryHtml(diff) {
+      const direction = diff.pageDelta > 0 ? "more" : (diff.pageDelta < 0 ? "fewer" : "same");
+      const sectionDeltaText = Object.entries(diff.sectionCounts)
+        .filter(([, v]) => v !== 0)
+        .map(([k, v]) => `${fieldLabel(k)} ${v > 0 ? `+${v}` : v}`)
+        .join(" | ") || "No section count changes";
+      return `
+        <div>Page impact: ${Math.abs(diff.pageDelta)} ${direction} page(s) (${diff.before.pages} -> ${diff.after.pages}).</div>
+        <div>Line impact: ${diff.lineDelta >= 0 ? `+${diff.lineDelta}` : diff.lineDelta} estimated lines.</div>
+        <div>Section order changed: ${diff.sectionOrderChanged ? "Yes" : "No"}.</div>
+        <div>${sectionDeltaText}.</div>
+      `;
     }
 
     function bulletLintIssues() {
@@ -1820,14 +2573,12 @@
 
     function applyExportPreset(preset) {
       if (preset === "compact") {
-        state.lineHeight = "1.28";
-        Object.keys(state.sectionDensity || {}).forEach(k => {
-          state.sectionDensity[k] = "compact";
-        });
+        applyDensityPreset("compact");
         return;
       }
       if (preset === "academic") {
-        state.lineHeight = "1.38";
+        state.densityPreset = "readable";
+        state.lineHeight = "1.4";
         Object.keys(state.sectionDensity || {}).forEach(k => {
           state.sectionDensity[k] = "normal";
         });
@@ -1835,10 +2586,7 @@
         state.sectionDensity.projects = "normal";
         return;
       }
-      state.lineHeight = "1.35";
-      Object.keys(state.sectionDensity || {}).forEach(k => {
-        state.sectionDensity[k] = "normal";
-      });
+      applyDensityPreset("balanced");
     }
 
     function exportPresetGuideCard(preset) {
@@ -1873,7 +2621,9 @@
         seen = sessionStorage.getItem(key) === "1";
       } catch (_) {}
       if (!seen) {
-        showRecoveryToast(`${kind.toUpperCase()} tip: Save as PDF, A4, default margins, background graphics OFF.`);
+        if (kind !== "pdf") {
+          showRecoveryToast(`${kind.toUpperCase()} tip: Save as PDF, A4, default margins, background graphics OFF.`);
+        }
         try {
           sessionStorage.setItem(key, "1");
         } catch (_) {}
@@ -1973,6 +2723,46 @@
         publications: stat(state.publications),
         keyCourses: stat(state.keyCourses),
       };
+    }
+
+    function mmToPx(mm) {
+      const probe = document.createElement("div");
+      probe.style.position = "absolute";
+      probe.style.left = "-10000px";
+      probe.style.top = "-10000px";
+      probe.style.width = `${mm}mm`;
+      probe.style.height = "1px";
+      document.body.appendChild(probe);
+      const px = probe.getBoundingClientRect().width;
+      probe.remove();
+      return px;
+    }
+
+    function renderPageSegregationGuides() {
+      const preview = document.getElementById("resumePreview");
+      if (!preview) return;
+
+      preview.querySelectorAll(".page-guide-line").forEach(node => node.remove());
+
+      const printablePageHeightPx = mmToPx(297 - 20);
+      if (!Number.isFinite(printablePageHeightPx) || printablePageHeightPx <= 0) return;
+
+      const totalHeight = Math.max(preview.scrollHeight, printablePageHeightPx);
+      const totalPages = Math.max(1, Math.ceil(totalHeight / printablePageHeightPx));
+
+      for (let page = 2; page <= totalPages; page += 1) {
+        const y = Math.round((page - 1) * printablePageHeightPx);
+        const line = document.createElement("div");
+        line.className = "page-guide-line";
+        line.style.top = `${y}px`;
+
+        const label = document.createElement("span");
+        label.className = "page-guide-label";
+        label.textContent = `Page ${page}`;
+        line.appendChild(label);
+
+        preview.appendChild(line);
+      }
     }
 
     function normalizedLine(line) {
@@ -2115,6 +2905,7 @@
         showRecoveryToast("Add achievements first, then run rewrite.");
         return;
       }
+      captureUndoStep();
       state.achievements = lines.map(rewriteAchievementLine).join("\n");
       save();
       renderForm();
@@ -2153,6 +2944,7 @@
         },
       };
       const p = packs[name] || packs.standard;
+      captureUndoStep();
       state.templatePack = name;
       state.rolePreset = p.rolePreset;
       state.exportPreset = p.exportPreset;
@@ -2214,6 +3006,7 @@
       if (i < 0) return;
       const j = direction === "up" ? i - 1 : i + 1;
       if (j < 0 || j >= list.length) return;
+      captureUndoStep();
       const tmp = list[i];
       list[i] = list[j];
       list[j] = tmp;
@@ -2228,9 +3021,13 @@
     }
 
     function renderArray(key, fields, multilineFields = []) {
-      return state[key].map((item, idx) => `
+      return state[key].map((item, idx, arr) => `
         <div class="card-mini">
-          <div class="tiny">Entry ${idx + 1} <button type="button" data-remove="${key}" data-index="${idx}">Remove</button></div>
+          <div class="tiny">Entry ${idx + 1}
+            <button type="button" data-move-array="${key}" data-index="${idx}" data-dir="up" ${idx === 0 ? "disabled" : ""}>Up</button>
+            <button type="button" data-move-array="${key}" data-index="${idx}" data-dir="down" ${idx === arr.length - 1 ? "disabled" : ""}>Down</button>
+            <button type="button" data-remove="${key}" data-index="${idx}">Remove</button>
+          </div>
           ${fields.map(f => {
             const value = escapeHtml(item[f] || "");
             const label = fieldLabel(f);
@@ -2239,8 +3036,63 @@
               const helper = f === "bullets" ? `<div class="tiny">Press Enter to add the next bullet.</div>` : "";
               return `<label>${label}<textarea data-array="${key}" data-index="${idx}" data-field="${f}" placeholder="One item per line">${textValue}</textarea>${helper}</label>`;
             }
+            if ((key === "experience" || key === "projects") && f === "dates") {
+              const parsed = parseMonthYearRange(item[f] || "");
+              const months = monthOptions();
+              const years = yearOptions();
+              const monthSelect = (part, selected, disabled = false) => `<select data-date-array="${key}" data-date-index="${idx}" data-date-part="${part}" ${disabled ? "disabled" : ""}><option value="">Month</option>${months.map(m => `<option value="${m}" ${selected === m ? "selected" : ""}>${m}</option>`).join("")}</select>`;
+              const yearSelect = (part, selected, disabled = false) => `<select data-date-array="${key}" data-date-index="${idx}" data-date-part="${part}" ${disabled ? "disabled" : ""}><option value="">Year</option>${years.map(y => `<option value="${y}" ${selected === y ? "selected" : ""}>${y}</option>`).join("")}</select>`;
+              return `
+                <label>${label}
+                  <div class="date-range-grid">
+                    ${monthSelect("startMonth", parsed.startMonth)}
+                    ${yearSelect("startYear", parsed.startYear)}
+                    ${monthSelect("endMonth", parsed.endMonth, parsed.present)}
+                    ${yearSelect("endYear", parsed.endYear, parsed.present)}
+                    <label class="control-check full-row date-range-inline"><input type="checkbox" data-date-array="${key}" data-date-index="${idx}" data-date-part="present" ${parsed.present ? "checked" : ""}> Present</label>
+                    <div class="full-row date-range-inline">
+                      <button type="button" class="tiny-action" data-date-action="current-start" data-date-array="${key}" data-date-index="${idx}">Current Start</button>
+                      <span class="tiny">End date auto-suggests from Start when empty.</span>
+                    </div>
+                  </div>
+                </label>
+              `;
+            }
+            if (f === "workMode") {
+              const current = String(item[f] || "onsite").toLowerCase();
+              return `<label>${label}<select data-array="${key}" data-index="${idx}" data-field="${f}"><option value="onsite" ${current === "onsite" ? "selected" : ""}>Onsite</option><option value="remote" ${current === "remote" ? "selected" : ""}>Remote</option><option value="hybrid" ${current === "hybrid" ? "selected" : ""}>Hybrid</option></select></label>`;
+            }
             return `<label>${label}<input data-array="${key}" data-index="${idx}" data-field="${f}" value="${value}"></label>`;
           }).join("")}
+        </div>
+      `).join("");
+    }
+
+    function getLineItems(key) {
+      const raw = String(state[key] || "");
+      if (!raw) return [];
+      return raw.split("\n").map(v => v.replace(/\r/g, ""));
+    }
+
+    function setLineItems(key, items) {
+      state[key] = (items || []).map(v => String(v || "")).join("\n");
+    }
+
+    function renderLineListEditor(key, placeholder) {
+      const items = getLineItems(key);
+      if (!items.length) {
+        return `<div class="tiny">No entries yet. Click + Add to create the first item.</div>`;
+      }
+      return items.map((item, idx, arr) => `
+        <div class="card-mini">
+          <div class="tiny">Entry ${idx + 1}
+            <button type="button" data-line-move-key="${key}" data-line-index="${idx}" data-dir="up" ${idx === 0 ? "disabled" : ""}>Up</button>
+            <button type="button" data-line-move-key="${key}" data-line-index="${idx}" data-dir="down" ${idx === arr.length - 1 ? "disabled" : ""}>Down</button>
+            <button type="button" data-line-remove-key="${key}" data-line-index="${idx}">Remove</button>
+          </div>
+          <label>Item
+            <input data-line-key="${key}" data-line-index="${idx}" placeholder="${escapeHtml(placeholder)}" value="${escapeHtml(item)}">
+          </label>
         </div>
       `).join("");
     }
@@ -2290,6 +3142,20 @@
                 <option value="academic">Academic</option>
               </select>
             </label>
+            <label>Density Preset
+              <select id="densityPreset">
+                <option value="compact">Compact</option>
+                <option value="balanced">Balanced</option>
+                <option value="readable">Readable</option>
+              </select>
+            </label>
+            <label>Print Profile
+              <select id="printProfile">
+                <option value="ats-safe">ATS-safe</option>
+                <option value="visual">Visual</option>
+                <option value="publication">Publication</option>
+              </select>
+            </label>
             <label>Target Pages
               <select id="targetPages">
                 <option value="1">1 page</option>
@@ -2301,6 +3167,7 @@
             <label class="control-check"><input type="checkbox" id="atsMode" ${state.atsMode ? "checked" : ""}> ATS Safe Mode</label>
             <label class="control-check"><input type="checkbox" id="printCalibrated" ${state.printCalibrated ? "checked" : ""}> Strict Print Calibration</label>
             <label class="control-check"><input type="checkbox" id="strictLinks" ${state.strictLinks ? "checked" : ""}> Strict Link Validation</label>
+            <label class="control-check"><input type="checkbox" id="contentCoachEnabled" ${state.contentCoachEnabled ? "checked" : ""}> Enable Content Coach + Grammar Lint</label>
             <div class="full-row" id="presetGuideBox">${rolePresetGuideCard(state.rolePreset)}</div>
             <div class="full-row" id="exportPresetGuideBox">${exportPresetGuideCard(state.exportPreset)}</div>
           </div>
@@ -2358,6 +3225,20 @@
         </div>
 
         <div class="section">
+          <h3>Version Compare</h3>
+          <div class="section-body controls-grid">
+            <label class="full-row">Compare Current With
+              <select id="compareSourceSelect">
+                <option value="">Select snapshot or variant</option>
+                ${versionCompareSources().map(v => `<option value="${escapeHtml(v.id)}">${escapeHtml(v.label)}</option>`).join("")}
+              </select>
+            </label>
+            <button type="button" id="compareVersionBtn">Preview Change Impact</button>
+            <div id="versionCompareBox" class="compare-box full-row">Pick a source and click <em>Preview Change Impact</em>.</div>
+          </div>
+        </div>
+
+        <div class="section">
           <h3>Data Management</h3>
           <div class="section-body controls-grid">
             <button type="button" id="exportBackupBtn">Backup JSON</button>
@@ -2385,10 +3266,13 @@
       document.getElementById("templatePack").value = state.templatePack || "standard";
       document.getElementById("rolePreset").value = state.rolePreset;
       document.getElementById("exportPreset").value = state.exportPreset;
+      document.getElementById("densityPreset").value = state.densityPreset || "balanced";
+      document.getElementById("printProfile").value = state.printProfile || "visual";
       document.getElementById("targetPages").value = state.targetPages;
 
-      ["templatePack", "rolePreset", "exportPreset", "targetPages", "atsMode", "printCalibrated", "strictLinks"].forEach(id => {
+      ["templatePack", "rolePreset", "exportPreset", "densityPreset", "printProfile", "targetPages", "atsMode", "printCalibrated", "strictLinks", "contentCoachEnabled"].forEach(id => {
         document.getElementById(id).addEventListener("input", (e) => {
+          captureUndoStep();
           state[id] = e.target.type === "checkbox" ? e.target.checked : e.target.value;
           if (id === "templatePack") {
             applyTemplatePack(state.templatePack);
@@ -2407,12 +3291,15 @@
             renderForm();
             wireArrayEvents();
           }
+          if (id === "densityPreset") {
+            applyDensityPreset(state.densityPreset);
+            renderForm();
+            wireArrayEvents();
+          }
           if (id === "printCalibrated") {
-            document.body.classList.toggle("print-calibrated", state.printCalibrated);
+            syncBodyModes();
           }
-          if (id === "atsMode") {
-            document.body.classList.toggle("ats-safe", state.atsMode);
-          }
+          if (id === "atsMode" || id === "printProfile") syncBodyModes();
           save();
           renderDiagnostics();
           renderPreview();
@@ -2421,6 +3308,7 @@
 
       drawer.querySelectorAll("[data-section-toggle]").forEach(el => {
         el.addEventListener("input", (e) => {
+          captureUndoStep();
           const key = e.target.dataset.sectionToggle;
           state.sections[key] = e.target.checked;
           save();
@@ -2433,6 +3321,7 @@
 
       drawer.querySelectorAll("[data-density]").forEach(el => {
         el.addEventListener("input", (e) => {
+          captureUndoStep();
           const key = e.target.dataset.density;
           state.sectionDensity[key] = e.target.value;
           save();
@@ -2451,6 +3340,11 @@
         const name = (document.getElementById("variantName").value || "").trim();
         if (!name) return;
         const variants = variantsLoad();
+        if (variants[name]) {
+          const diff = compareStates(variants[name], state);
+          const ok = confirm(`This variant already exists.\n\n${compareSummaryHtml(diff).replace(/<[^>]+>/g, "").replace(/\s+/g, " ")}\n\nOverwrite?`);
+          if (!ok) return;
+        }
         variants[name] = JSON.parse(JSON.stringify(state));
         variantsSave(variants);
         renderSettingsDrawer();
@@ -2461,6 +3355,7 @@
         const name = document.getElementById("variantSelect").value;
         const variants = variantsLoad();
         if (!name || !variants[name]) return;
+        captureUndoStep();
         Object.assign(state, sanitizeImportedState(JSON.parse(JSON.stringify(variants[name]))));
         save();
         renderForm();
@@ -2488,6 +3383,12 @@
         alert(exportDiagnosticsReport());
       });
       document.getElementById("saveRestorePointBtn").addEventListener("click", () => {
+        const latest = loadHistory()[0]?.state;
+        if (latest) {
+          const diff = compareStates(latest, state);
+          const ok = confirm(`Save restore point with this impact?\n\n${compareSummaryHtml(diff).replace(/<[^>]+>/g, "").replace(/\s+/g, " ")}`);
+          if (!ok) return;
+        }
         createRestorePoint("Manual");
         renderSettingsDrawer();
         showRecoveryToast("Restore point saved.");
@@ -2497,6 +3398,7 @@
         if (!id) return;
         const snap = loadHistory().find(h => h.id === id);
         if (!snap || !snap.state) return;
+        captureUndoStep();
         Object.assign(state, sanitizeImportedState(JSON.parse(JSON.stringify(snap.state))));
         save();
         renderForm();
@@ -2510,6 +3412,18 @@
         e.target.value = "";
       });
       document.getElementById("clearDataBtn").addEventListener("click", clearLocalData);
+
+      document.getElementById("compareVersionBtn").addEventListener("click", () => {
+        const sourceId = document.getElementById("compareSourceSelect").value;
+        const box = document.getElementById("versionCompareBox");
+        if (!box) return;
+        const source = resolveVersionCompareSource(sourceId);
+        if (!source) {
+          box.innerHTML = "Pick a valid snapshot or variant to compare.";
+          return;
+        }
+        box.innerHTML = compareSummaryHtml(compareStates(source, state));
+      });
     }
 
     function renderForm() {
@@ -2518,26 +3432,47 @@
         <div class="section">
           <h3>Controls</h3>
           <div class="section-body controls-grid">
-            <label class="full-row">Custom Logo (optional)
+            <label class="full-row">Custom Logo / Photo (optional)
               <input id="logoUpload" type="file" accept="image/*">
             </label>
-            <div class="tiny full-row">Upload only logos/trademarks you are legally authorized to use.</div>
+            <div class="tiny full-row">Upload your logo or profile photo. Upload institutional logos only if you are authorized to use them.</div>
             <div class="logo-actions full-row">
-              <button type="button" id="resetLogoBtn">Reset To Default Logo</button>
-              <div class="tiny">Current logo: ${state.customLogo ? "Custom uploaded logo" : "Default neutral logo"}</div>
+              <button type="button" id="resetLogoBtn">Reset To Default Image</button>
+              <div class="tiny">Current image: ${state.customLogo ? "Custom uploaded image" : "Default neutral logo"}</div>
             </div>
             <div class="logo-size-row full-row">
-              <label>Logo Size (px)
-                <input type="range" min="28" max="140" step="1" id="logoSize" value="${normalizeLogoSize(state.logoSize)}">
+              <label>Image Width (px)
+                <input type="range" min="28" max="220" step="1" id="imageWidth" value="${normalizeImageDimension(state.imageWidth || state.logoSize)}">
               </label>
-              <div class="tiny" id="logoSizeValue">${normalizeLogoSize(state.logoSize)} px</div>
+              <div class="tiny" id="imageWidthValue">${normalizeImageDimension(state.imageWidth || state.logoSize)} px</div>
             </div>
+            <div class="logo-size-row full-row">
+              <label>Image Height (px)
+                <input type="range" min="28" max="220" step="1" id="imageHeight" value="${normalizeImageDimension(state.imageHeight || state.logoSize)}">
+              </label>
+              <div class="tiny" id="imageHeightValue">${normalizeImageDimension(state.imageHeight || state.logoSize)} px</div>
+            </div>
+            <label>Image Shape
+              <select id="photoShape">
+                <option value="square">Square</option>
+                <option value="rectangle">Rectangle</option>
+                <option value="circle">Circular</option>
+              </select>
+            </label>
+            <label>Image Fit
+              <select id="imageFit">
+                <option value="contain">Contain</option>
+                <option value="cover">Cover</option>
+              </select>
+            </label>
             <label>Line Spacing<input type="number" step="0.05" min="1" max="2" id="lineHeight" value="${state.lineHeight}"></label>
             <label>Font<select id="fontFamily"><option value="'Times New Roman', serif">Serif</option><option value="'Georgia', serif">Georgia</option><option value="'Segoe UI', sans-serif">Sans</option><option value="'Poppins', sans-serif">Poppins</option><option value="'Montserrat', sans-serif">Montserrat</option></select></label>
             <label class="control-check full-row"><input type="checkbox" id="privacyMode" ${state.privacyMode ? "checked" : ""}> Privacy Mode (mask personal info in preview/screenshots)</label>
             <label class="full-row">Job Description (for ATS keyword matching)
               <textarea id="jobDescription" placeholder="Paste target job description here...">${escapeHtml(state.jobDescription || "")}</textarea>
             </label>
+            <div class="full-row diagnostics" id="diagnosticsBox"></div>
+            <div class="full-row diagnostics" id="coachBox" ${state.contentCoachEnabled ? "" : "style=\"display:none\""}></div>
           </div>
         </div>
 
@@ -2551,34 +3486,52 @@
           ${input("email", "Email")}
           ${input("linkedin", "LinkedIn")}
           ${input("github", "GitHub")}
+          ${input("portfolio", "Google Drive Portfolio")}
+          <label class="control-check"><input type="checkbox" id="showGithubContact" ${state.showGithubContact ? "checked" : ""}> Show GitHub in CV header</label>
+          <label class="control-check"><input type="checkbox" id="showPortfolioContact" ${state.showPortfolioContact ? "checked" : ""}> Show Portfolio in CV header</label>
         </div></div>
 
         ${sectionEnabled("education") ? `<div class="section"><h3>Education <button type="button" data-add="education">+ Add</button></h3><div class="section-body">${renderArray("education", ["year", "degree", "institute", "cgpa"])}</div></div>` : ""}
-        ${sectionEnabled("experience") ? `<div class="section"><h3>Experience <button type="button" data-add="experience">+ Add</button></h3><div class="section-body">${renderArray("experience", ["company", "role", "dates", "link", "bullets"], ["bullets"])}</div></div>` : ""}
+        ${sectionEnabled("experience") ? `<div class="section"><h3>Experience <button type="button" data-add="experience">+ Add</button></h3><div class="section-body">${renderArray("experience", ["company", "role", "workMode", "dates", "link", "bullets"], ["bullets"])}</div></div>` : ""}
         ${sectionEnabled("publications") ? `<div class="section"><h3>Publications</h3><div class="section-body"><label>One item per line<textarea data-key="publications">${escapeHtml(state.publications)}</textarea></label></div></div>` : ""}
         ${sectionEnabled("projects") ? `<div class="section"><h3>Projects <button type="button" data-add="projects">+ Add</button></h3><div class="section-body">${renderArray("projects", ["title", "mentor", "dates", "link", "tech", "bullets"], ["bullets"])}</div></div>` : ""}
         ${sectionEnabled("skills") ? `<div class="section"><h3>Technical Skills <button type="button" data-add="skills">+ Add</button></h3><div class="section-body">${renderArray("skills", ["category", "items"])}</div></div>` : ""}
         ${sectionEnabled("por") ? `<div class="section"><h3>Positions of Responsibility</h3><div class="section-body"><label>One item per line<textarea data-key="por">${escapeHtml(state.por)}</textarea></label></div></div>` : ""}
-        ${sectionEnabled("achievements") ? `<div class="section"><h3>Achievements <button type="button" id="rewriteAchievementsBtn">Rewrite Weak Bullets</button></h3><div class="section-body"><label>One item per line<textarea data-key="achievements">${escapeHtml(state.achievements)}</textarea></label></div></div>` : ""}
-        ${sectionEnabled("keyCourses") ? `<div class="section"><h3>Key Courses Taken</h3><div class="section-body"><label>One item per line<textarea data-key="keyCourses">${escapeHtml(state.keyCourses)}</textarea></label></div></div>` : ""}
-        ${sectionEnabled("extracurriculars") ? `<div class="section"><h3>Extracurriculars</h3><div class="section-body"><label>One item per line<textarea data-key="extracurriculars">${escapeHtml(state.extracurriculars)}</textarea></label></div></div>` : ""}
+        ${sectionEnabled("achievements") ? `<div class="section"><h3>Achievements <span><button type="button" data-line-add="achievements">+ Add</button> <button type="button" id="rewriteAchievementsBtn">Rewrite Weak Bullets</button></span></h3><div class="section-body">${renderLineListEditor("achievements", "Eg: Secured AIR 45 among 25,000 participants")}</div></div>` : ""}
+        ${sectionEnabled("keyCourses") ? `<div class="section"><h3>Key Courses Taken <button type="button" data-line-add="keyCourses">+ Add</button></h3><div class="section-body">${renderLineListEditor("keyCourses", "Eg: Design and Analysis of Algorithms")}</div></div>` : ""}
+        ${sectionEnabled("extracurriculars") ? `<div class="section"><h3>Extracurriculars <button type="button" data-line-add="extracurriculars">+ Add</button></h3><div class="section-body">${renderLineListEditor("extracurriculars", "Eg: Core member, Coding Club")}</div></div>` : ""}
 
         <div class="tiny" id="autosaveStatus"></div>
       `;
 
       document.getElementById("fontFamily").value = state.fontFamily;
-      document.getElementById("logoSize").value = String(normalizeLogoSize(state.logoSize));
-      document.getElementById("logoSizeValue").textContent = `${normalizeLogoSize(state.logoSize)} px`;
+      document.getElementById("photoShape").value = state.photoShape;
+      document.getElementById("imageFit").value = state.imageFit;
+      document.getElementById("imageWidth").value = String(normalizeImageDimension(state.imageWidth || state.logoSize));
+      document.getElementById("imageHeight").value = String(normalizeImageDimension(state.imageHeight || state.logoSize));
+      document.getElementById("imageWidthValue").textContent = `${normalizeImageDimension(state.imageWidth || state.logoSize)} px`;
+      document.getElementById("imageHeightValue").textContent = `${normalizeImageDimension(state.imageHeight || state.logoSize)} px`;
       document.getElementById("privacyMode").checked = state.privacyMode;
-      document.body.classList.toggle("print-calibrated", state.printCalibrated);
-      document.body.classList.toggle("ats-safe", state.atsMode);
+      syncBodyModes();
       updateAutosaveStatus();
 
       panel.querySelectorAll("[data-key]").forEach(el => {
         el.addEventListener("input", (e) => {
+          captureUndoStep();
           const key = e.target.dataset.key;
           state[key] = e.target.value;
           setFieldValidity(e.target, validateField(key, e.target.value));
+          save();
+          debouncedRenderPreview();
+        });
+      });
+
+      ["showGithubContact", "showPortfolioContact"].forEach(id => {
+        const toggle = document.getElementById(id);
+        if (!toggle) return;
+        toggle.addEventListener("change", (e) => {
+          captureUndoStep();
+          state[id] = e.target.checked;
           save();
           debouncedRenderPreview();
         });
@@ -2588,6 +3541,7 @@
         const file = e.target.files?.[0];
         if (!file) return;
         try {
+          captureUndoStep();
           state.customLogo = await resizeLogoFile(file);
           save();
           renderForm();
@@ -2601,20 +3555,22 @@
       });
 
       document.getElementById("resetLogoBtn").addEventListener("click", () => {
+        captureUndoStep();
         state.customLogo = "";
         save();
         renderForm();
         wireArrayEvents();
         renderDiagnostics();
         renderPreview();
-        showRecoveryToast("Logo reset to neutral default.");
+        showRecoveryToast("Image reset to neutral default logo.");
       });
 
       panel.querySelectorAll("[data-add]").forEach(btn => {
         btn.addEventListener("click", () => {
+          captureUndoStep();
           const key = btn.dataset.add;
           if (key === "education") state.education.push({ year: "", degree: "", institute: "", cgpa: "" });
-          if (key === "experience") state.experience.push({ company: "", role: "", dates: "", link: "", bullets: "" });
+          if (key === "experience") state.experience.push({ company: "", role: "", workMode: "onsite", dates: "", link: "", bullets: "" });
           if (key === "projects") state.projects.push({ title: "", mentor: "", dates: "", link: "", tech: "", bullets: "" });
           if (key === "skills") state.skills.push({ category: "", items: "" });
           save();
@@ -2625,14 +3581,112 @@
         });
       });
 
-      ["lineHeight", "fontFamily", "logoSize", "privacyMode"].forEach(id => {
+      if (!panel._lineEditorBound) {
+        panel.addEventListener("input", (e) => {
+          const targetEl = e.target instanceof Element ? e.target : null;
+          if (!targetEl) return;
+          const inputEl = targetEl.closest("input[data-line-key]");
+          if (!inputEl) return;
+          captureUndoStep();
+          const key = inputEl.dataset.lineKey;
+          const idx = Number(inputEl.dataset.lineIndex);
+          if (!key || typeof state[key] !== "string") state[key] = "";
+          const items = getLineItems(key);
+          if (idx < 0 || idx >= items.length) return;
+          items[idx] = inputEl.value;
+          setLineItems(key, items);
+          setFieldValidity(inputEl, validateField(key, state[key]));
+          save();
+          debouncedRenderPreview();
+        });
+
+        panel.addEventListener("click", (e) => {
+          const targetEl = e.target instanceof Element ? e.target : null;
+          if (!targetEl) return;
+
+          const coachBtn = targetEl.closest("button[data-coach-fix]");
+          if (coachBtn) {
+            applyCoachFix(coachBtn.dataset.coachFix, coachBtn.dataset.coachType);
+            return;
+          }
+
+          const addBtn = targetEl.closest("button[data-line-add]");
+          if (addBtn) {
+            captureUndoStep();
+            const key = addBtn.dataset.lineAdd;
+            if (!key || typeof state[key] !== "string") state[key] = "";
+            const items = getLineItems(key);
+            items.push("New item");
+            setLineItems(key, items);
+            save();
+            renderForm();
+            wireArrayEvents();
+            renderDiagnostics();
+            renderPreview();
+            return;
+          }
+
+          const removeBtn = targetEl.closest("button[data-line-remove-key]");
+          if (removeBtn) {
+            captureUndoStep();
+            const key = removeBtn.dataset.lineRemoveKey;
+            const idx = Number(removeBtn.dataset.lineIndex);
+            if (!key || typeof state[key] !== "string") state[key] = "";
+            const items = getLineItems(key);
+            if (idx < 0 || idx >= items.length) return;
+            items.splice(idx, 1);
+            setLineItems(key, items);
+            save();
+            renderForm();
+            wireArrayEvents();
+            renderDiagnostics();
+            renderPreview();
+            return;
+          }
+
+          const moveBtn = targetEl.closest("button[data-line-move-key]");
+          if (moveBtn) {
+            const key = moveBtn.dataset.lineMoveKey;
+            const idx = Number(moveBtn.dataset.lineIndex);
+            const dir = moveBtn.dataset.dir;
+            if (!key || typeof state[key] !== "string") state[key] = "";
+            const items = getLineItems(key);
+            const next = dir === "up" ? idx - 1 : idx + 1;
+            if (next < 0 || next >= items.length) return;
+            captureUndoStep();
+            const tmp = items[idx];
+            items[idx] = items[next];
+            items[next] = tmp;
+            setLineItems(key, items);
+            save();
+            renderForm();
+            wireArrayEvents();
+            renderDiagnostics();
+            renderPreview();
+          }
+        });
+
+        panel._lineEditorBound = true;
+      }
+
+      ["lineHeight", "fontFamily", "privacyMode", "photoShape", "imageWidth", "imageHeight", "imageFit"].forEach(id => {
         document.getElementById(id).addEventListener("input", (e) => {
-          if (id === "logoSize") {
-            state.logoSize = String(normalizeLogoSize(e.target.value));
-            const label = document.getElementById("logoSizeValue");
-            if (label) label.textContent = `${state.logoSize} px`;
+          captureUndoStep();
+          if (id === "imageWidth") {
+            state.imageWidth = String(normalizeImageDimension(e.target.value));
+            const label = document.getElementById("imageWidthValue");
+            if (label) label.textContent = `${state.imageWidth} px`;
+          } else if (id === "imageHeight") {
+            state.imageHeight = String(normalizeImageDimension(e.target.value));
+            const label = document.getElementById("imageHeightValue");
+            if (label) label.textContent = `${state.imageHeight} px`;
+            state.logoSize = state.imageHeight;
           } else if (id === "privacyMode") {
             state.privacyMode = e.target.checked;
+          } else if (id === "photoShape") {
+            state.photoShape = ["square", "rectangle", "circle"].includes(e.target.value) ? e.target.value : "square";
+          } else if (id === "imageFit") {
+            state.imageFit = ["contain", "cover"].includes(e.target.value) ? e.target.value : "contain";
           } else {
             state[id] = e.target.type === "checkbox" ? e.target.checked : e.target.value;
           }
@@ -2642,6 +3696,7 @@
       });
 
       document.getElementById("jobDescription").addEventListener("input", (e) => {
+        captureUndoStep();
         state.jobDescription = e.target.value;
         save();
         debouncedRenderPreview();
@@ -2664,6 +3719,7 @@
     function wireArrayEvents() {
       document.querySelectorAll("[data-array]").forEach(el => {
         el.addEventListener("input", (e) => {
+          captureUndoStep();
           const key = e.target.dataset.array;
           const idx = Number(e.target.dataset.index);
           const field = e.target.dataset.field;
@@ -2694,12 +3750,13 @@
 
       document.querySelectorAll("[data-remove]").forEach(btn => {
         btn.addEventListener("click", () => {
+          captureUndoStep();
           const key = btn.dataset.remove;
           const idx = Number(btn.dataset.index);
           state[key].splice(idx, 1);
           if (!state[key].length) {
             if (key === "education") state.education.push({ year: "", degree: "", institute: "", cgpa: "" });
-            if (key === "experience") state.experience.push({ company: "", role: "", dates: "", link: "", bullets: "" });
+            if (key === "experience") state.experience.push({ company: "", role: "", workMode: "onsite", dates: "", link: "", bullets: "" });
             if (key === "projects") state.projects.push({ title: "", mentor: "", dates: "", link: "", tech: "", bullets: "" });
             if (key === "skills") state.skills.push({ category: "", items: "" });
           }
@@ -2710,12 +3767,69 @@
           renderPreview();
         });
       });
+
+      document.querySelectorAll("[data-move-array]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const key = btn.dataset.moveArray;
+          const idx = Number(btn.dataset.index);
+          const dir = btn.dataset.dir;
+          if (!Array.isArray(state[key])) return;
+          const next = dir === "up" ? idx - 1 : idx + 1;
+          if (next < 0 || next >= state[key].length) return;
+          captureUndoStep();
+          const tmp = state[key][idx];
+          state[key][idx] = state[key][next];
+          state[key][next] = tmp;
+          save();
+          renderForm();
+          wireArrayEvents();
+          renderDiagnostics();
+          renderPreview();
+        });
+      });
+
+      document.querySelectorAll("[data-date-array]").forEach(el => {
+        el.addEventListener("input", () => {
+          const key = el.dataset.dateArray;
+          const idx = Number(el.dataset.dateIndex);
+          if (!key || !Number.isFinite(idx) || !state[key] || !state[key][idx]) return;
+          captureUndoStep();
+          syncStructuredDateRangeFromControls(key, idx, el.dataset.datePart || "");
+          save();
+          debouncedRenderPreview();
+        });
+      });
+
+      document.querySelectorAll("[data-date-action]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const key = btn.dataset.dateArray;
+          const idx = Number(btn.dataset.dateIndex);
+          const action = btn.dataset.dateAction;
+          if (!key || !Number.isFinite(idx) || !state[key] || !state[key][idx]) return;
+
+          if (action === "current-start") {
+            captureUndoStep();
+            const now = new Date();
+            const month = monthOptions()[now.getMonth()];
+            const year = String(now.getFullYear());
+            const nodes = [...document.querySelectorAll(`[data-date-array="${key}"][data-date-index="${idx}"]`)];
+            const startMonthNode = nodes.find(x => x.dataset.datePart === "startMonth");
+            const startYearNode = nodes.find(x => x.dataset.datePart === "startYear");
+            if (startMonthNode) startMonthNode.value = month;
+            if (startYearNode) startYearNode.value = year;
+            syncStructuredDateRangeFromControls(key, idx, "current-start");
+            save();
+            debouncedRenderPreview();
+          }
+        });
+      });
     }
 
     function renderDiagnostics() {
       const box = document.getElementById("diagnosticsBox");
       if (!box) return;
       const budget = pageBudgetMessage();
+      const fit = a4FitReport();
       const lint = bulletLintIssues();
       const scores = sectionScores();
       const budgets = sectionBudgetStats();
@@ -2729,7 +3843,13 @@
       const consistencyText = consistency.irregularDateFormats
         ? "invalid date format detected"
         : (consistency.mixedDateStyles ? "mixed date styles" : "date styles consistent");
+      const fitPct = Math.max(0, Math.min(100, Math.round(fit.usage * 100)));
       box.innerHTML = `
+        <div class="fit-meter">
+          <div><strong>A4 Fit Meter:</strong> ${fit.predicted.pages} page(s) predicted for target ${fit.target}.</div>
+          <div class="fit-meter-track"><div class="fit-meter-fill ${fit.predicted.pages > fit.target ? "warn" : ""}" style="width:${fitPct}%;"></div></div>
+          ${fit.warnings.length ? `<ul class="diag-list">${fit.warnings.map(w => `<li>${escapeHtml(w)}</li>`).join("")}</ul>` : `<div class="diag-ok">No major overflow-risk sections detected.</div>`}
+        </div>
         <div class="${budget.className}">${budget.text}</div>
         <div>Profile completeness: ${completeness.percent}% (${completeness.done}/${completeness.total}).</div>
         <div>ATS keyword match: ${atsText}</div>
@@ -2741,6 +3861,28 @@
           ${Object.entries(scores).map(([k, v]) => `<div>${k}</div><div>${v}/5</div>`).join("")}
         </div>
       `;
+
+      const coach = document.getElementById("coachBox");
+      if (!coach) return;
+      coach.style.display = state.contentCoachEnabled ? "grid" : "none";
+      if (!state.contentCoachEnabled) return;
+      const suggestions = coachSuggestions(10);
+      coach.innerHTML = suggestions.length
+        ? `
+          <div><strong>Content Coach (optional)</strong></div>
+          <div class="tiny">One-click fixes preserve your original wording style while improving quality.</div>
+          <div class="coach-list">
+            ${suggestions.map((s, i) => `
+              <div class="coach-item">
+                <div class="coach-item-head">${s.section} • ${s.type.replace(/-/g, " ")} • suggestion ${i + 1}</div>
+                <div>${escapeHtml(s.line)}</div>
+                <div class="tiny">${escapeHtml(s.message)}</div>
+                <button type="button" data-coach-fix="${escapeHtml(s.ref)}" data-coach-type="${escapeHtml(s.type)}">Apply Fix</button>
+              </div>
+            `).join("")}
+          </div>
+        `
+        : `<div><strong>Content Coach (optional)</strong></div><div class="tiny">No issues detected in current bullets.</div>`;
     }
 
     function section(title, html, key) {
@@ -2752,17 +3894,15 @@
     function projectBlock(p) {
       const bullets = linesToArray(p.bullets).map(v => `<li>${escapeHtml(v)}</li>`).join("");
       const mentor = p.mentor ? `<div class="entry-note">${escapeHtml(p.mentor)}</div>` : "";
-      const linkAnchor = hrefHtml(p.link, "right-meta");
-      const link = linkAnchor ? `<div>${linkAnchor}</div>` : "";
+      const linkAnchor = hrefLabelHtml("Link", p.link, "entry-head-link");
       const tech = p.tech ? `<div class="entry-note">Technology/Tools: ${escapeHtml(p.tech)}</div>` : "";
       return `
         <li>
           <div class="entry-head">
-            <strong>${escapeHtml(p.title)}</strong>
+            <strong>${escapeHtml(p.title)}${linkAnchor ? ` | ${linkAnchor}` : ""}</strong>
             <span class="right-meta">${escapeHtml(normalizeDateRange(p.dates))}</span>
           </div>
           ${mentor}
-          ${link}
           ${tech}
           <ul class="sub-list">${bullets}</ul>
         </li>
@@ -2773,28 +3913,49 @@
       const preview = document.getElementById("resumePreview");
       preview.style.lineHeight = state.lineHeight;
       preview.style.fontFamily = state.fontFamily;
-      const logoSize = normalizeLogoSize(state.logoSize);
-      const logoColumn = Math.max(88, logoSize + 24);
-      const linkedinDisplay = state.privacyMode ? escapeHtml(privacyMask(state.linkedin, "link")) : (hrefHtml(state.linkedin) || "");
+      const density = getDensityPresetConfig(state.densityPreset || "balanced");
+      preview.style.setProperty("--cv-font-scale", String(density.fontScale));
+      preview.style.setProperty("--cv-section-title-size", `${density.sectionTitleSize}px`);
+      preview.style.setProperty("--cv-entry-title-size", `${density.entryTitleSize}px`);
+      preview.style.setProperty("--cv-meta-size", `${density.metaSize}px`);
+      preview.style.setProperty("--cv-list-size", `${density.listSize}px`);
+      preview.style.setProperty("--cv-entry-gap", `${density.entryGap}px`);
+      preview.style.setProperty("--cv-bullet-gap", `${density.bulletGap}px`);
+      const baseWidth = normalizeImageDimension(state.imageWidth || state.logoSize || "58");
+      const baseHeight = normalizeImageDimension(state.imageHeight || state.logoSize || "58");
+      let logoWidth = baseWidth;
+      let logoHeight = baseHeight;
+      if (state.photoShape === "square" || state.photoShape === "circle") {
+        const side = Math.min(baseWidth, baseHeight);
+        logoWidth = side;
+        logoHeight = side;
+      }
+      const logoRadius = state.photoShape === "circle" ? "50%" : "0";
+      const logoColumn = Math.max(88, logoWidth + 24);
+      const linkedinDisplay = state.privacyMode ? escapeHtml(privacyMask(state.linkedin, "link")) : (hrefLabelHtml("LinkedIn", state.linkedin) || "");
       const emailDisplay = state.privacyMode ? escapeHtml(privacyMask(state.email, "email")) : (hrefHtml(state.email) || escapeHtml(state.email));
-      const githubDisplay = state.privacyMode ? escapeHtml(privacyMask(state.github, "link")) : (hrefHtml(state.github) || "");
+      const githubDisplay = state.showGithubContact ? (state.privacyMode ? escapeHtml(privacyMask(state.github, "link")) : (hrefLabelHtml("GitHub", state.github) || "")) : "";
+      const portfolioDisplay = state.showPortfolioContact ? (state.privacyMode ? escapeHtml(privacyMask(state.portfolio, "link")) : (hrefLabelHtml("Portfolio", state.portfolio) || "")) : "";
 
       const educationRows = state.education
-        .map(e => `<tr><td>${escapeHtml(e.year)}</td><td>${escapeHtml(e.degree)}</td><td>${escapeHtml(e.institute)}</td><td>${escapeHtml(e.cgpa)}</td></tr>`)
+        .map(e => `<tr><td>${escapeHtml(e.degree)}</td><td>${escapeHtml(e.institute)}</td><td>${escapeHtml(e.cgpa)}</td><td>${escapeHtml(e.year)}</td></tr>`)
         .join("");
 
       const experienceRows = state.experience
         .map(e => {
           const bullets = linesToArray(e.bullets).map(v => `<li>${escapeHtml(v)}</li>`).join("");
-          const experienceLink = hrefHtml(e.link, "right-meta");
+          const experienceLink = hrefLabelHtml("Link", e.link, "entry-head-link");
+          const modeValue = String(e.workMode || "").toLowerCase();
+          const modeText = ["remote", "onsite", "hybrid"].includes(modeValue)
+            ? ` (${escapeHtml(modeValue.charAt(0).toUpperCase() + modeValue.slice(1))})`
+            : "";
           return `
             <li>
               <div class="entry-head">
-                <strong>${escapeHtml(e.role)} at '${escapeHtml(e.company)}'</strong>
+                <strong>${escapeHtml(e.role)} at '${escapeHtml(e.company)}'${modeText}${experienceLink ? ` | ${experienceLink}` : ""}</strong>
                 <span class="right-meta">${escapeHtml(normalizeDateRange(e.dates))}</span>
               </div>
               <ul class="sub-list">${bullets}</ul>
-              ${experienceLink ? `<div>${experienceLink}</div>` : ""}
             </li>
           `;
         })
@@ -2821,7 +3982,7 @@
 
       preview.innerHTML = `
         <div class="cv-header" style="grid-template-columns: ${logoColumn}px 1fr auto;">
-          <img class="cv-logo" src="${getResumeLogoSrc()}" alt="Resume logo" style="width:${logoSize}px;height:${logoSize}px;">
+          <img class="cv-logo" src="${getResumeLogoSrc()}" alt="Resume image" style="width:${logoWidth}px;height:${logoHeight}px;border-radius:${logoRadius};object-fit:${state.imageFit};">
           <div class="identity">
             <h2 class="name">${escapeHtml(state.name || "Student Name")}</h2>
             <div><span class="roll-label">Roll Number :</span> ${escapeHtml(privacyMask(state.roll, "roll"))}</div>
@@ -2830,15 +3991,16 @@
           </div>
           <div class="contact">
             <div>${escapeHtml(privacyMask(state.phone, "phone"))}</div>
+            <div class="contact-email">${emailDisplay}</div>
             <div>${linkedinDisplay}</div>
-            <div>${emailDisplay}</div>
             <div>${githubDisplay}</div>
+            <div>${portfolioDisplay}</div>
           </div>
         </div>
 
         ${(() => {
           const blocks = {
-            education: sectionEnabled("education") ? section("Education", `<table class="edu-table"><tr><th>Year</th><th>Degree / Certificate</th><th>Institute / Board</th><th>CGPA/Percentage</th></tr>${educationRows}</table>`, "education") : "",
+            education: sectionEnabled("education") ? section("Education", `<table class="edu-table"><tr><th>Degree / Certificate</th><th>Institute / Board</th><th>CGPA/Percentage</th><th>Year</th></tr>${educationRows}</table>`, "education") : "",
             experience: sectionEnabled("experience") ? section("Experience", `<ul class="entry-list">${experienceRows}</ul>`, "experience") : "",
             publications,
             projects: sectionEnabled("projects") ? section("Projects", `<ul class="entry-list">${state.projects.map(projectBlock).join("")}</ul>`, "projects") : "",
@@ -2851,6 +4013,9 @@
           return getSectionOrder().map(k => blocks[k] || "").join("");
         })()}
       `;
+
+      renderPageSegregationGuides();
+
     }
 
     function escapeLatex(v) {
@@ -2873,56 +4038,79 @@
       return `\\href{${escapeLatex(normalizeUrl(raw))}}{${escapeLatex(raw)}}`;
     }
 
+    function latexLabeledHref(label, value) {
+      const raw = (value || "").trim();
+      if (!raw) return "";
+      return `\\href{${escapeLatex(normalizeUrl(raw))}}{${escapeLatex(label || raw)}}`;
+    }
+
     function latexList(value) {
       return linesToArray(value).map(v => `\\item ${escapeLatex(v)}`).join("\n");
     }
 
     function generateLatex() {
       const edu = state.education
-        .map(e => `${escapeLatex(e.year)} & ${escapeLatex(e.degree)} & ${escapeLatex(e.institute)} & ${escapeLatex(e.cgpa)} \\\\`)
+        .map(e => `${escapeLatex(e.degree)} & ${escapeLatex(e.institute)} & ${escapeLatex(e.cgpa)} & ${escapeLatex(e.year)} \\\\`)
         .join("\n");
 
       const exp = state.experience
         .map(e => [
-          `\\textbf{${escapeLatex(e.role)} at '${escapeLatex(e.company)}'} \\hfill ${escapeLatex(normalizeDateRange(e.dates))}`,
-          "\\begin{itemize}",
+          `\\entrytitle{${escapeLatex(e.role)} at '${escapeLatex(e.company)}'${(() => { const m = String(e.workMode || "").toLowerCase(); return ["remote", "onsite", "hybrid"].includes(m) ? ` (${escapeLatex(m.charAt(0).toUpperCase() + m.slice(1))})` : ""; })()}${e.link ? `\\,|\\,${latexLabeledHref("Link", e.link)}` : ""}}{${escapeLatex(normalizeDateRange(e.dates))}}`,
+          "\\begin{itemize}[leftmargin=*,itemsep=1.5pt,topsep=1pt,parsep=0pt,partopsep=0pt]",
           latexList(e.bullets),
           "\\end{itemize}",
-          e.link ? `\\textit{${latexHref(e.link) || escapeLatex(e.link)}}` : ""
+          "\\vspace{2pt}",
         ].filter(Boolean).join("\n"))
-        .join("\n\n");
+        .join("\n");
 
       const projects = state.projects
         .map(p => [
-          `\\textbf{${escapeLatex(p.title)}} \\hfill ${escapeLatex(normalizeDateRange(p.dates))}`,
-          p.mentor ? `\\textit{${escapeLatex(p.mentor)}}` : "",
-          p.link ? `\\textit{${latexHref(p.link) || escapeLatex(p.link)}}` : "",
-          p.tech ? `Technology/Tools: ${escapeLatex(p.tech)}` : "",
-          "\\begin{itemize}",
+          `\\entrytitle{${escapeLatex(p.title)}${p.link ? `\\,|\\,${latexLabeledHref("Link", p.link)}` : ""}}{${escapeLatex(normalizeDateRange(p.dates))}}`,
+          p.mentor ? `\\textit{${escapeLatex(p.mentor)}}\\\\[-2pt]` : "",
+          p.tech ? `\\textit{Technology/Tools: ${escapeLatex(p.tech)}}\\\\[-2pt]` : "",
+          "\\begin{itemize}[leftmargin=*,itemsep=1.5pt,topsep=1pt,parsep=0pt,partopsep=0pt]",
           latexList(p.bullets),
           "\\end{itemize}",
+          "\\vspace{2pt}",
         ].filter(Boolean).join("\n"))
-        .join("\n\n");
+        .join("\n");
+
+      const keyCourseItems = linesToArray(state.keyCourses);
+      const keyCoursesLeft = keyCourseItems.filter((_, i) => i % 2 === 0).map(v => `\\item ${escapeLatex(v)}`).join("\n");
+      const keyCoursesRight = keyCourseItems.filter((_, i) => i % 2 === 1).map(v => `\\item ${escapeLatex(v)}`).join("\n");
 
       const latexSections = {
         education: [
-          "\\section*{Education}",
-          "\\begin{tabular}{|p{0.13\\textwidth}|p{0.24\\textwidth}|p{0.40\\textwidth}|p{0.20\\textwidth}|}",
+          "\\ressection{Education}",
+          "\\begin{tabularx}{\\textwidth}{|>{\\raggedright\\arraybackslash}p{0.24\\textwidth}|>{\\raggedright\\arraybackslash}p{0.40\\textwidth}|>{\\raggedright\\arraybackslash}p{0.20\\textwidth}|>{\\raggedright\\arraybackslash}p{0.13\\textwidth}|}",
           "\\hline",
-          "Year & Degree / Certificate & Institute / Board & CGPA/Percentage \\\\ ",
+          "\\textbf{Degree / Certificate} & \\textbf{Institute / Board} & \\textbf{CGPA/Percentage} & \\textbf{Year} \\\\ ",
           "\\hline",
           edu,
           "\\hline",
-          "\\end{tabular}",
+          "\\end{tabularx}",
         ].join("\n"),
-        experience: "\\section*{Experience}\n" + exp,
-        publications: "\\section*{Publications}\n\\begin{itemize}\n" + latexList(state.publications) + "\n\\end{itemize}",
-        projects: "\\section*{Projects}\n" + projects,
-        skills: "\\section*{Technical Skills}\n\\begin{itemize}\n" + state.skills.map(s => `\\item \\textbf{${escapeLatex(s.category)}}: ${escapeLatex(s.items)}`).join("\n") + "\n\\end{itemize}",
-        por: "\\section*{Positions of Responsibility}\n\\begin{itemize}\n" + latexList(state.por) + "\n\\end{itemize}",
-        achievements: "\\section*{Achievements}\n\\begin{itemize}\n" + latexList(state.achievements) + "\n\\end{itemize}",
-        keyCourses: "\\section*{Key Courses Taken}\n\\begin{itemize}\n" + latexList(state.keyCourses) + "\n\\end{itemize}",
-        extracurriculars: "\\section*{Extracurriculars}\n\\begin{itemize}\n" + latexList(state.extracurriculars) + "\n\\end{itemize}",
+        experience: "\\ressection{Experience}\n" + exp,
+        publications: "\\ressection{Publications}\n\\begin{itemize}[leftmargin=*,itemsep=2pt,topsep=2pt,parsep=0pt,partopsep=0pt]\n" + latexList(state.publications) + "\n\\end{itemize}",
+        projects: "\\ressection{Projects}\n" + projects,
+        skills: "\\ressection{Technical Skills}\n\\begin{itemize}[leftmargin=*,itemsep=2pt,topsep=2pt,parsep=0pt,partopsep=0pt]\n" + state.skills.map(s => `\\item \\textbf{${escapeLatex(s.category)}}: ${escapeLatex(s.items)}`).join("\n") + "\n\\end{itemize}",
+        por: "\\ressection{Positions of Responsibility}\n\\begin{itemize}[leftmargin=*,itemsep=2pt,topsep=2pt,parsep=0pt,partopsep=0pt]\n" + latexList(state.por) + "\n\\end{itemize}",
+        achievements: "\\ressection{Achievements}\n\\begin{itemize}[leftmargin=*,itemsep=2pt,topsep=2pt,parsep=0pt,partopsep=0pt]\n" + latexList(state.achievements) + "\n\\end{itemize}",
+        keyCourses: [
+          "\\ressection{Key Courses Taken}",
+          "\\noindent\\begin{minipage}[t]{0.49\\textwidth}",
+          "\\begin{itemize}[leftmargin=*,itemsep=2pt,topsep=1pt,parsep=0pt,partopsep=0pt]",
+          keyCoursesLeft,
+          "\\end{itemize}",
+          "\\end{minipage}",
+          "\\hfill",
+          "\\begin{minipage}[t]{0.49\\textwidth}",
+          "\\begin{itemize}[leftmargin=*,itemsep=2pt,topsep=1pt,parsep=0pt,partopsep=0pt]",
+          keyCoursesRight,
+          "\\end{itemize}",
+          "\\end{minipage}",
+        ].join("\n"),
+        extracurriculars: "\\ressection{Extracurriculars}\n\\begin{itemize}[leftmargin=*,itemsep=2pt,topsep=2pt,parsep=0pt,partopsep=0pt]\n" + latexList(state.extracurriculars) + "\n\\end{itemize}",
       };
 
       const orderedLatex = getSectionOrder()
@@ -2931,17 +4119,38 @@
         .filter(Boolean)
         .join("\n");
 
+      const latexContactParts = [];
+      if (state.phone) latexContactParts.push(escapeLatex(state.phone));
+      if (state.email) latexContactParts.push(latexHref(state.email) || escapeLatex(state.email));
+      if (state.linkedin) latexContactParts.push(latexLabeledHref("LinkedIn", state.linkedin) || escapeLatex(state.linkedin));
+      if (state.showGithubContact && state.github) latexContactParts.push(latexLabeledHref("GitHub", state.github) || escapeLatex(state.github));
+      if (state.showPortfolioContact && state.portfolio) latexContactParts.push(latexLabeledHref("Portfolio", state.portfolio) || escapeLatex(state.portfolio));
+
       return [
-        "\\documentclass[a4paper,10pt]{article}",
-        "\\usepackage[margin=0.5in]{geometry}",
+        "\\documentclass[a4paper,11pt]{article}",
+        "\\usepackage[margin=0.4in]{geometry}",
         "\\usepackage[hidelinks]{hyperref}",
+        "\\usepackage{tabularx}",
+        "\\usepackage{array}",
+        "\\usepackage{enumitem}",
+        "\\usepackage{ragged2e}",
+        "\\setlength{\\parindent}{0pt}",
+        "\\setlength{\\parskip}{1pt}",
+        "\\setlength{\\tabcolsep}{4pt}",
+        "\\renewcommand{\\arraystretch}{1.1}",
+        "\\raggedbottom",
+        "\\pagenumbering{gobble}",
+        "\\newcommand{\\ressection}[1]{\\vspace{2pt}\\noindent{\\fontsize{16}{18}\\selectfont\\textbf{#1}}\\par\\vspace{2pt}\\hrule\\vspace{4pt}}",
+        "\\newcommand{\\resname}[1]{\\noindent{\\fontsize{26}{28}\\selectfont\\textbf{#1}}}",
+        "\\newcommand{\\entrytitle}[2]{\\noindent\\textbf{#1}\\hfill\\textit{#2}\\\\[-2pt]}",
+        "\\setlist[itemize]{leftmargin=*,itemsep=1.5pt,topsep=1pt,parsep=0pt,partopsep=0pt}",
         "\\begin{document}",
         "\\begin{center}",
-        `{\\LARGE \\textbf{${escapeLatex(state.name)}}}\\\\`,
-        `\\underline{Roll Number:} ${escapeLatex(state.roll)}\\\\`,
+        `\\resname{${escapeLatex(state.name)}}\\\\[2pt]`,
+        `\\underline{\\textbf{Roll Number:}} ${escapeLatex(state.roll)}\\\\`,
         `${escapeLatex(state.degree)} - ${escapeLatex(state.department)}\\\\`,
         `${escapeLatex(state.institute)}\\\\`,
-        `${escapeLatex(state.phone)} | ${latexHref(state.linkedin) || escapeLatex(state.linkedin)} | ${latexHref(state.email) || escapeLatex(state.email)} | ${latexHref(state.github) || escapeLatex(state.github)}`,
+        latexContactParts.length ? `\\footnotesize ${latexContactParts.join(" | ")}` : "",
         "\\end{center}",
         orderedLatex,
         "\\end{document}"
@@ -2976,6 +4185,13 @@
       }
     });
 
+    document.getElementById("undoBtn").addEventListener("click", () => {
+      undoChange();
+    });
+    document.getElementById("redoBtn").addEventListener("click", () => {
+      redoChange();
+    });
+
     document.getElementById("settingsBtn").addEventListener("click", toggleSettings);
     document.getElementById("settingsBackdrop").addEventListener("click", closeSettings);
     document.getElementById("howToUseBtn").addEventListener("click", openHelp);
@@ -3008,6 +4224,14 @@
         exportBackupJson();
         showRecoveryToast("Backup JSON downloaded.");
       }
+      if (key === "z" && !e.shiftKey) {
+        e.preventDefault();
+        undoChange();
+      }
+      if ((key === "z" && e.shiftKey) || key === "y") {
+        e.preventDefault();
+        redoChange();
+      }
       if (key === "p" && e.shiftKey) {
         e.preventDefault();
         await exportPdf();
@@ -3019,6 +4243,9 @@
     });
 
     window.addEventListener("beforeunload", () => save());
+    window.addEventListener("resize", debounce(() => {
+      renderPageSegregationGuides();
+    }, 120));
     document.addEventListener("visibilitychange", () => {
       if (document.visibilityState === "hidden") save();
     });
@@ -3028,6 +4255,7 @@
     wireArrayEvents();
     renderDiagnostics();
     renderPreview();
+    updateUndoRedoControls();
   </script>
 </body>
 </html>

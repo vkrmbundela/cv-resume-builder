@@ -1391,6 +1391,56 @@
       sectionOrder: ["education", "experience", "projects", "skills", "achievements", "por", "publications", "keyCourses", "extracurriculars"],
     };
 
+    const FIRST_RUN_SAMPLE_STATE = {
+      name: "Your Full Name",
+      roll: "XX00XX0000",
+      degree: "B.Tech in Your Branch",
+      department: "Your Department",
+      institute: "Indian Institute of Technology Hyderabad",
+      phone: "+91 98765 43210",
+      email: "you@example.com",
+      linkedin: "https://linkedin.com/in/your-profile",
+      github: "https://github.com/your-profile",
+      portfolio: "https://drive.google.com/file/d/your-portfolio-link/view",
+      education: [
+        {
+          year: "2023 - Present",
+          degree: "B.Tech in Your Branch",
+          institute: "Indian Institute of Technology Hyderabad",
+          cgpa: "8.50 / 10",
+        },
+      ],
+      experience: [
+        {
+          company: "Example Organization",
+          role: "Summer Intern",
+          workMode: "onsite",
+          dates: "May 2025 - Jul 2025",
+          link: "https://example.com/internship",
+          bullets: "Developed a workflow automation script used by 3 teams, reducing manual effort by 35%.\nCreated clear documentation and handover notes, enabling adoption within 1 week.",
+        },
+      ],
+      publications: "Author Name, \"Title of Publication\", Conference/Journal, 2025.",
+      projects: [
+        {
+          title: "Project Title",
+          mentor: "Guide/Mentor Name",
+          dates: "Jan 2025 - Apr 2025",
+          link: "https://github.com/your-profile/project-repo",
+          tech: "Python, React, SQL",
+          bullets: "Built an end-to-end project to solve a real use-case and served 200+ test users.\nOptimized runtime and reduced processing time by 40% through profiling and refactoring.",
+        },
+      ],
+      skills: [
+        { category: "Languages", items: "Python, C++, JavaScript, SQL" },
+        { category: "Tools", items: "Git, Docker, Linux, LaTeX" },
+      ],
+      por: "Coordinator, Technical Club - Led a team of 12 students to run 4 campus events.",
+      achievements: "Secured top 5% rank in a national-level competition among 10,000+ participants.\nEarned institute merit scholarship for academic performance.",
+      keyCourses: "Data Structures and Algorithms\nDatabase Management Systems\nOperating Systems",
+      extracurriculars: "Volunteered in institute fest operations and logistics.\nParticipate regularly in long-distance running.",
+    };
+
     const STORAGE_KEY = "iith_resume_data_v2";
     const META_KEY = "iith_resume_meta_v2";
     const LEGACY_KEY = "iith_resume_data";
@@ -1838,7 +1888,17 @@
 
     function load() {
       const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_KEY);
-      if (!raw) return;
+      if (!raw) {
+        Object.assign(state, sanitizeImportedState(FIRST_RUN_SAMPLE_STATE));
+        lastSavedAt = new Date().toISOString();
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          localStorage.setItem(META_KEY, JSON.stringify({ savedAt: lastSavedAt, version: 2 }));
+        } catch (_) {
+          // Ignore storage quota/privacy mode failures.
+        }
+        return;
+      }
       try {
         Object.assign(state, sanitizeImportedState(JSON.parse(raw)));
         recoveredFromCache = true;

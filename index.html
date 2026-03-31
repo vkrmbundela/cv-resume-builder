@@ -1900,7 +1900,31 @@
         return;
       }
       try {
-        Object.assign(state, sanitizeImportedState(JSON.parse(raw)));
+        const parsed = JSON.parse(raw);
+        const clean = sanitizeImportedState(parsed);
+        // If stored data exists but contains no meaningful fields (blank/default),
+        // treat it like a first run and seed sample data instead.
+        const hasMeaningful = (() => {
+          const checkString = (s) => typeof s === "string" && s.trim() !== "";
+          if (checkString(clean.name) || checkString(clean.email) || checkString(clean.phone) || checkString(clean.linkedin) || checkString(clean.github)) return true;
+          if (Array.isArray(clean.education) && clean.education.some(e => e && (checkString(e.degree) || checkString(e.institute)))) return true;
+          if (Array.isArray(clean.experience) && clean.experience.some(e => e && (checkString(e.company) || checkString(e.role)))) return true;
+          if (Array.isArray(clean.projects) && clean.projects.some(p => p && (checkString(p.title) || checkString(p.tech)))) return true;
+          if (Array.isArray(clean.skills) && clean.skills.some(s => s && (checkString(s.category) || checkString(s.items)))) return true;
+          return false;
+        })();
+        if (!hasMeaningful) {
+          Object.assign(state, sanitizeImportedState(FIRST_RUN_SAMPLE_STATE));
+          lastSavedAt = new Date().toISOString();
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            localStorage.setItem(META_KEY, JSON.stringify({ savedAt: lastSavedAt, version: 2 }));
+          } catch (_) {
+            // Ignore storage quota/privacy mode failures.
+          }
+          return;
+        }
+        Object.assign(state, clean);
         recoveredFromCache = true;
         if (!localStorage.getItem(STORAGE_KEY)) {
           localStorage.setItem(STORAGE_KEY, raw);

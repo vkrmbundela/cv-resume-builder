@@ -353,6 +353,223 @@
       text-align: right;
       margin-bottom: 7px;
     }
+    .quick-actions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .quick-actions-grid button {
+      padding: 6px 10px;
+      font-size: 12px;
+      border-radius: 6px;
+    }
+    .quick-actions-note {
+      margin-bottom: 4px;
+    }
+    .settings-toolbar {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .settings-search-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+    }
+    .settings-search-row button {
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+    .settings-search-results {
+      font-size: 11px;
+      color: #6b6b6b;
+    }
+    .settings-search-hidden {
+      display: none !important;
+    }
+    .recommended-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      line-height: 1;
+      border: 1px solid #d3e6d9;
+      background: #f2fbf4;
+      color: #2f7040;
+      border-radius: 999px;
+      padding: 2px 6px;
+      white-space: nowrap;
+    }
+    .setting-label-row {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+    .setting-help-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 1px solid #cec8bf;
+      background: #fff;
+      color: #73563f;
+      font-size: 11px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: help;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .pin-toggle {
+      min-width: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1px solid #d3ccc2;
+      background: #fff;
+      color: #8c7665;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      font-size: 12px;
+      line-height: 1;
+    }
+    .pin-toggle.active {
+      border-color: #d6b24a;
+      background: #fff9e7;
+      color: #8b6a10;
+    }
+    .pinned-empty {
+      font-size: 12px;
+      color: #6e6e6e;
+      border: 1px dashed #d7d1c8;
+      border-radius: 8px;
+      background: #fffdfa;
+      padding: 8px;
+    }
+    .setting-tip {
+      font-size: 11px;
+      color: #7a7168;
+      line-height: 1.35;
+      margin-top: -2px;
+    }
+    .checklist-grid {
+      display: grid;
+      gap: 5px;
+    }
+    .check-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 8px;
+      align-items: start;
+      border: 1px solid #e1ddd7;
+      border-radius: 6px;
+      background: #fff;
+      padding: 6px 7px;
+    }
+    .check-item-tag {
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1.1;
+      border-radius: 999px;
+      padding: 2px 6px;
+      letter-spacing: 0.02em;
+    }
+    .check-item.pass .check-item-tag {
+      background: #e8f7ec;
+      color: #24653a;
+      border: 1px solid #cde8d6;
+    }
+    .check-item.warn .check-item-tag {
+      background: #fff3e8;
+      color: #8a4d14;
+      border: 1px solid #f0d5bf;
+    }
+    .check-item.block .check-item-tag {
+      background: #ffeceb;
+      color: #8f2f2a;
+      border: 1px solid #efcbc8;
+    }
+    .check-item-text {
+      font-size: 12px;
+      color: #474747;
+      line-height: 1.3;
+    }
+    .section-hint {
+      border: 1px dashed #d8d2c8;
+      border-radius: 7px;
+      background: #fffdfa;
+      color: #5a5a5a;
+      font-size: 11px;
+      line-height: 1.35;
+      padding: 6px 8px;
+      margin-bottom: 6px;
+    }
+    .section-hint.warn {
+      border-color: #efcfbe;
+      background: #fff7f1;
+      color: #7a4b2c;
+    }
+    .section-hint.pass {
+      border-color: #cde4d4;
+      background: #f4fbf6;
+      color: #2f6640;
+    }
+    .mini-preview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .mini-preview-card {
+      border: 1px solid #ddd7cf;
+      border-radius: 8px;
+      padding: 7px;
+      background: #fff;
+      display: grid;
+      gap: 4px;
+      font-family: "Times New Roman", serif;
+      color: #3d3d3d;
+      line-height: 1.28;
+    }
+    .mini-preview-card-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #68432f;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+    }
+    .mini-preview-head {
+      border-top: 2px solid #777;
+      padding-top: 4px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .mini-preview-bullet {
+      margin-left: 12px;
+      font-size: 12px;
+    }
+    .mini-preview-meta {
+      font-size: 10px;
+      color: #696969;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+    }
+    .mini-preview-card.density-compact {
+      font-size: 11px;
+      line-height: 1.18;
+    }
+    .mini-preview-card.density-readable {
+      font-size: 13px;
+      line-height: 1.36;
+    }
+    .mini-preview-card.ats-mode {
+      border-color: #b8b8b8;
+      box-shadow: inset 0 0 0 1px #d4d4d4;
+      letter-spacing: 0;
+    }
     .section-toggle-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -616,6 +833,28 @@
       gap: 10px;
       align-items: start;
     }
+    .cv-header.header-align-center {
+      align-items: start;
+    }
+    .cv-header.header-align-center .identity {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      text-align: center;
+      margin: 0 auto;
+      max-width: calc(100% - 280px);
+    }
+    .cv-header.header-align-center .cv-logo {
+      grid-column: 1;
+      grid-row: 1;
+      align-self: start;
+    }
+    .cv-header.header-align-center .contact {
+      grid-column: 3;
+      grid-row: 1;
+      justify-self: end;
+      align-self: start;
+      padding-top: 0;
+    }
     .cv-logo {
       width: 58px;
       height: 58px;
@@ -627,6 +866,9 @@
       font-size: 26px;
       line-height: 1.05;
       font-weight: 600;
+    }
+    .identity {
+      text-align: left;
     }
     .identity div {
       font-size: 14px;
@@ -641,6 +883,9 @@
       line-height: 1.2;
       padding-top: 4px;
       color: #4e4e4e;
+      display: flex;
+      flex-direction: column;
+      row-gap: var(--contact-row-gap, 2px);
     }
     .contact .contact-email {
       opacity: 1;
@@ -653,6 +898,49 @@
       text-decoration: underline;
       border-bottom: 0;
       text-underline-offset: 2px;
+    }
+    .contact .contact-social-link {
+      color: inherit !important;
+      text-decoration: none !important;
+      border-bottom: 0;
+    }
+    .contact .contact-social-link .link-label-screen {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: var(--contact-icon-gap, 4px);
+    }
+    .contact .contact-social-link .link-label-print {
+      display: none;
+    }
+    .contact .contact-social-icon {
+      width: 13px;
+      height: 13px;
+      display: inline-block;
+      flex: 0 0 13px;
+    }
+    .contact .contact-social-link.contact-social-linkedin .contact-social-icon {
+      color: #0a66c2;
+    }
+    .contact .contact-social-link.contact-social-github .contact-social-icon {
+      color: #24292f;
+    }
+    .contact .contact-social-link.contact-social-portfolio .contact-social-icon {
+      color: #8a5a00;
+    }
+    .contact .contact-social-text {
+      line-height: 1;
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
     .cv-section-title {
       margin-top: 11px;
@@ -871,6 +1159,10 @@
       .edu-table, .entry-list, .skills-list, .simple-list { font-size: 14px; }
       .entry-head strong { font-size: 15px; }
       .section-toggle-grid { grid-template-columns: 1fr; }
+      .mini-preview-grid,
+      .settings-search-row {
+        grid-template-columns: 1fr;
+      }
       .settings-drawer {
         top: 56px;
         right: 8px;
@@ -932,70 +1224,85 @@
     </div>
     <ol class="help-list">
       <li>
-        <strong>Start and understand autosave</strong>: begin typing in any field in the left editor.
-        Your changes are saved automatically in browser local storage.
-        If you close or refresh the page, your draft should recover on next open.
+        <strong>Start writing and rely on autosave</strong>: begin in the left editor.
+        Every valid change is saved to browser local storage and restored on next open.
       </li>
       <li>
-        phone, email, LinkedIn, GitHub, and Google Drive portfolio link.
-        phone, email, LinkedIn, and GitHub.
-        Use a clear date and contact format because validation highlights invalid fields.
+        <strong>Complete Basic Info before sections</strong>: fill name, roll number, degree,
+        department, institute, phone, email, and links. Resolve highlighted invalid fields first.
       </li>
       <li>
-        <strong>Optional custom logo</strong>: in Controls, use <em>Custom Logo</em> to upload an image.
-        Use PNG/JPG for best reliability.
-        Use <em>Reset To Default Logo</em> any time to restore the neutral default logo.
-        Upload institutional logos only if you have permission to use them.
+        <strong>Set header presentation in Controls</strong>: upload/reset image, adjust image width/height,
+        choose shape and fit, set name-block alignment (<em>Left after photo</em> or <em>Center page</em>),
+        and tune font + line spacing.
       </li>
       <li>
-        <strong>Fill section content in order</strong>: Education, Experience, Projects, Skills,
-        Achievements, Positions of Responsibility, Key Courses, and Extracurriculars.
-        Use <em>+ Add</em> to create entries and <em>Remove</em> to delete entries.
+        <strong>Choose contact style for links</strong>: set <em>Social Link Display</em>
+        (<em>Text hyperlinks</em>, <em>Logos only</em>, or <em>Logos + text</em>),
+        choose <em>Contact Link Spacing</em>, and optionally hide GitHub/Portfolio in the header.
       </li>
       <li>
-        <strong>Write strong bullets</strong>: use one bullet per line in bullet textareas.
-        Prefer action + scope + outcome + metric (for example: improved throughput by 35%).
-        The diagnostics panel warns about weak or metric-free bullets.
+        <strong>Fill sections in priority order</strong>: Education, Experience, Projects,
+        Technical Skills, Achievements, POR, Key Courses, and Extracurriculars.
+        Use <em>+ Add</em>, <em>Up/Down</em>, and <em>Remove</em> to curate each section.
       </li>
       <li>
-        <strong>Open advanced controls</strong>: click the <em>Settings</em> icon (top-right) to configure:
-        section visibility, section density, role preset, ATS mode, target pages,
-        strict print calibration, variant snapshots, and data management.
+        <strong>Write stronger bullets using diagnostics</strong>: prefer action + scope + measurable result.
+        Keep bullets concise and use diagnostics/content-coach hints plus the section-level quality hints shown above Experience/Projects/Achievements.
       </li>
       <li>
-        <strong>Use role presets intelligently</strong>: Software/Core/Research/Design presets reorder sections.
-        Choose the preset closest to your application target before exporting.
+        <strong>Use quick actions for safety</strong>: from Controls, run
+        <em>Backup JSON</em>, <em>Restore JSON</em>, <em>Save Restore Point</em>, and
+        <em>Export Readiness Report</em>. Use <em>Normalize All Dates</em> to standardize date ranges in one click before export.
       </li>
       <li>
-        <strong>Manage resume length</strong>: check diagnostics for page-budget warnings.
-        If over budget, reduce bullets or change dense sections to Compact/Tight from Settings.
+        <strong>Open Settings and acknowledge legal notice</strong>: this confirms you understand
+        responsibility for factual claims and authorized logo/trademark usage.
       </li>
       <li>
-        <strong>Use Variant Snapshots</strong>: save different versions (for example: Internship, Full-time,
-        Research-heavy). Load or delete variants from Settings at any time.
+        <strong>Use Settings &gt; Advanced Controls intentionally</strong>:
+        use the Settings search bar to jump to controls quickly,
+        pin frequently used controls (click the star) to keep them at the top,
+        <em>Template Pack</em> applies profile-oriented defaults,
+        <em>Role Preset</em> changes section emphasis/order,
+        <em>Export Preset</em> tunes final output styling,
+        <em>Density Preset</em> sets compactness,
+        <em>Print Profile</em> switches ATS-safe/visual/publication mode,
+        <em>Target Pages</em> changes page-budget diagnostics,
+        and toggles control ATS mode, strict print calibration, strict links, and content coach.
+        Use the built-in before/after mini preview to see density + ATS impact instantly.
       </li>
       <li>
-        <strong>Export correctly</strong>: click <em>Download / Print PDF</em> and choose:
-        <em>Export PDF</em>, <em>Print</em>, or <em>Export DOC</em>.
-        For final submissions, review PDF margins and page breaks before sending.
+        <strong>Use Settings &gt; Structure controls</strong>: in
+        <em>Add / Remove Sections</em> choose what appears,
+        in <em>Section Density</em> set normal/compact/tight per section,
+        and in <em>Custom Section Order</em> reorder sections for your target role.
       </li>
       <li>
-        <strong>Use LaTeX workflow</strong>: click <em>Copy LaTeX</em> to copy generated LaTeX for Overleaf/local use.
-        This is useful when you need further manual formatting edits outside this tool.
+        <strong>Use snapshots before experiments</strong>: in
+        <em>Variant Snapshots</em> save named versions (for example SDE, Core, Research),
+        and use <em>Version Compare</em> to preview impact before switching.
       </li>
       <li>
-        <strong>Backup and restore across devices</strong>: in Settings, use <em>Backup JSON</em> to download your data,
-        and <em>Restore JSON</em> on another browser/device.
-        Use <em>Clear Local Data</em> only when you intentionally want to wipe browser-stored drafts.
+        <strong>Use Settings &gt; Data Management carefully</strong>: use backup/restore for transfer,
+        save and load restore points for safe rollback, run <em>Normalize All Dates</em>, review the pre-export checklist,
+        and use <em>Clear Local Data</em> only when you truly want a full local reset (a short one-time restore option appears after refresh).
       </li>
       <li>
-        <strong>Keyboard shortcuts</strong>: Ctrl/Cmd + S saves to local cache, Ctrl/Cmd + Shift + S downloads backup JSON,
-        Ctrl/Cmd + Z undo, Ctrl/Cmd + Y (or Ctrl/Cmd + Shift + Z) redo, Ctrl/Cmd + P opens print,
-        Ctrl/Cmd + Shift + P runs Export PDF, Esc closes open panels.
+        <strong>Export with final checks</strong>: click <em>Download / Print PDF</em> and choose
+        <em>Export PDF</em>, <em>Print</em>, or <em>Export DOC</em>. Verify spacing, margins,
+        section order, and link validity before submission.
       </li>
       <li>
-        <strong>Troubleshooting quick checks</strong>: if something looks off, refresh once,
-        confirm section toggles in Settings, verify invalid field highlights, and re-export.
+        <strong>Use LaTeX and shortcuts when needed</strong>: click <em>Copy LaTeX</em> for Overleaf/local edits.
+        Shortcuts: Ctrl/Cmd + S save, Ctrl/Cmd + Shift + S backup,
+        Ctrl/Cmd + Z undo, Ctrl/Cmd + Y (or Ctrl/Cmd + Shift + Z) redo,
+        Ctrl/Cmd + P print, Ctrl/Cmd + Shift + P export PDF, Esc closes open panels.
+      </li>
+      <li>
+        <strong>Troubleshooting flow</strong>: refresh once, fix highlighted fields,
+        verify Settings toggles/order/density, run Export Readiness Report,
+        then export again.
       </li>
     </ol>
   </div>
@@ -1026,6 +1333,8 @@
       portfolio: "",
       showGithubContact: true,
       showPortfolioContact: true,
+      socialLinkDisplay: "text",
+      contactSpacingProfile: "balanced",
       customLogo: "",
       education: [{ year: "", degree: "", institute: "", cgpa: "" }],
       experience: [{ company: "", role: "", workMode: "onsite", dates: "", link: "", bullets: "" }],
@@ -1043,6 +1352,7 @@
       imageHeight: "58",
       imageFit: "contain",
       photoShape: "square",
+      headerIdentityAlign: "left-after-photo",
       rolePreset: "software",
       templatePack: "standard",
       exportPreset: "balanced",
@@ -1052,6 +1362,7 @@
       privacyMode: false,
       contentCoachEnabled: false,
       strictLinks: true,
+      settingsFavorites: [],
       atsMode: false,
       printCalibrated: true,
       targetPages: "1",
@@ -1086,12 +1397,28 @@
     const VARIANTS_KEY = "iith_resume_variants";
     const HISTORY_KEY = "iith_resume_history_v1";
     const UNDO_LIMIT = 50;
+    const CLEAR_RECOVERY_KEY = "iith_resume_clear_recovery_v1";
+    const CLEAR_RECOVERY_WINDOW_MS = 2 * 60 * 1000;
     const LEGAL_NOTICE_SESSION_KEY = "resume_legal_notice_ack_v1";
+    const SETTINGS_PINNABLE_IDS = [
+      "templatePack",
+      "rolePreset",
+      "exportPreset",
+      "densityPreset",
+      "printProfile",
+      "targetPages",
+      "atsMode",
+      "printCalibrated",
+      "strictLinks",
+      "contentCoachEnabled",
+    ];
     const DEFAULT_LOGO_DATA_URI = `data:image/svg+xml;utf8,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><rect width="120" height="120" rx="18" fill="#f6ede6"/><path d="M20 35h80" stroke="#cc6a3f" stroke-width="6"/><path d="M20 85h80" stroke="#cc6a3f" stroke-width="6"/><text x="60" y="71" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#6b3a23">CV</text></svg>')}`;
     let lastSavedAt = "";
     let recoveredFromCache = false;
     let lastHistorySnapshotMs = 0;
+    let settingsSearchQuery = "";
     let recoveryToastTimer = null;
+    let autosaveTicker = null;
     let undoStack = [];
     let redoStack = [];
     let isApplyingHistoryState = false;
@@ -1129,12 +1456,35 @@
       return d.toLocaleString();
     }
 
+    function relativeSavedTimeLabel(iso) {
+      if (!iso) return "";
+      const t = Date.parse(iso);
+      if (!Number.isFinite(t)) return "";
+      const seconds = Math.max(0, Math.round((Date.now() - t) / 1000));
+      if (seconds < 10) return "just now";
+      if (seconds < 60) return `${seconds}s ago`;
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) return `${minutes}m ago`;
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `${hours}h ago`;
+      const days = Math.floor(hours / 24);
+      return `${days}d ago`;
+    }
+
+    function startAutosaveTicker() {
+      if (autosaveTicker) return;
+      autosaveTicker = setInterval(() => {
+        updateAutosaveStatus();
+      }, 30000);
+    }
+
     function updateAutosaveStatus() {
       const node = document.getElementById("autosaveStatus");
       if (!node) return;
       const stamp = formatSavedTime(lastSavedAt);
+      const relative = relativeSavedTimeLabel(lastSavedAt);
       if (stamp) {
-        node.textContent = `${recoveredFromCache ? "Recovered from local cache. " : ""}Autosave is enabled. Last saved: ${stamp}.`;
+        node.textContent = `${recoveredFromCache ? "Recovered from local cache. " : ""}Autosave is enabled. Last saved ${relative || "recently"}${stamp ? ` (${stamp})` : ""}.`;
       } else {
         node.textContent = "Autosave is enabled. Changes are stored in your browser local cache.";
       }
@@ -1250,6 +1600,114 @@
       return Math.min(max, Math.max(min, Math.round(n)));
     }
 
+    function getContactSpacingProfileConfig(profile) {
+      if (profile === "compact") return { rowGap: 0, iconGap: 3 };
+      if (profile === "relaxed") return { rowGap: 4, iconGap: 6 };
+      return { rowGap: 2, iconGap: 4 };
+    }
+
+    function sanitizeSettingsFavorites(list) {
+      const seen = new Set();
+      const clean = [];
+      (Array.isArray(list) ? list : []).forEach((id) => {
+        if (!SETTINGS_PINNABLE_IDS.includes(id) || seen.has(id)) return;
+        seen.add(id);
+        clean.push(id);
+      });
+      return clean;
+    }
+
+    function isSettingPinned(id) {
+      return sanitizeSettingsFavorites(state.settingsFavorites).includes(id);
+    }
+
+    function toggleSettingPinned(id) {
+      if (!SETTINGS_PINNABLE_IDS.includes(id)) return;
+      const next = sanitizeSettingsFavorites(state.settingsFavorites);
+      const i = next.indexOf(id);
+      if (i >= 0) {
+        next.splice(i, 1);
+      } else {
+        next.push(id);
+      }
+      state.settingsFavorites = next;
+    }
+
+    function settingHelpDot(text) {
+      if (!text) return "";
+      const safe = escapeHtml(text);
+      return `<span class="setting-help-dot" title="${safe}" aria-label="${safe}">?</span>`;
+    }
+
+    function recommendedBadge(text) {
+      if (!text) return "";
+      return `<span class="recommended-badge">${escapeHtml(text)}</span>`;
+    }
+
+    function pinToggleButton(settingId, label) {
+      const active = isSettingPinned(settingId);
+      return `<button type="button" class="pin-toggle ${active ? "active" : ""}" data-pin-setting="${settingId}" aria-label="${active ? "Unpin" : "Pin"} ${escapeHtml(label)}" title="${active ? "Unpin from" : "Pin to"} Pinned Settings">${active ? "★" : "☆"}</button>`;
+    }
+
+    function settingsPinnedControlHtml(settingId) {
+      if (settingId === "templatePack") {
+        return `<label>Template Pack<select data-pinned-control="templatePack"><option value="standard" ${state.templatePack === "standard" ? "selected" : ""}>Standard</option><option value="sde" ${state.templatePack === "sde" ? "selected" : ""}>SDE Internship/Placement</option><option value="core" ${state.templatePack === "core" ? "selected" : ""}>Core Engineering</option><option value="research" ${state.templatePack === "research" ? "selected" : ""}>Research/Higher Studies</option><option value="product" ${state.templatePack === "product" ? "selected" : ""}>Product/Design</option></select></label>`;
+      }
+      if (settingId === "rolePreset") {
+        return `<label>Role Preset<select data-pinned-control="rolePreset"><option value="software" ${state.rolePreset === "software" ? "selected" : ""}>Software</option><option value="core" ${state.rolePreset === "core" ? "selected" : ""}>Core Engineering</option><option value="research" ${state.rolePreset === "research" ? "selected" : ""}>Research</option><option value="design" ${state.rolePreset === "design" ? "selected" : ""}>Design</option></select></label>`;
+      }
+      if (settingId === "exportPreset") {
+        return `<label>Export Preset<select data-pinned-control="exportPreset"><option value="balanced" ${state.exportPreset === "balanced" ? "selected" : ""}>Balanced</option><option value="compact" ${state.exportPreset === "compact" ? "selected" : ""}>Compact</option><option value="academic" ${state.exportPreset === "academic" ? "selected" : ""}>Academic</option></select></label>`;
+      }
+      if (settingId === "densityPreset") {
+        return `<label>Density Preset<select data-pinned-control="densityPreset"><option value="compact" ${state.densityPreset === "compact" ? "selected" : ""}>Compact</option><option value="balanced" ${state.densityPreset === "balanced" ? "selected" : ""}>Balanced</option><option value="readable" ${state.densityPreset === "readable" ? "selected" : ""}>Readable</option></select></label>`;
+      }
+      if (settingId === "printProfile") {
+        return `<label>Print Profile<select data-pinned-control="printProfile"><option value="ats-safe" ${(state.printProfile || "visual") === "ats-safe" ? "selected" : ""}>ATS-safe</option><option value="visual" ${(state.printProfile || "visual") === "visual" ? "selected" : ""}>Visual</option><option value="publication" ${(state.printProfile || "visual") === "publication" ? "selected" : ""}>Publication</option></select></label>`;
+      }
+      if (settingId === "targetPages") {
+        return `<label>Target Pages<select data-pinned-control="targetPages"><option value="1" ${state.targetPages === "1" ? "selected" : ""}>1 page</option><option value="2" ${state.targetPages === "2" ? "selected" : ""}>2 pages</option><option value="3" ${state.targetPages === "3" ? "selected" : ""}>3 pages</option><option value="4" ${state.targetPages === "4" ? "selected" : ""}>4 pages</option></select></label>`;
+      }
+      if (["atsMode", "printCalibrated", "strictLinks", "contentCoachEnabled"].includes(settingId)) {
+        const labels = {
+          atsMode: "ATS Safe Mode",
+          printCalibrated: "Strict Print Calibration",
+          strictLinks: "Strict Link Validation",
+          contentCoachEnabled: "Enable Content Coach + Grammar Lint",
+        };
+        return `<label class="control-check full-row"><input type="checkbox" data-pinned-control="${settingId}" ${state[settingId] ? "checked" : ""}> ${labels[settingId]}</label>`;
+      }
+      return "";
+    }
+
+    function pinnedSettingsSectionHtml() {
+      const pinned = sanitizeSettingsFavorites(state.settingsFavorites);
+      if (!pinned.length) {
+        return `<div class="section settings-searchable" data-search="pinned favorites quick access"><h3>Pinned Settings</h3><div class="section-body"><div class="pinned-empty">Pin frequently used controls from Advanced Controls (click ☆) to keep them at the top.</div></div></div>`;
+      }
+      return `<div class="section settings-searchable" data-search="pinned favorites quick access"><h3>Pinned Settings</h3><div class="section-body controls-grid">${pinned.map(settingsPinnedControlHtml).join("")}</div></div>`;
+    }
+
+    function applySettingsSearchFilter(drawer, query) {
+      const q = String(query || "").trim().toLowerCase();
+      const sections = [...drawer.querySelectorAll(".section")];
+      let shown = 0;
+      sections.forEach((sectionNode) => {
+        const hay = String(sectionNode.dataset.search || sectionNode.textContent || "").toLowerCase();
+        const visible = !q || hay.includes(q);
+        sectionNode.classList.toggle("settings-search-hidden", !visible);
+        if (visible) shown += 1;
+      });
+      const status = drawer.querySelector("#settingsSearchStatus");
+      if (status) {
+        status.textContent = q ? `${shown} section(s) shown for \"${query}\".` : "Showing all settings sections.";
+      }
+      const noResults = drawer.querySelector("#settingsNoResults");
+      if (noResults) {
+        noResults.style.display = q && shown === 0 ? "block" : "none";
+      }
+    }
+
     function isLegalNoticeAcknowledged() {
       try {
         return sessionStorage.getItem(LEGAL_NOTICE_SESSION_KEY) === "1";
@@ -1281,13 +1739,19 @@
     let _lastFocusedElement = null;
 
     function trapFocus(container) {
-      const focusable = container.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-      if (!focusable.length) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      first.focus();
+      const getFocusable = () => container.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      const initialFocusable = getFocusable();
+      if (!initialFocusable.length) return;
+      if (container._trapHandler) {
+        container.removeEventListener("keydown", container._trapHandler);
+      }
+      initialFocusable[0].focus();
       container._trapHandler = (e) => {
         if (e.key !== "Tab") return;
+        const focusable = getFocusable();
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
         if (e.shiftKey) {
           if (document.activeElement === first) { e.preventDefault(); last.focus(); }
         } else {
@@ -1410,14 +1874,18 @@
         state.privacyMode = Boolean(state.privacyMode);
         state.contentCoachEnabled = Boolean(state.contentCoachEnabled);
         state.strictLinks = state.strictLinks !== false;
+        state.settingsFavorites = sanitizeSettingsFavorites(state.settingsFavorites);
         state.showGithubContact = state.showGithubContact !== false;
         state.showPortfolioContact = state.showPortfolioContact !== false;
+        state.socialLinkDisplay = ["text", "logos", "logos-text"].includes(state.socialLinkDisplay) ? state.socialLinkDisplay : "text";
+        state.contactSpacingProfile = ["compact", "balanced", "relaxed"].includes(state.contactSpacingProfile) ? state.contactSpacingProfile : "balanced";
         state.sectionOrder = sanitizeSectionOrder(state.sectionOrder || defaultSectionOrderForPreset(state.rolePreset));
         state.logoSize = String(normalizeLogoSize(state.logoSize || "58"));
         state.imageWidth = String(normalizeImageDimension(state.imageWidth || state.logoSize || "58"));
         state.imageHeight = String(normalizeImageDimension(state.imageHeight || state.logoSize || "58"));
         state.imageFit = ["contain", "cover"].includes(state.imageFit) ? state.imageFit : "contain";
         state.photoShape = ["square", "rectangle", "circle"].includes(state.photoShape) ? state.photoShape : "square";
+        state.headerIdentityAlign = ["left-after-photo", "center-page"].includes(state.headerIdentityAlign) ? state.headerIdentityAlign : "left-after-photo";
         state.atsMode = Boolean(state.atsMode);
         state.printCalibrated = state.printCalibrated !== false;
         state.targetPages = state.targetPages || "1";
@@ -1572,6 +2040,55 @@
       reader.readAsText(file);
     }
 
+    function stashClearRecoveryPayload() {
+      try {
+        const payload = {
+          createdAt: Date.now(),
+          expiresAt: Date.now() + CLEAR_RECOVERY_WINDOW_MS,
+          storage: {
+            [STORAGE_KEY]: localStorage.getItem(STORAGE_KEY) || "",
+            [META_KEY]: localStorage.getItem(META_KEY) || "",
+            [LEGACY_KEY]: localStorage.getItem(LEGACY_KEY) || "",
+            [VARIANTS_KEY]: localStorage.getItem(VARIANTS_KEY) || "",
+            [HISTORY_KEY]: localStorage.getItem(HISTORY_KEY) || "",
+          },
+        };
+        localStorage.setItem(CLEAR_RECOVERY_KEY, JSON.stringify(payload));
+      } catch (_) {
+        // If this fails, clear will proceed without safety recovery.
+      }
+    }
+
+    function maybeOfferClearRecovery() {
+      let payload;
+      try {
+        payload = JSON.parse(localStorage.getItem(CLEAR_RECOVERY_KEY) || "null");
+      } catch (_) {
+        payload = null;
+      }
+      if (!payload || !payload.storage) return false;
+      const remainingMs = Number(payload.expiresAt || 0) - Date.now();
+      if (!Number.isFinite(remainingMs) || remainingMs <= 0) {
+        localStorage.removeItem(CLEAR_RECOVERY_KEY);
+        return false;
+      }
+
+      const seconds = Math.max(1, Math.floor(remainingMs / 1000));
+      const restore = confirm(`Recent clear detected. Restore the previous local data? (${seconds}s left)`);
+      localStorage.removeItem(CLEAR_RECOVERY_KEY);
+      if (!restore) return false;
+
+      Object.entries(payload.storage).forEach(([key, value]) => {
+        if (typeof value === "string" && value.length) {
+          localStorage.setItem(key, value);
+        } else {
+          localStorage.removeItem(key);
+        }
+      });
+      location.reload();
+      return true;
+    }
+
     function clearLocalData() {
       const ok = confirm("This will permanently delete all local CV data and saved variants on this browser. Continue?");
       if (!ok) return;
@@ -1580,11 +2097,13 @@
         showRecoveryToast("Data wipe cancelled.");
         return;
       }
+      stashClearRecoveryPayload();
       localStorage.removeItem(STORAGE_KEY);
       localStorage.removeItem(META_KEY);
       localStorage.removeItem(LEGACY_KEY);
       localStorage.removeItem(VARIANTS_KEY);
-      showRecoveryToast("Local data cleared. Refreshing...");
+      localStorage.removeItem(HISTORY_KEY);
+      showRecoveryToast("Local data cleared. You can restore once after refresh.");
       setTimeout(() => location.reload(), 350);
     }
 
@@ -2140,6 +2659,31 @@
       return `<a${cls} href="${href}" target="_blank" rel="noopener noreferrer" title="${escapeHtml(raw)}"><span class="link-label-screen">${text}</span><span class="link-label-print">${text}</span><span class="link-url-print">${escapeHtml(raw)}</span></a>`;
     }
 
+    function socialIconSvg(kind) {
+      if (kind === "linkedin") {
+        return '<svg class="contact-social-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zM4.943 13.5V6.169H2.542V13.5zm-1.2-8.333c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.21 2.4 3.919c0 .694.521 1.248 1.327 1.248h.016m4.908 8.333V9.359c0-.221.016-.442.082-.6.179-.442.586-.9 1.27-.9.897 0 1.256.679 1.256 1.673V13.5h2.401V9.255c0-2.273-1.212-3.33-2.83-3.33-1.304 0-1.887.72-2.212 1.227h.03v-.983H6.542c.03.65 0 7.331 0 7.331z"/></svg>';
+      }
+      if (kind === "github") {
+        return '<svg class="contact-social-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.7 7.7 0 0 1 8 4.77c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8"/></svg>';
+      }
+      return '<svg class="contact-social-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.5 0a.5.5 0 0 0-.5.5V2H2a2 2 0 0 0-2 2v1h16V4a2 2 0 0 0-2-2h-4V.5a.5.5 0 0 0-.5-.5zM9 2H7V1h2z"/><path fill="currentColor" d="M0 6v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6H0zm10.5 3a.5.5 0 0 1-.5.5h-4A.5.5 0 0 1 5.5 9V8h5z"/></svg>';
+    }
+
+    function hrefSocialHtml(label, value, kind, mode = "text", className = "") {
+      const raw = (value || "").trim();
+      if (!raw) return "";
+      if (mode === "text") return hrefLabelHtml(label, value, className);
+      const href = escapeHtml(normalizeUrl(raw));
+      const text = escapeHtml(label || raw);
+      const icon = socialIconSvg(kind);
+      const includeText = mode === "logos-text";
+      const classes = ["contact-social-link", `contact-social-${kind}`, className].filter(Boolean).join(" ");
+      const labelMarkup = includeText
+        ? `${icon}<span class="contact-social-text">${text}</span>`
+        : `${icon}<span class="contact-social-text sr-only">${text}</span>`;
+      return `<a class="${classes}" href="${href}" target="_blank" rel="noopener noreferrer" title="${escapeHtml(raw)}"><span class="link-label-screen">${labelMarkup}</span><span class="link-label-print">${labelMarkup}</span><span class="link-url-print">${escapeHtml(raw)}</span></a>`;
+    }
+
     function shortLinkText(raw) {
       const trimmed = (raw || "").replace(/^https?:\/\//i, "").replace(/^mailto:/i, "");
       if (trimmed.length <= 26) return trimmed;
@@ -2166,6 +2710,82 @@
         .replace(/\bdec(ember)?\b/ig, "Dec")
         .replace(/\bpresent\b/ig, "Present");
       return parts.map(fix).join(" - ");
+    }
+
+    function normalizeDateTokenLoose(token) {
+      const raw = String(token || "").trim();
+      if (!raw) return "";
+      if (/^present$/i.test(raw)) return "Present";
+      if (/^\d{4}$/i.test(raw)) return raw;
+
+      const slashDate = raw.match(/^(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{4})$/);
+      if (slashDate) {
+        const month = Number(slashDate[2]);
+        const year = Number(slashDate[3]);
+        if (month >= 1 && month <= 12 && year >= 1900 && year <= 2100) {
+          return `${monthOptions()[month - 1]} ${year}`;
+        }
+      }
+
+      const monthYear = raw.match(/^([A-Za-z]{3,9})\s+(\d{4})$/);
+      if (monthYear) {
+        const m = normalizeMonthToken(monthYear[1]);
+        if (m) return `${m} ${monthYear[2]}`;
+      }
+
+      return raw;
+    }
+
+    function normalizeDateRangeLoose(value) {
+      const raw = String(value || "").trim();
+      if (!raw) return "";
+      const parts = raw.split(/\s*[-–]\s*/).filter(Boolean);
+      if (parts.length !== 2) return normalizeDateRange(raw);
+      const start = normalizeDateTokenLoose(parts[0]);
+      const end = normalizeDateTokenLoose(parts[1]);
+      if (!start || !end) return normalizeDateRange(raw);
+      if (/^\d{4}$/i.test(start) && (/^\d{4}$/i.test(end) || /^Present$/i.test(end))) {
+        return `${start} - ${end}`;
+      }
+      return `${start} - ${end}`;
+    }
+
+    function normalizeAllDates() {
+      const edits = [];
+
+      state.experience.forEach((entry, idx) => {
+        const before = String(entry.dates || "").trim();
+        if (!before) return;
+        const after = normalizeDateRangeLoose(before);
+        if (after && after !== before) {
+          edits.push({ key: "experience", idx, value: after });
+        }
+      });
+
+      state.projects.forEach((entry, idx) => {
+        const before = String(entry.dates || "").trim();
+        if (!before) return;
+        const after = normalizeDateRangeLoose(before);
+        if (after && after !== before) {
+          edits.push({ key: "projects", idx, value: after });
+        }
+      });
+
+      if (!edits.length) {
+        showRecoveryToast("Dates are already normalized.");
+        return;
+      }
+
+      captureUndoStep();
+      edits.forEach((edit) => {
+        state[edit.key][edit.idx].dates = edit.value;
+      });
+      save();
+      renderForm();
+      wireArrayEvents();
+      renderDiagnostics();
+      renderPreview();
+      showRecoveryToast(`Normalized ${edits.length} date range${edits.length > 1 ? "s" : ""}.`);
     }
 
     function getSectionOrder() {
@@ -2487,6 +3107,149 @@
         <div>Line impact: ${diff.lineDelta >= 0 ? `+${diff.lineDelta}` : diff.lineDelta} estimated lines.</div>
         <div>Section order changed: ${diff.sectionOrderChanged ? "Yes" : "No"}.</div>
         <div>${sectionDeltaText}.</div>
+      `;
+    }
+
+    function summarizeBulletQuality(lines) {
+      const items = (Array.isArray(lines) ? lines : []).filter(Boolean);
+      let weak = 0;
+      let metricFree = 0;
+      let long = 0;
+      items.forEach((line) => {
+        if (/^(worked on|responsible for|helped|involved in|did)\b/i.test(line)) weak += 1;
+        if (!/\d|%|x|ms|s\b|k\b|million|thousand/i.test(line)) metricFree += 1;
+        if (line.length > 150) long += 1;
+      });
+      return { total: items.length, weak, metricFree, long };
+    }
+
+    function sectionQualityHintHtml(sectionKey) {
+      if (sectionKey === "education") {
+        const incomplete = state.education.filter((row) => {
+          return !(row.degree || "").trim() || !(row.institute || "").trim() || !(row.year || "").trim();
+        }).length;
+        if (incomplete > 0) {
+          return `<div class="section-hint warn">${incomplete} education row(s) are missing core fields (degree/institute/year).</div>`;
+        }
+        return `<div class="section-hint pass">Education rows look complete. Keep year format consistent.</div>`;
+      }
+
+      if (sectionKey === "experience") {
+        const lines = state.experience.flatMap((e) => linesToArray(e.bullets));
+        const s = summarizeBulletQuality(lines);
+        if (!s.total) return `<div class="section-hint">Add impact bullets in Experience (action + scope + measurable result).</div>`;
+        if (s.weak || s.metricFree || s.long) {
+          return `<div class="section-hint warn">Experience hints: ${s.weak} weak starts, ${s.metricFree} metric-free, ${s.long} long bullet(s).</div>`;
+        }
+        return `<div class="section-hint pass">Experience bullets look strong and metric-backed.</div>`;
+      }
+
+      if (sectionKey === "projects") {
+        const lines = state.projects.flatMap((p) => linesToArray(p.bullets));
+        const s = summarizeBulletQuality(lines);
+        if (!s.total) return `<div class="section-hint">Add concise project bullets with outcomes and tool impact.</div>`;
+        if (s.weak || s.metricFree || s.long) {
+          return `<div class="section-hint warn">Projects hints: ${s.weak} weak starts, ${s.metricFree} metric-free, ${s.long} long bullet(s).</div>`;
+        }
+        return `<div class="section-hint pass">Project bullets look concise and outcome-driven.</div>`;
+      }
+
+      if (sectionKey === "achievements") {
+        const s = summarizeBulletQuality(linesToArray(state.achievements));
+        if (!s.total) return `<div class="section-hint">Add verifiable achievements with rank/scale/percentile where possible.</div>`;
+        if (s.metricFree || s.long) {
+          return `<div class="section-hint warn">Achievements hints: ${s.metricFree} metric-free, ${s.long} long item(s).</div>`;
+        }
+        return `<div class="section-hint pass">Achievements are concise and quantifiable.</div>`;
+      }
+
+      if (sectionKey === "skills") {
+        const missingCategory = state.skills.filter((s) => !(s.category || "").trim() || !(s.items || "").trim()).length;
+        if (missingCategory > 0) {
+          return `<div class="section-hint warn">${missingCategory} skill row(s) missing category or items.</div>`;
+        }
+        return `<div class="section-hint pass">Skills are grouped; keep stack names standardized.</div>`;
+      }
+
+      return "";
+    }
+
+    function preExportChecklistItems() {
+      const budget = pageBudgetMessage();
+      const badDates = [
+        ...state.experience.map((e) => validateField("dates", e.dates || "")).filter(Boolean),
+        ...state.projects.map((p) => validateField("dates", p.dates || "")).filter(Boolean),
+      ].length;
+      const longBullets = bulletEntries().filter((b) => (b.line || "").length > 150).length;
+      const missingContact = ["name", "email", "phone"].filter((k) => !(state[k] || "").trim()).length;
+      const linkValues = [
+        state.linkedin,
+        state.github,
+        state.portfolio,
+        ...state.experience.map((e) => e.link),
+        ...state.projects.map((p) => p.link),
+      ].filter((v) => (v || "").trim());
+      const invalidLinks = linkValues.filter((v) => Boolean(validateField("link", v))).length;
+
+      return [
+        {
+          level: budget.className === "diag-warn" ? "warn" : "pass",
+          label: "Page Fit",
+          detail: budget.className === "diag-warn" ? "Over budget for target pages." : "Within target page budget.",
+        },
+        {
+          level: badDates > 0 ? "block" : "pass",
+          label: "Date Formats",
+          detail: badDates > 0 ? `${badDates} date field(s) need normalization/fix.` : "Date ranges look valid.",
+        },
+        {
+          level: invalidLinks > 0 ? "warn" : "pass",
+          label: "Links",
+          detail: invalidLinks > 0 ? `${invalidLinks} link(s) look invalid.` : "Links look valid.",
+        },
+        {
+          level: longBullets > 0 ? "warn" : "pass",
+          label: "Bullet Length",
+          detail: longBullets > 0 ? `${longBullets} bullet(s) may be too long for quick scan.` : "Bullets are scan-friendly.",
+        },
+        {
+          level: missingContact > 0 ? "warn" : "pass",
+          label: "Contact Completeness",
+          detail: missingContact > 0 ? `${missingContact} core contact field(s) missing.` : "Core contact fields are present.",
+        },
+      ];
+    }
+
+    function renderPreExportChecklist() {
+      const box = document.getElementById("exportChecklistBox");
+      if (!box) return;
+      const items = preExportChecklistItems();
+      box.innerHTML = `
+        <div><strong>Pre-export checklist</strong></div>
+        <div class="checklist-grid">
+          ${items.map((item) => `<div class="check-item ${item.level}"><div class="check-item-tag">${item.level.toUpperCase()}</div><div class="check-item-text"><strong>${escapeHtml(item.label)}:</strong> ${escapeHtml(item.detail)}</div></div>`).join("")}
+        </div>
+      `;
+    }
+
+    function settingsTogglePreviewHtml() {
+      const density = ["compact", "balanced", "readable"].includes(state.densityPreset) ? state.densityPreset : "balanced";
+      const currentClass = ["mini-preview-card", `density-${density}`, state.atsMode ? "ats-mode" : ""].filter(Boolean).join(" ");
+      return `
+        <div class="mini-preview-grid">
+          <div class="mini-preview-card density-balanced">
+            <div class="mini-preview-card-title">Before (Balanced + ATS Off)</div>
+            <div class="mini-preview-head">Experience</div>
+            <div class="mini-preview-bullet">• Built dashboard improving throughput by 35%</div>
+            <div class="mini-preview-meta">Readable spacing and default visual profile.</div>
+          </div>
+          <div class="${currentClass}">
+            <div class="mini-preview-card-title">After (Current toggles)</div>
+            <div class="mini-preview-head">Experience</div>
+            <div class="mini-preview-bullet">• Built dashboard improving throughput by 35%</div>
+            <div class="mini-preview-meta">Density: ${escapeHtml(density)} | ATS mode: ${state.atsMode ? "On" : "Off"}</div>
+          </div>
+        </div>
       `;
     }
 
@@ -3100,11 +3863,23 @@
     function renderSettingsDrawer() {
       const drawer = document.getElementById("settingsDrawer");
       if (!drawer) return;
+      state.settingsFavorites = sanitizeSettingsFavorites(state.settingsFavorites);
       drawer.innerHTML = `
         <div class="settings-head">
           <span>Settings</span>
           <button id="closeSettingsBtn" type="button">Close</button>
         </div>
+
+        <div class="settings-toolbar" id="settingsSearchTools">
+          <div class="settings-search-row">
+            <input id="settingsSearch" type="search" placeholder="Search settings (ATS, restore, density, order...)" value="${escapeHtml(settingsSearchQuery)}">
+            <button type="button" id="settingsSearchClearBtn">Clear</button>
+          </div>
+          <div class="settings-search-results" id="settingsSearchStatus">Showing all settings sections.</div>
+          <div class="tiny" id="settingsNoResults" style="display:none;">No settings matched this search. Try broader terms like <em>ATS</em>, <em>links</em>, <em>density</em>, or <em>restore</em>.</div>
+        </div>
+
+        ${pinnedSettingsSectionHtml()}
 
         <div class="section">
           <h3>Legal Acknowledgement</h3>
@@ -3118,7 +3893,7 @@
         <div class="section">
           <h3>Advanced Controls</h3>
           <div class="section-body controls-grid">
-            <label>Template Pack
+            <label><span class="setting-label-row">Template Pack ${recommendedBadge("Default: Standard")} ${settingHelpDot("What: applies a grouped profile preset. When: start quickly for a target role.")} ${pinToggleButton("templatePack", "Template Pack")}</span>
               <select id="templatePack">
                 <option value="standard">Standard</option>
                 <option value="sde">SDE Internship/Placement</option>
@@ -3127,7 +3902,7 @@
                 <option value="product">Product/Design</option>
               </select>
             </label>
-            <label>Role Preset
+            <label><span class="setting-label-row">Role Preset ${recommendedBadge("Default: Software")} ${settingHelpDot("What: adjusts emphasis and default section order. When: align to role family.")} ${pinToggleButton("rolePreset", "Role Preset")}</span>
               <select id="rolePreset">
                 <option value="software">Software</option>
                 <option value="core">Core Engineering</option>
@@ -3135,28 +3910,28 @@
                 <option value="design">Design</option>
               </select>
             </label>
-            <label>Export Preset
+            <label><span class="setting-label-row">Export Preset ${recommendedBadge("Default: Balanced")} ${settingHelpDot("What: tunes print/output rhythm. When: final polishing before export.")} ${pinToggleButton("exportPreset", "Export Preset")}</span>
               <select id="exportPreset">
                 <option value="balanced">Balanced</option>
                 <option value="compact">Compact</option>
                 <option value="academic">Academic</option>
               </select>
             </label>
-            <label>Density Preset
+            <label><span class="setting-label-row">Density Preset ${recommendedBadge("Default: Balanced")} ${settingHelpDot("What: changes global compactness. When: fix page fit quickly.")} ${pinToggleButton("densityPreset", "Density Preset")}</span>
               <select id="densityPreset">
                 <option value="compact">Compact</option>
                 <option value="balanced">Balanced</option>
                 <option value="readable">Readable</option>
               </select>
             </label>
-            <label>Print Profile
+            <label><span class="setting-label-row">Print Profile ${recommendedBadge("Default: Visual")} ${settingHelpDot("What: controls final print character. When: choose ATS-safe, visual, or publication style.")} ${pinToggleButton("printProfile", "Print Profile")}</span>
               <select id="printProfile">
                 <option value="ats-safe">ATS-safe</option>
                 <option value="visual">Visual</option>
                 <option value="publication">Publication</option>
               </select>
             </label>
-            <label>Target Pages
+            <label><span class="setting-label-row">Target Pages ${recommendedBadge("Default: 1 page")} ${settingHelpDot("What: sets diagnostics budget target. When: preparing one-page or multi-page variants.")} ${pinToggleButton("targetPages", "Target Pages")}</span>
               <select id="targetPages">
                 <option value="1">1 page</option>
                 <option value="2">2 pages</option>
@@ -3164,12 +3939,16 @@
                 <option value="4">4 pages</option>
               </select>
             </label>
-            <label class="control-check"><input type="checkbox" id="atsMode" ${state.atsMode ? "checked" : ""}> ATS Safe Mode</label>
-            <label class="control-check"><input type="checkbox" id="printCalibrated" ${state.printCalibrated ? "checked" : ""}> Strict Print Calibration</label>
-            <label class="control-check"><input type="checkbox" id="strictLinks" ${state.strictLinks ? "checked" : ""}> Strict Link Validation</label>
-            <label class="control-check"><input type="checkbox" id="contentCoachEnabled" ${state.contentCoachEnabled ? "checked" : ""}> Enable Content Coach + Grammar Lint</label>
+            <label class="control-check"><input type="checkbox" id="atsMode" ${state.atsMode ? "checked" : ""}><span class="setting-label-row">ATS Safe Mode ${settingHelpDot("What: strips decorative bias and favors ATS readability. When: applying to parser-heavy pipelines.")} ${pinToggleButton("atsMode", "ATS Safe Mode")}</span></label>
+            <label class="control-check"><input type="checkbox" id="printCalibrated" ${state.printCalibrated ? "checked" : ""}><span class="setting-label-row">Strict Print Calibration ${recommendedBadge("Recommended")} ${settingHelpDot("What: locks A4 print spacing closer to expected output. When: final export checks.")} ${pinToggleButton("printCalibrated", "Strict Print Calibration")}</span></label>
+            <label class="control-check"><input type="checkbox" id="strictLinks" ${state.strictLinks ? "checked" : ""}><span class="setting-label-row">Strict Link Validation ${recommendedBadge("Recommended")} ${settingHelpDot("What: validates URL format while editing. When: avoid broken links in final CV.")} ${pinToggleButton("strictLinks", "Strict Link Validation")}</span></label>
+            <label class="control-check"><input type="checkbox" id="contentCoachEnabled" ${state.contentCoachEnabled ? "checked" : ""}><span class="setting-label-row">Enable Content Coach + Grammar Lint ${settingHelpDot("What: surfaces wording and impact hints. When: polishing bullets.")} ${pinToggleButton("contentCoachEnabled", "Content Coach")}</span></label>
             <div class="full-row" id="presetGuideBox">${rolePresetGuideCard(state.rolePreset)}</div>
             <div class="full-row" id="exportPresetGuideBox">${exportPresetGuideCard(state.exportPreset)}</div>
+            <div class="full-row">
+              <div class="tiny">Before / After Preview for Density + ATS mode</div>
+              <div id="settingsTogglePreviewBox">${settingsTogglePreviewHtml()}</div>
+            </div>
           </div>
         </div>
 
@@ -3244,6 +4023,7 @@
             <button type="button" id="exportBackupBtn">Backup JSON</button>
             <button type="button" id="importBackupBtn">Restore JSON</button>
             <button type="button" id="exportReportBtn">Export Readiness Report</button>
+            <button type="button" id="normalizeDatesBtn">Normalize All Dates</button>
             <button type="button" id="saveRestorePointBtn">Save Restore Point</button>
             <label>Restore Point<select id="restorePointSelect"><option value="">Select restore point</option>${loadHistory().map(h => `<option value="${escapeHtml(h.id)}">${escapeHtml((h.label || "Snapshot") + " - " + formatSavedTime(h.savedAt))}</option>`).join("")}</select></label>
             <button type="button" id="restorePointLoadBtn">Load Restore Point</button>
@@ -3254,6 +4034,53 @@
       `;
 
       document.getElementById("closeSettingsBtn").addEventListener("click", closeSettings);
+
+      const settingsSearchInput = document.getElementById("settingsSearch");
+      const settingsSearchClearBtn = document.getElementById("settingsSearchClearBtn");
+      if (settingsSearchInput) {
+        settingsSearchInput.addEventListener("input", (e) => {
+          settingsSearchQuery = e.target.value || "";
+          applySettingsSearchFilter(drawer, settingsSearchQuery);
+        });
+      }
+      if (settingsSearchClearBtn) {
+        settingsSearchClearBtn.addEventListener("click", () => {
+          settingsSearchQuery = "";
+          if (settingsSearchInput) settingsSearchInput.value = "";
+          applySettingsSearchFilter(drawer, settingsSearchQuery);
+          settingsSearchInput?.focus();
+        });
+      }
+
+      drawer.querySelectorAll("[data-pin-setting]").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const id = btn.dataset.pinSetting;
+          if (!id) return;
+          captureUndoStep();
+          toggleSettingPinned(id);
+          save();
+          renderSettingsDrawer();
+        });
+      });
+
+      drawer.querySelectorAll("[data-pinned-control]").forEach((control) => {
+        control.addEventListener("input", (e) => {
+          const id = e.target.dataset.pinnedControl;
+          if (!id) return;
+          const primary = document.getElementById(id);
+          if (!primary) return;
+          if (primary.type === "checkbox") {
+            primary.checked = Boolean(e.target.checked);
+          } else {
+            primary.value = e.target.value;
+          }
+          primary.dispatchEvent(new Event("input", { bubbles: true }));
+        });
+      });
+
+      applySettingsSearchFilter(drawer, settingsSearchQuery);
 
       const legalAckBtn = document.getElementById("legalNoticeAckBtn");
       if (legalAckBtn) {
@@ -3272,7 +4099,7 @@
 
       ["templatePack", "rolePreset", "exportPreset", "densityPreset", "printProfile", "targetPages", "atsMode", "printCalibrated", "strictLinks", "contentCoachEnabled"].forEach(id => {
         document.getElementById(id).addEventListener("input", (e) => {
-          captureUndoStep();
+          if (id !== "templatePack") captureUndoStep();
           state[id] = e.target.type === "checkbox" ? e.target.checked : e.target.value;
           if (id === "templatePack") {
             applyTemplatePack(state.templatePack);
@@ -3300,6 +4127,10 @@
             syncBodyModes();
           }
           if (id === "atsMode" || id === "printProfile") syncBodyModes();
+          const togglePreviewBox = document.getElementById("settingsTogglePreviewBox");
+          if (togglePreviewBox) {
+            togglePreviewBox.innerHTML = settingsTogglePreviewHtml();
+          }
           save();
           renderDiagnostics();
           renderPreview();
@@ -3381,6 +4212,9 @@
       });
       document.getElementById("exportReportBtn").addEventListener("click", () => {
         alert(exportDiagnosticsReport());
+      });
+      document.getElementById("normalizeDatesBtn").addEventListener("click", () => {
+        normalizeAllDates();
       });
       document.getElementById("saveRestorePointBtn").addEventListener("click", () => {
         const latest = loadHistory()[0]?.state;
@@ -3465,6 +4299,24 @@
                 <option value="cover">Cover</option>
               </select>
             </label>
+            <label>Header Name Block Alignment
+              <select id="headerIdentityAlign">
+                <option value="left-after-photo">Left (after photo)</option>
+                <option value="center-page">Center (page)</option>
+              </select>
+            </label>
+            <div class="full-row">
+              <div class="tiny quick-actions-note">Quick actions (also available in Settings)</div>
+              <div class="quick-actions-grid">
+                <button type="button" id="quickBackupBtn">Backup JSON</button>
+                <button type="button" id="quickRestoreBtn">Restore JSON</button>
+                <button type="button" id="quickSaveRestorePointBtn">Save Restore Point</button>
+                <button type="button" id="quickExportReportBtn">Export Readiness Report</button>
+              </div>
+              <button type="button" id="quickNormalizeDatesBtn" class="tiny-action" style="margin-top:6px;">Normalize All Dates</button>
+              <div class="tiny" style="margin-top:4px;">Open Settings for advanced options like section order, variants, and clear data.</div>
+              <input id="quickImportBackupFile" type="file" accept="application/json" style="display:none">
+            </div>
             <label>Line Spacing<input type="number" step="0.05" min="1" max="2" id="lineHeight" value="${state.lineHeight}"></label>
             <label>Font<select id="fontFamily"><option value="'Times New Roman', serif">Serif</option><option value="'Georgia', serif">Georgia</option><option value="'Segoe UI', sans-serif">Sans</option><option value="'Poppins', sans-serif">Poppins</option><option value="'Montserrat', sans-serif">Montserrat</option></select></label>
             <label class="control-check full-row"><input type="checkbox" id="privacyMode" ${state.privacyMode ? "checked" : ""}> Privacy Mode (mask personal info in preview/screenshots)</label>
@@ -3472,6 +4324,7 @@
               <textarea id="jobDescription" placeholder="Paste target job description here...">${escapeHtml(state.jobDescription || "")}</textarea>
             </label>
             <div class="full-row diagnostics" id="diagnosticsBox"></div>
+            <div class="full-row diagnostics" id="exportChecklistBox"></div>
             <div class="full-row diagnostics" id="coachBox" ${state.contentCoachEnabled ? "" : "style=\"display:none\""}></div>
           </div>
         </div>
@@ -3487,17 +4340,31 @@
           ${input("linkedin", "LinkedIn")}
           ${input("github", "GitHub")}
           ${input("portfolio", "Google Drive Portfolio")}
+          <label>Social Link Display
+            <select id="socialLinkDisplay">
+              <option value="text">Text hyperlinks</option>
+              <option value="logos">Logos only</option>
+              <option value="logos-text">Logos + text</option>
+            </select>
+          </label>
+          <label>Contact Link Spacing
+            <select id="contactSpacingProfile">
+              <option value="compact">Compact</option>
+              <option value="balanced">Balanced</option>
+              <option value="relaxed">Relaxed</option>
+            </select>
+          </label>
           <label class="control-check"><input type="checkbox" id="showGithubContact" ${state.showGithubContact ? "checked" : ""}> Show GitHub in CV header</label>
           <label class="control-check"><input type="checkbox" id="showPortfolioContact" ${state.showPortfolioContact ? "checked" : ""}> Show Portfolio in CV header</label>
         </div></div>
 
-        ${sectionEnabled("education") ? `<div class="section"><h3>Education <button type="button" data-add="education">+ Add</button></h3><div class="section-body">${renderArray("education", ["year", "degree", "institute", "cgpa"])}</div></div>` : ""}
-        ${sectionEnabled("experience") ? `<div class="section"><h3>Experience <button type="button" data-add="experience">+ Add</button></h3><div class="section-body">${renderArray("experience", ["company", "role", "workMode", "dates", "link", "bullets"], ["bullets"])}</div></div>` : ""}
+        ${sectionEnabled("education") ? `<div class="section"><h3>Education <button type="button" data-add="education">+ Add</button></h3><div class="section-body">${sectionQualityHintHtml("education")}${renderArray("education", ["year", "degree", "institute", "cgpa"])}</div></div>` : ""}
+        ${sectionEnabled("experience") ? `<div class="section"><h3>Experience <button type="button" data-add="experience">+ Add</button></h3><div class="section-body">${sectionQualityHintHtml("experience")}${renderArray("experience", ["company", "role", "workMode", "dates", "link", "bullets"], ["bullets"])}</div></div>` : ""}
         ${sectionEnabled("publications") ? `<div class="section"><h3>Publications</h3><div class="section-body"><label>One item per line<textarea data-key="publications">${escapeHtml(state.publications)}</textarea></label></div></div>` : ""}
-        ${sectionEnabled("projects") ? `<div class="section"><h3>Projects <button type="button" data-add="projects">+ Add</button></h3><div class="section-body">${renderArray("projects", ["title", "mentor", "dates", "link", "tech", "bullets"], ["bullets"])}</div></div>` : ""}
-        ${sectionEnabled("skills") ? `<div class="section"><h3>Technical Skills <button type="button" data-add="skills">+ Add</button></h3><div class="section-body">${renderArray("skills", ["category", "items"])}</div></div>` : ""}
+        ${sectionEnabled("projects") ? `<div class="section"><h3>Projects <button type="button" data-add="projects">+ Add</button></h3><div class="section-body">${sectionQualityHintHtml("projects")}${renderArray("projects", ["title", "mentor", "dates", "link", "tech", "bullets"], ["bullets"])}</div></div>` : ""}
+        ${sectionEnabled("skills") ? `<div class="section"><h3>Technical Skills <button type="button" data-add="skills">+ Add</button></h3><div class="section-body">${sectionQualityHintHtml("skills")}${renderArray("skills", ["category", "items"])}</div></div>` : ""}
         ${sectionEnabled("por") ? `<div class="section"><h3>Positions of Responsibility</h3><div class="section-body"><label>One item per line<textarea data-key="por">${escapeHtml(state.por)}</textarea></label></div></div>` : ""}
-        ${sectionEnabled("achievements") ? `<div class="section"><h3>Achievements <span><button type="button" data-line-add="achievements">+ Add</button> <button type="button" id="rewriteAchievementsBtn">Rewrite Weak Bullets</button></span></h3><div class="section-body">${renderLineListEditor("achievements", "Eg: Secured AIR 45 among 25,000 participants")}</div></div>` : ""}
+        ${sectionEnabled("achievements") ? `<div class="section"><h3>Achievements <span><button type="button" data-line-add="achievements">+ Add</button> <button type="button" id="rewriteAchievementsBtn">Rewrite Weak Bullets</button></span></h3><div class="section-body">${sectionQualityHintHtml("achievements")}${renderLineListEditor("achievements", "Eg: Secured AIR 45 among 25,000 participants")}</div></div>` : ""}
         ${sectionEnabled("keyCourses") ? `<div class="section"><h3>Key Courses Taken <button type="button" data-line-add="keyCourses">+ Add</button></h3><div class="section-body">${renderLineListEditor("keyCourses", "Eg: Design and Analysis of Algorithms")}</div></div>` : ""}
         ${sectionEnabled("extracurriculars") ? `<div class="section"><h3>Extracurriculars <button type="button" data-line-add="extracurriculars">+ Add</button></h3><div class="section-body">${renderLineListEditor("extracurriculars", "Eg: Core member, Coding Club")}</div></div>` : ""}
 
@@ -3507,6 +4374,12 @@
       document.getElementById("fontFamily").value = state.fontFamily;
       document.getElementById("photoShape").value = state.photoShape;
       document.getElementById("imageFit").value = state.imageFit;
+      state.headerIdentityAlign = ["left-after-photo", "center-page"].includes(state.headerIdentityAlign) ? state.headerIdentityAlign : "left-after-photo";
+      document.getElementById("headerIdentityAlign").value = state.headerIdentityAlign;
+      state.socialLinkDisplay = ["text", "logos", "logos-text"].includes(state.socialLinkDisplay) ? state.socialLinkDisplay : "text";
+      document.getElementById("socialLinkDisplay").value = state.socialLinkDisplay;
+      state.contactSpacingProfile = ["compact", "balanced", "relaxed"].includes(state.contactSpacingProfile) ? state.contactSpacingProfile : "balanced";
+      document.getElementById("contactSpacingProfile").value = state.contactSpacingProfile;
       document.getElementById("imageWidth").value = String(normalizeImageDimension(state.imageWidth || state.logoSize));
       document.getElementById("imageHeight").value = String(normalizeImageDimension(state.imageHeight || state.logoSize));
       document.getElementById("imageWidthValue").textContent = `${normalizeImageDimension(state.imageWidth || state.logoSize)} px`;
@@ -3564,6 +4437,58 @@
         renderPreview();
         showRecoveryToast("Image reset to neutral default logo.");
       });
+
+      const quickBackupBtn = document.getElementById("quickBackupBtn");
+      if (quickBackupBtn) {
+        quickBackupBtn.addEventListener("click", () => {
+          exportBackupJson();
+          showRecoveryToast("Backup JSON downloaded.");
+        });
+      }
+
+      const quickRestoreBtn = document.getElementById("quickRestoreBtn");
+      if (quickRestoreBtn) {
+        quickRestoreBtn.addEventListener("click", () => {
+          document.getElementById("quickImportBackupFile")?.click();
+        });
+      }
+
+      const quickImportBackupFile = document.getElementById("quickImportBackupFile");
+      if (quickImportBackupFile) {
+        quickImportBackupFile.addEventListener("change", (e) => {
+          importBackupJson(e.target.files?.[0]);
+          e.target.value = "";
+        });
+      }
+
+      const quickSaveRestorePointBtn = document.getElementById("quickSaveRestorePointBtn");
+      if (quickSaveRestorePointBtn) {
+        quickSaveRestorePointBtn.addEventListener("click", () => {
+          const latest = loadHistory()[0]?.state;
+          if (latest) {
+            const diff = compareStates(latest, state);
+            const ok = confirm(`Save restore point with this impact?\n\n${compareSummaryHtml(diff).replace(/<[^>]+>/g, "").replace(/\s+/g, " ")}`);
+            if (!ok) return;
+          }
+          createRestorePoint("Manual");
+          renderSettingsDrawer();
+          showRecoveryToast("Restore point saved.");
+        });
+      }
+
+      const quickExportReportBtn = document.getElementById("quickExportReportBtn");
+      if (quickExportReportBtn) {
+        quickExportReportBtn.addEventListener("click", () => {
+          alert(exportDiagnosticsReport());
+        });
+      }
+
+      const quickNormalizeDatesBtn = document.getElementById("quickNormalizeDatesBtn");
+      if (quickNormalizeDatesBtn) {
+        quickNormalizeDatesBtn.addEventListener("click", () => {
+          normalizeAllDates();
+        });
+      }
 
       panel.querySelectorAll("[data-add]").forEach(btn => {
         btn.addEventListener("click", () => {
@@ -3669,7 +4594,7 @@
         panel._lineEditorBound = true;
       }
 
-      ["lineHeight", "fontFamily", "privacyMode", "photoShape", "imageWidth", "imageHeight", "imageFit"].forEach(id => {
+      ["lineHeight", "fontFamily", "privacyMode", "photoShape", "imageWidth", "imageHeight", "imageFit", "headerIdentityAlign", "socialLinkDisplay", "contactSpacingProfile"].forEach(id => {
         document.getElementById(id).addEventListener("input", (e) => {
           captureUndoStep();
           if (id === "imageWidth") {
@@ -3685,6 +4610,12 @@
             state.privacyMode = e.target.checked;
           } else if (id === "photoShape") {
             state.photoShape = ["square", "rectangle", "circle"].includes(e.target.value) ? e.target.value : "square";
+          } else if (id === "headerIdentityAlign") {
+            state.headerIdentityAlign = ["left-after-photo", "center-page"].includes(e.target.value) ? e.target.value : "left-after-photo";
+          } else if (id === "socialLinkDisplay") {
+            state.socialLinkDisplay = ["text", "logos", "logos-text"].includes(e.target.value) ? e.target.value : "text";
+          } else if (id === "contactSpacingProfile") {
+            state.contactSpacingProfile = ["compact", "balanced", "relaxed"].includes(e.target.value) ? e.target.value : "balanced";
           } else if (id === "imageFit") {
             state.imageFit = ["contain", "cover"].includes(e.target.value) ? e.target.value : "contain";
           } else {
@@ -3862,6 +4793,8 @@
         </div>
       `;
 
+      renderPreExportChecklist();
+
       const coach = document.getElementById("coachBox");
       if (!coach) return;
       coach.style.display = state.contentCoachEnabled ? "grid" : "none";
@@ -3921,6 +4854,10 @@
       preview.style.setProperty("--cv-list-size", `${density.listSize}px`);
       preview.style.setProperty("--cv-entry-gap", `${density.entryGap}px`);
       preview.style.setProperty("--cv-bullet-gap", `${density.bulletGap}px`);
+      const contactSpacingProfile = ["compact", "balanced", "relaxed"].includes(state.contactSpacingProfile) ? state.contactSpacingProfile : "balanced";
+      const contactSpacing = getContactSpacingProfileConfig(contactSpacingProfile);
+      preview.style.setProperty("--contact-row-gap", `${contactSpacing.rowGap}px`);
+      preview.style.setProperty("--contact-icon-gap", `${contactSpacing.iconGap}px`);
       const baseWidth = normalizeImageDimension(state.imageWidth || state.logoSize || "58");
       const baseHeight = normalizeImageDimension(state.imageHeight || state.logoSize || "58");
       let logoWidth = baseWidth;
@@ -3932,10 +4869,14 @@
       }
       const logoRadius = state.photoShape === "circle" ? "50%" : "0";
       const logoColumn = Math.max(88, logoWidth + 24);
-      const linkedinDisplay = state.privacyMode ? escapeHtml(privacyMask(state.linkedin, "link")) : (hrefLabelHtml("LinkedIn", state.linkedin) || "");
+      const socialLinkDisplay = ["text", "logos", "logos-text"].includes(state.socialLinkDisplay) ? state.socialLinkDisplay : "text";
+      const linkedinDisplay = state.privacyMode ? escapeHtml(privacyMask(state.linkedin, "link")) : (hrefSocialHtml("LinkedIn", state.linkedin, "linkedin", socialLinkDisplay) || "");
       const emailDisplay = state.privacyMode ? escapeHtml(privacyMask(state.email, "email")) : (hrefHtml(state.email) || escapeHtml(state.email));
-      const githubDisplay = state.showGithubContact ? (state.privacyMode ? escapeHtml(privacyMask(state.github, "link")) : (hrefLabelHtml("GitHub", state.github) || "")) : "";
-      const portfolioDisplay = state.showPortfolioContact ? (state.privacyMode ? escapeHtml(privacyMask(state.portfolio, "link")) : (hrefLabelHtml("Portfolio", state.portfolio) || "")) : "";
+      const githubDisplay = state.showGithubContact ? (state.privacyMode ? escapeHtml(privacyMask(state.github, "link")) : (hrefSocialHtml("GitHub", state.github, "github", socialLinkDisplay) || "")) : "";
+      const portfolioDisplay = state.showPortfolioContact ? (state.privacyMode ? escapeHtml(privacyMask(state.portfolio, "link")) : (hrefSocialHtml("Portfolio", state.portfolio, "portfolio", socialLinkDisplay) || "")) : "";
+      const headerIdentityAlign = state.headerIdentityAlign === "center-page" ? "center-page" : "left-after-photo";
+      const headerClass = headerIdentityAlign === "center-page" ? "header-align-center" : "header-align-left";
+      const headerInlineStyle = `grid-template-columns: ${logoColumn}px 1fr auto;`;
 
       const educationRows = state.education
         .map(e => `<tr><td>${escapeHtml(e.degree)}</td><td>${escapeHtml(e.institute)}</td><td>${escapeHtml(e.cgpa)}</td><td>${escapeHtml(e.year)}</td></tr>`)
@@ -3981,7 +4922,7 @@
         const extracurriculars = sectionEnabled("extracurriculars") ? section("Extracurriculars", linesToList(state.extracurriculars), "extracurriculars") : "";
 
       preview.innerHTML = `
-        <div class="cv-header" style="grid-template-columns: ${logoColumn}px 1fr auto;">
+        <div class="cv-header ${headerClass}" style="${headerInlineStyle}">
           <img class="cv-logo" src="${getResumeLogoSrc()}" alt="Resume image" style="width:${logoWidth}px;height:${logoHeight}px;border-radius:${logoRadius};object-fit:${state.imageFit};">
           <div class="identity">
             <h2 class="name">${escapeHtml(state.name || "Student Name")}</h2>
@@ -4250,12 +5191,16 @@
       if (document.visibilityState === "hidden") save();
     });
 
-    load();
-    renderForm();
-    wireArrayEvents();
-    renderDiagnostics();
-    renderPreview();
-    updateUndoRedoControls();
+    const recoveryTriggered = maybeOfferClearRecovery();
+    if (!recoveryTriggered) {
+      load();
+      renderForm();
+      wireArrayEvents();
+      renderDiagnostics();
+      renderPreview();
+      updateUndoRedoControls();
+      startAutosaveTicker();
+    }
   </script>
 </body>
 </html>

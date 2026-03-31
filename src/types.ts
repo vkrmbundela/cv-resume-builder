@@ -43,80 +43,54 @@ export interface ResumeData {
 }
 
 export const initialResumeData: ResumeData = {
-  name: "Vikramaditya Shah Bundela",
-  degree: "M.Tech Sustainable Engineering",
-  department: "Greenko School of Sustainability",
+  name: "Your Full Name",
+  degree: "B.Tech in Your Branch",
+  department: "Your Department",
   institute: "Indian Institute of Technology, Hyderabad",
-  phone: "+91 7080730935",
-  email: "vikramaditya.shah123@gmail.com",
-  linkedin: "https://www.linkedin.com/in/vikramadityashah/",
-  github: "https://github.com/vkrmbundela",
+  phone: "+91 98765 43210",
+  email: "you@example.com",
+  linkedin: "https://www.linkedin.com/in/your-profile",
+  github: "https://github.com/your-username",
   education: [
     {
-      degree: "M.Tech Sustainable Engineering",
+      degree: "B.Tech in Your Branch",
       institute: "Indian Institute of Technology, Hyderabad",
-      cgpa: "8.62",
-      year: "2025-27"
-    },
-    {
-      degree: "Bachelor of Architecture",
-      institute: "Madhav Institute of Technology and Science, Gwalior",
-      cgpa: "8.58",
-      year: "2019-24"
+      cgpa: "8.50",
+      year: "2023-27"
     }
   ],
   experience: [
     {
-      company: "Wiingy",
-      role: "Software Educator",
-      dates: "Apr 2025 - Present",
+      company: "Example Company",
+      role: "Summer Intern",
+      dates: "May 2025 - Jul 2025",
       location: "Remote",
       bullets: [
-        "Delivered 300+ hours of architectural software training to students",
-        "Translated complex concepts into accessible modules and exercises"
-      ]
-    },
-    {
-      company: "Outlier and Aligner",
-      role: "AI Trainer",
-      dates: "Nov 2024 - Present",
-      location: "Remote",
-      bullets: [
-        "Evaluated and refined large language models using rigorous data analysis",
-        "Designed evaluation protocols and documentation for model improvements"
+        "Developed a workflow automation script used by 3 teams, reducing manual effort by 35%",
+        "Created clear documentation and handover notes, enabling adoption within 1 week"
       ]
     }
   ],
   publications: [],
   projects: [
     {
-      title: "Hyderabad Waste Management Fleet Optimization",
-      tech: "Python, OSMnx, Leaflet.js, QGIS",
+      title: "Sample Project Title",
+      tech: "Python, React, SQL",
       bullets: [
-        "Designed a routing algorithm to optimize urban collection logistics",
-        "Developed an interactive map dashboard for resource planning"
-      ]
-    },
-    {
-      title: "Localized Cold Chain Design for Grains",
-      tech: "HTflux, SketchUp, Energy2D",
-      bullets: [
-        "Conducted thermal simulations to design low-cost refrigerated storage",
-        "Created deployment-ready design recommendations for rural supply chains"
+        "Built an end-to-end project to solve a real use-case and served 200+ test users",
+        "Optimized runtime and reduced processing time by 40% through profiling and refactoring"
       ]
     }
   ],
   skills: [
     { category: "Programming", items: "Python, JavaScript, SQL" },
-    { category: "Tools", items: "QGIS, Leaflet, OSMnx, SketchUp" },
-    { category: "Concepts", items: "Spatial Analysis, Energy Modeling, ML for AEC" }
+    { category: "Tools", items: "Git, Docker, Figma" },
+    { category: "Concepts", items: "Data Structures, Web Development" }
   ],
   achievements: [
-    "Prepared data and documentation for a UNESCO heritage proposal",
-    "Presented research at an academic symposium"
+    "Secured top 5% rank in a national-level competition among 10,000+ participants"
   ],
   por: [
-    "Class Representative - Sustainable Engineering cohort",
-    "Organizer, Student Design Workshops"
+    "Coordinator, Technical Club - Led a team of 12 students to run 4 campus events"
   ]
 };

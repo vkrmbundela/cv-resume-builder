@@ -957,18 +957,75 @@
     .edu-table {
       width: 100%;
       border-collapse: collapse;
+      table-layout: fixed;
       font-size: 13px;
       margin-bottom: 2px;
     }
     .edu-table th,
     .edu-table td {
+      position: relative;
       border: 1px solid #8d8d8d;
       padding: 4px 6px;
       text-align: left;
       vertical-align: top;
+      overflow: visible;
     }
     .edu-table th {
       font-weight: 700;
+    }
+    .edu-table-wrap {
+      position: relative;
+      overflow: visible;
+    }
+    .edu-col-handle,
+    .edu-row-handle {
+      position: absolute;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      opacity: 0.75;
+      transition: opacity 120ms ease, transform 120ms ease;
+      touch-action: none;
+    }
+    .edu-col-handle:hover,
+    .edu-row-handle:hover {
+      opacity: 1;
+      transform: scale(1.04);
+    }
+    .edu-col-handle {
+      top: 0;
+      right: -8px;
+      width: 16px;
+      height: 100%;
+      cursor: col-resize;
+    }
+    .edu-col-handle::before {
+      content: "";
+      width: 3px;
+      height: 28px;
+      border-radius: 999px;
+      background: rgba(46, 49, 146, 0.42);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.8);
+    }
+    .edu-row-handle {
+      left: 0;
+      right: 0;
+      bottom: -8px;
+      height: 16px;
+      width: 100%;
+      cursor: row-resize;
+    }
+    .edu-row-handle::before {
+      content: "";
+      width: 42px;
+      height: 3px;
+      border-radius: 999px;
+      background: rgba(141, 141, 141, 0.7);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.8);
     }
     .entry-list {
       margin: 2px 0 0 26px;
@@ -1023,6 +1080,12 @@
     body.ats-safe .edu-table td {
       border-color: #6f6f6f;
     }
+    body.ats-safe .edu-col-handle::before {
+      background: rgba(70, 70, 70, 0.45);
+    }
+    body.ats-safe .edu-row-handle::before {
+      background: rgba(70, 70, 70, 0.6);
+    }
     .entry-note {
       font-style: italic;
       color: #555;
@@ -1075,6 +1138,10 @@
       .entry-list > li {
         break-inside: avoid;
         page-break-inside: avoid;
+      }
+      .edu-col-handle,
+      .edu-row-handle {
+        display: none !important;
       }
       .right-meta {
         white-space: normal;
@@ -1337,6 +1404,8 @@
       contactSpacingProfile: "balanced",
       customLogo: "",
       education: [{ year: "", degree: "", institute: "", cgpa: "" }],
+      educationColumnWidths: [25, 45, 15, 15],
+      educationRowHeights: [34],
       experience: [{ company: "", role: "", workMode: "onsite", dates: "", link: "", bullets: "" }],
       publications: "",
       projects: [{ title: "", mentor: "", dates: "", link: "", tech: "", bullets: "" }],
@@ -1410,6 +1479,8 @@
           cgpa: "8.50 / 10",
         },
       ],
+      educationColumnWidths: [25, 45, 15, 15],
+      educationRowHeights: [34],
       experience: [
         {
           company: "Example Organization",
@@ -1497,6 +1568,50 @@
         }
       }
       return clean;
+    }
+
+    const DEFAULT_EDUCATION_COLUMN_WIDTHS = [25, 45, 15, 15];
+    const DEFAULT_EDUCATION_ROW_HEIGHT = 34;
+
+    function normalizeEducationColumnWidths(widths) {
+      const values = Array.isArray(widths) ? widths.map(v => Number(v)).filter(v => Number.isFinite(v)) : [];
+      if (values.length !== 4) return [...DEFAULT_EDUCATION_COLUMN_WIDTHS];
+      const total = values.reduce((sum, value) => sum + value, 0) || 100;
+      const scaled = values.map(value => Math.max(8, Math.round((value / total) * 100)));
+      const scaledTotal = scaled.reduce((sum, value) => sum + value, 0);
+      if (scaledTotal !== 100) {
+        scaled[3] += 100 - scaledTotal;
+      }
+      return scaled;
+    }
+
+    function getEducationColumnWidths() {
+      return normalizeEducationColumnWidths(state.educationColumnWidths);
+    }
+
+    function getEducationRowHeights() {
+      const rows = Array.isArray(state.educationRowHeights) ? state.educationRowHeights : [];
+      const count = Array.isArray(state.education) ? state.education.length : 0;
+      return Array.from({ length: count }, (_, index) => {
+        const value = Number(rows[index]);
+        return Number.isFinite(value) && value > 0 ? Math.max(28, Math.round(value)) : DEFAULT_EDUCATION_ROW_HEIGHT;
+      });
+    }
+
+    function setEducationTableColumnWidths(nextWidths, skipUndo = false) {
+      if (!skipUndo) captureUndoStep();
+      state.educationColumnWidths = normalizeEducationColumnWidths(nextWidths);
+      save();
+      renderPreview();
+    }
+
+    function setEducationTableRowHeight(index, nextHeight, skipUndo = false) {
+      if (!skipUndo) captureUndoStep();
+      const rows = getEducationRowHeights();
+      rows[index] = Math.max(28, Math.round(Number(nextHeight) || DEFAULT_EDUCATION_ROW_HEIGHT));
+      state.educationRowHeights = rows;
+      save();
+      renderPreview();
     }
 
     function formatSavedTime(iso) {
@@ -4962,8 +5077,16 @@
       const headerClass = headerIdentityAlign === "center-page" ? "header-align-center" : "header-align-left";
       const headerInlineStyle = `grid-template-columns: ${logoColumn}px 1fr auto;`;
 
+      const educationColumnWidths = getEducationColumnWidths();
+      const educationRowHeights = getEducationRowHeights();
       const educationRows = state.education
-        .map(e => `<tr><td>${escapeHtml(e.degree)}</td><td>${escapeHtml(e.institute)}</td><td>${escapeHtml(e.cgpa)}</td><td>${escapeHtml(e.year)}</td></tr>`)
+        .map((e, idx) => `
+          <tr data-edu-row-index="${idx}" style="height:${educationRowHeights[idx] || DEFAULT_EDUCATION_ROW_HEIGHT}px;">
+            <td>${escapeHtml(e.degree)}<button type="button" class="edu-row-handle" data-edu-row-handle="${idx}" aria-label="Resize row ${idx + 1}"></button></td>
+            <td>${escapeHtml(e.institute)}</td>
+            <td>${escapeHtml(e.cgpa)}</td>
+            <td>${escapeHtml(e.year)}</td>
+          </tr>`)
         .join("");
 
       const experienceRows = state.experience
@@ -5025,7 +5148,7 @@
 
         ${(() => {
           const blocks = {
-            education: sectionEnabled("education") ? section("Education", `<table class="edu-table"><tr><th>Degree / Certificate</th><th>Institute / Board</th><th>CGPA/Percentage</th><th>Year</th></tr>${educationRows}</table>`, "education") : "",
+            education: sectionEnabled("education") ? section("Education", `<div class="edu-table-wrap" data-edu-table-wrap><table class="edu-table"><colgroup><col style="width:${educationColumnWidths[0]}%"><col style="width:${educationColumnWidths[1]}%"><col style="width:${educationColumnWidths[2]}%"><col style="width:${educationColumnWidths[3]}%"></colgroup><tr><th>Degree / Certificate<button type="button" class="edu-col-handle" data-edu-col-handle="0" aria-label="Resize first column"></button></th><th>Institute / Board<button type="button" class="edu-col-handle" data-edu-col-handle="1" aria-label="Resize second column"></button></th><th>CGPA/Percentage<button type="button" class="edu-col-handle" data-edu-col-handle="2" aria-label="Resize third column"></button></th><th>Year</th></tr>${educationRows}</table></div>`, "education") : "",
             experience: sectionEnabled("experience") ? section("Experience", `<ul class="entry-list">${experienceRows}</ul>`, "experience") : "",
             publications,
             projects: sectionEnabled("projects") ? section("Projects", `<ul class="entry-list">${state.projects.map(projectBlock).join("")}</ul>`, "projects") : "",
@@ -5042,6 +5165,77 @@
       renderPageSegregationGuides();
 
     }
+
+    let educationTableResizeDrag = null;
+
+    function wireEducationTableResizeHandles() {
+      const preview = document.getElementById("resumePreview");
+      if (!preview || preview.dataset.educationResizeWired === "1") return;
+      preview.dataset.educationResizeWired = "1";
+
+      preview.addEventListener("pointerdown", (event) => {
+        const colHandle = event.target.closest("[data-edu-col-handle]");
+        const rowHandle = event.target.closest("[data-edu-row-handle]");
+        const table = preview.querySelector(".edu-table");
+        if (!table || (!colHandle && !rowHandle)) return;
+
+        event.preventDefault();
+        event.stopPropagation();
+        captureUndoStep();
+
+        if (colHandle) {
+          const colIndex = Number(colHandle.dataset.eduColHandle);
+          const rect = table.getBoundingClientRect();
+          educationTableResizeDrag = {
+            type: "column",
+            index: colIndex,
+            startX: event.clientX,
+            tableWidth: rect.width || 1,
+            startWidths: getEducationColumnWidths(),
+          };
+          return;
+        }
+
+        if (rowHandle) {
+          const rowIndex = Number(rowHandle.dataset.eduRowHandle);
+          const row = table.querySelector(`tr[data-edu-row-index="${rowIndex}"]`);
+          educationTableResizeDrag = {
+            type: "row",
+            index: rowIndex,
+            startY: event.clientY,
+            startHeight: row ? row.getBoundingClientRect().height : DEFAULT_EDUCATION_ROW_HEIGHT,
+          };
+        }
+      });
+
+      const stopDrag = () => {
+        educationTableResizeDrag = null;
+      };
+
+      window.addEventListener("pointermove", (event) => {
+        if (!educationTableResizeDrag) return;
+        if (educationTableResizeDrag.type === "column") {
+          const deltaPercent = ((event.clientX - educationTableResizeDrag.startX) / educationTableResizeDrag.tableWidth) * 100;
+          const widths = [...educationTableResizeDrag.startWidths];
+          const leftIndex = educationTableResizeDrag.index;
+          const rightIndex = leftIndex + 1;
+          const total = widths[leftIndex] + widths[rightIndex];
+          const minWidth = 10;
+          const nextLeft = Math.min(Math.max(widths[leftIndex] + deltaPercent, minWidth), total - minWidth);
+          widths[leftIndex] = nextLeft;
+          widths[rightIndex] = total - nextLeft;
+          setEducationTableColumnWidths(widths, true);
+        } else if (educationTableResizeDrag.type === "row") {
+          const nextHeight = Math.max(28, educationTableResizeDrag.startHeight + (event.clientY - educationTableResizeDrag.startY));
+          setEducationTableRowHeight(educationTableResizeDrag.index, nextHeight, true);
+        }
+      });
+
+      window.addEventListener("pointerup", stopDrag);
+      window.addEventListener("pointercancel", stopDrag);
+    }
+
+    wireEducationTableResizeHandles();
 
     function escapeLatex(v) {
       return (v || "")

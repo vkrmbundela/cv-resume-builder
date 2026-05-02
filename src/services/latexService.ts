@@ -23,6 +23,7 @@ export function generateLatex(data: ResumeData): string {
   const educationRows = data.education.map(edu => 
     `${escape(edu.degree)} & ${escape(edu.institute)} & ${escape(edu.cgpa)} & ${escape(edu.year)} \\\\`
   ).join('\n');
+    const [educationCol1, educationCol2, educationCol3, educationCol4] = data.educationLayout.columnWidths.map((width) => `${width / 100}\\textwidth`) as [string, string, string, string];
 
   const experienceItems = data.experience.map(exp => `
 \\textbf{${escape(exp.company)}} \\hfill ${escape(exp.dates)} \\\\
@@ -75,7 +76,7 @@ ${proj.bullets.map(b => `  \\item ${escape(b)}`).join('\n')}
 \\end{center}
 
 \\section{Education}
-\\begin{tabular}{|p{0.25\\textwidth}|p{0.45\\textwidth}|p{0.12\\textwidth}|p{0.12\\textwidth}|}
+  \\begin{tabular}{|p{${educationCol1}}|p{${educationCol2}}|p{${educationCol3}}|p{${educationCol4}}|}
 \\hline
 \\textbf{Degree/Certificate} & \\textbf{Institute/Board} & \\textbf{CGPA/\\%} & \\textbf{Year} \\\\
 \\hline

@@ -1,6 +1,7 @@
 import React from 'react';
-import { ResumeData } from '../types';
+import { EducationTableLayout, ResumeData } from '../types';
 import { Plus, Trash2, User, GraduationCap, Briefcase, Code, Award, BookOpen, Users } from 'lucide-react';
+import { EducationTableEditor } from './EducationTableEditor';
 
 interface Props {
   data: ResumeData;
@@ -15,6 +16,39 @@ export const ResumeForm: React.FC<Props> = ({ data, onChange }) => {
   const addItem = (field: keyof ResumeData, emptyItem: any) => {
     const current = data[field] as any[];
     updateField(field, [...current, emptyItem]);
+  };
+
+  const addEducationRow = () => {
+    const nextEducation = [...data.education, { degree: '', institute: '', cgpa: '', year: '' }];
+    const nextHeights = [...data.educationLayout.rowHeights, 96];
+    updateField('education', nextEducation);
+    updateField('educationLayout', { ...data.educationLayout, rowHeights: nextHeights } as EducationTableLayout);
+  };
+
+  const removeEducationRow = (index: number) => {
+    const nextEducation = data.education.filter((_, i) => i !== index);
+    const nextHeights = data.educationLayout.rowHeights.filter((_, i) => i !== index);
+    updateField('education', nextEducation);
+    updateField('educationLayout', {
+      ...data.educationLayout,
+      rowHeights: nextHeights.length > 0 ? nextHeights : [96],
+    } as EducationTableLayout);
+  };
+
+  const updateEducationRow = (index: number, value: any) => {
+    const nextEducation = [...data.education];
+    nextEducation[index] = value;
+    updateField('education', nextEducation);
+  };
+
+  const updateEducationColumns = (columnWidths: EducationTableLayout['columnWidths']) => {
+    updateField('educationLayout', { ...data.educationLayout, columnWidths });
+  };
+
+  const updateEducationRowHeight = (index: number, nextHeight: number) => {
+    const nextHeights = [...data.educationLayout.rowHeights];
+    nextHeights[index] = nextHeight;
+    updateField('educationLayout', { ...data.educationLayout, rowHeights: nextHeights });
   };
 
   const removeItem = (field: keyof ResumeData, index: number) => {
@@ -46,20 +80,15 @@ export const ResumeForm: React.FC<Props> = ({ data, onChange }) => {
       </Section>
 
       {/* Education */}
-      <Section title="Education" icon={<GraduationCap className="w-5 h-5" />} onAdd={() => addItem('education', { degree: '', institute: '', cgpa: '', year: '' })}>
-        {data.education.map((edu, i) => (
-          <div key={i} className="p-4 border border-zinc-200 rounded-lg mb-4 relative group">
-            <button onClick={() => removeItem('education', i)} title="Remove education entry" className="absolute top-2 right-2 p-1 text-zinc-400 hover:text-red-500 transition-colors">
-              <Trash2 className="w-4 h-4" />
-            </button>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Input label="Degree/Certificate" value={edu.degree} onChange={(v) => updateItem('education', i, { ...edu, degree: v })} />
-              <Input label="Institute/Board" value={edu.institute} onChange={(v) => updateItem('education', i, { ...edu, institute: v })} />
-              <Input label="CGPA/Percentage" value={edu.cgpa} onChange={(v) => updateItem('education', i, { ...edu, cgpa: v })} />
-              <Input label="Year" value={edu.year} onChange={(v) => updateItem('education', i, { ...edu, year: v })} />
-            </div>
-          </div>
-        ))}
+      <Section title="Education" icon={<GraduationCap className="w-5 h-5" />} onAdd={addEducationRow}>
+        <EducationTableEditor
+          rows={data.education}
+          layout={data.educationLayout}
+          onChangeRow={updateEducationRow}
+          onRemoveRow={removeEducationRow}
+          onResizeColumns={updateEducationColumns}
+          onResizeRow={updateEducationRowHeight}
+        />
       </Section>
 
       {/* Experience */}

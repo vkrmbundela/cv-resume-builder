@@ -149,20 +149,34 @@ export const ResumePDF: React.FC<{ data: ResumeData }> = ({ data }) => (
       {/* Education */}
       <Text style={styles.sectionTitle}>Education</Text>
       <View style={styles.table}>
+        {(() => {
+          const [col1, col2, col3, col4] = data.educationLayout.columnWidths;
+          const columnStyles = [
+            { width: `${col1}%` },
+            { width: `${col2}%` },
+            { width: `${col3}%` },
+            { width: `${col4}%`, borderRightWidth: 0 },
+          ];
+
+          return (
+            <>
         <View style={[styles.tableRow, styles.tableHeader]}>
-          <Text style={[styles.tableCell, styles.col1]}>Degree/Certificate</Text>
-          <Text style={[styles.tableCell, styles.col2]}>Institute/Board</Text>
-          <Text style={[styles.tableCell, styles.col3]}>CGPA/Percentage</Text>
-          <Text style={[styles.tableCell, styles.col4]}>Year</Text>
+          <Text style={[styles.tableCell, columnStyles[0]]}>Degree/Certificate</Text>
+          <Text style={[styles.tableCell, columnStyles[1]]}>Institute/Board</Text>
+          <Text style={[styles.tableCell, columnStyles[2]]}>CGPA/Percentage</Text>
+          <Text style={[styles.tableCell, columnStyles[3]]}>Year</Text>
         </View>
         {data.education.map((edu, i) => (
           <View key={i} style={[styles.tableRow, i === data.education.length - 1 ? { borderBottomWidth: 0 } : {}]}>
-            <Text style={[styles.tableCell, styles.col1]}>{edu.degree}</Text>
-            <Text style={[styles.tableCell, styles.col2]}>{edu.institute}</Text>
-            <Text style={[styles.tableCell, styles.col3]}>{edu.cgpa}</Text>
-            <Text style={[styles.tableCell, styles.col4]}>{edu.year}</Text>
+            <Text style={[styles.tableCell, columnStyles[0]]}>{edu.degree}</Text>
+            <Text style={[styles.tableCell, columnStyles[1]]}>{edu.institute}</Text>
+            <Text style={[styles.tableCell, columnStyles[2]]}>{edu.cgpa}</Text>
+            <Text style={[styles.tableCell, columnStyles[3]]}>{edu.year}</Text>
           </View>
         ))}
+            </>
+          );
+        })()}
       </View>
 
       {/* Experience */}

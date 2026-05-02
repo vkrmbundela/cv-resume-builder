@@ -5,6 +5,11 @@ export interface Education {
   year: string;
 }
 
+export interface EducationTableLayout {
+  columnWidths: [number, number, number, number];
+  rowHeights: number[];
+}
+
 export interface Experience {
   company: string;
   role: string;
@@ -34,6 +39,7 @@ export interface ResumeData {
   linkedin: string;
   github: string;
   education: Education[];
+  educationLayout: EducationTableLayout;
   experience: Experience[];
   publications: string[];
   projects: Project[];
@@ -59,6 +65,10 @@ export const initialResumeData: ResumeData = {
       year: "2023-27"
     }
   ],
+  educationLayout: {
+    columnWidths: [25, 45, 15, 15],
+    rowHeights: [96]
+  },
   experience: [
     {
       company: "Example Company",
